@@ -4,4 +4,6 @@ include 'payments'
 include 'airtime'
 include 'voice'
 include 'ussd'
+include 'account'
+include 'common'
 
