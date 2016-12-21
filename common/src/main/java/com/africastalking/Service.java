@@ -1,42 +1,36 @@
 package com.africastalking;
 
 import okhttp3.*;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.io.IOException;
 
 abstract class Service {
 
-    protected boolean DEBUG = false;
-    protected Retrofit.Builder mRetrofitBuilder;
+    boolean DEBUG = false;
+    Retrofit.Builder mRetrofitBuilder;
 
+    Service(final String username, final String apiKey, final Format format, boolean debug) {
 
-    protected Service(String username, String apiKey, Format format) {
-        this(username, apiKey, format, false);
-    }
-
-    protected Service(String username, String apiKey) {
-        this(username, apiKey, Format.JSON, false);
-    }
-
-    protected Service(final String username, final String apiKey, final Format format, boolean debug) {
-
-        Converter.Factory factory;
-        switch (format){
-            case XML:
-                factory = SimpleXmlConverterFactory.create();
-                break;
-            case JSON:
-            default:
-                factory = GsonConverterFactory.create();
-                break;
-        }
+        DEBUG = debug;
 
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+
+        if (DEBUG) {
+            HttpLoggingInterceptor logger = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+                @Override
+                public void log(String message) {
+                    System.err.println(message);
+                }
+            });
+            logger.setLevel(HttpLoggingInterceptor.Level.BODY);
+            httpClient.addInterceptor(logger);
+        }
+
         httpClient.addInterceptor(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
@@ -45,25 +39,26 @@ abstract class Service {
 
                 HttpUrl url = originalHttpUrl.newBuilder().addQueryParameter("username", username).build();
 
-                Request.Builder requestBuilder = original.newBuilder()
+                Request request = original.newBuilder()
                         .addHeader("apiKey", apiKey)
                         .addHeader("Accept", format.toString())
-                        .url(url);
+                        .url(url)
+                        .build();
 
-                Request request = requestBuilder.build();
                 return chain.proceed(request);
             }
         });
 
         mRetrofitBuilder = new Retrofit.Builder()
-                .addConverterFactory(factory)
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .client(httpClient.build());
 
         initService();
     }
 
+    Service() {}
+
+    protected abstract Service getInstance(String username, String apiKey, Format format, boolean debug);
+
     protected abstract void initService();
-
-
-
 }

@@ -4,7 +4,6 @@ public enum Format {
 
     JSON("application/json"),
     XML("application/xml");
-    //POJO("application/object");
 
     private final String text;
 

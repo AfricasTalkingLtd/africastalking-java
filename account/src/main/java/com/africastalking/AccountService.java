@@ -6,18 +6,25 @@ import retrofit2.Retrofit;
 
 public class AccountService extends Service implements IAccount {
 
+    private static AccountService sInstance;
     private IAccount service;
 
-    protected AccountService(String username, String apiKey, Format format) {
-        super(username, apiKey, format);
-    }
-
-    protected AccountService(String username, String apiKey) {
-        super(username, apiKey);
-    }
-
-    protected AccountService(String username, String apiKey, Format format, boolean debug) {
+    AccountService(String username, String apiKey, Format format, boolean debug) {
         super(username, apiKey, format, debug);
+    }
+
+    AccountService() {
+        super();
+    }
+
+    @Override
+    protected Service getInstance(String username, String apiKey, Format format, boolean debug) {
+
+        if (sInstance == null) {
+            sInstance = new AccountService(username, apiKey, format, debug);
+        }
+
+        return sInstance;
     }
 
     @Override
