@@ -1,13 +1,18 @@
 package com.africastalking;
 
 import okhttp3.*;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Converter;
-import retrofit2.Retrofit;
+import retrofit2.*;
+import retrofit2.Call;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.io.IOException;
 
+
+/**
+ * A given service offered by AT API
+ */
 abstract class Service {
 
     boolean DEBUG = false;
@@ -58,7 +63,51 @@ abstract class Service {
 
     Service() {}
 
-    protected abstract Service getInstance(String username, String apiKey, Format format, boolean debug);
 
+    /**
+     *
+     * @param cb
+     * @param <T>
+     * @return
+     */
+    protected <T> retrofit2.Callback<T> makeCallback(Callback<T> cb) {
+        return new retrofit2.Callback<T>() {
+            @Override
+            public void onResponse(Call<T> call, retrofit2.Response<T> response) {
+                cb.onSuccess(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<T> call, Throwable t) {
+                cb.onFailure(t);
+            }
+        };
+    }
+
+    /**
+     * Get am instance of a service. It
+     * @param username
+     * @param apiKey
+     * @param format
+     * @param debug
+     * @param <T>
+     * @return
+     */
+    protected abstract <T extends Service> T getInstance(String username, String apiKey, Format format, boolean debug);
+
+    /**
+     * Check if a service is initialized
+     * @return boolean true if yes, false otherwise
+     */
+    protected abstract boolean isInitialized();
+
+    /**
+     * Initializes a service
+     */
     protected abstract void initService();
+
+    /**
+     * Destroys a service
+     */
+    protected abstract void destroyService();
 }

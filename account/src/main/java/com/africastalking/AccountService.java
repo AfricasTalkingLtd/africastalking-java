@@ -1,15 +1,20 @@
 package com.africastalking;
 
 
-import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class AccountService extends Service implements IAccount {
+import java.io.IOException;
+
+/**
+ * AT Account service. Retrieve user account info
+ */
+public final class AccountService extends Service {
 
     private static AccountService sInstance;
     private IAccount service;
 
-    AccountService(String username, String apiKey, Format format, boolean debug) {
+    private AccountService(String username, String apiKey, Format format, boolean debug) {
         super(username, apiKey, format, debug);
     }
 
@@ -18,7 +23,7 @@ public class AccountService extends Service implements IAccount {
     }
 
     @Override
-    protected Service getInstance(String username, String apiKey, Format format, boolean debug) {
+    protected AccountService getInstance(String username, String apiKey, Format format, boolean debug) {
 
         if (sInstance == null) {
             sInstance = new AccountService(username, apiKey, format, debug);
@@ -38,9 +43,45 @@ public class AccountService extends Service implements IAccount {
     }
 
     @Override
-    public Call<String> fetchUser() {
-        return service.fetchUser();
+    protected boolean isInitialized() {
+        return sInstance != null;
     }
+
+    @Override
+    protected void destroyService() {
+        if (sInstance != null) {
+            sInstance = null;
+        }
+    }
+
+
+    // ->
+
+    /**
+     * Get user info.
+     * <p>
+     *     Synchronously send the request and return its response.
+     * </p>
+     * @return String in specified format, xml or json
+     * @throws IOException
+     */
+    public String fetchUser() throws IOException {
+        Response<String> resp = service.fetchUser().execute();
+        return resp.body().trim();
+    }
+
+    /**
+     * Get user info.
+     * <p>
+     *     Asynchronously send the request and notify {@code callback} of its response or if an error
+     * occurred
+     * </p>
+     * @param callback
+     */
+    public void fetchUser(final Callback<String> callback) {
+        service.fetchUser().enqueue(makeCallback(callback));
+    }
+
 
 
 }

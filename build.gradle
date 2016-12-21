@@ -1,10 +1,9 @@
 plugins {
     id 'java'
-    id 'com.palantir.git-version' version '0.5.2'
 }
 
 group 'com.africastalking'
-version gitVersion()
+version '1.0.0'
 
 targetCompatibility = 1.7
 sourceCompatibility = 1.7
