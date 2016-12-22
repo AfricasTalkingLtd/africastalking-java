@@ -7,7 +7,7 @@ import retrofit2.Retrofit;
 import java.io.IOException;
 
 /**
- * AT Account service. Retrieve user account info
+ * Account service. Retrieve user account info
  */
 public final class AccountService extends Service {
 

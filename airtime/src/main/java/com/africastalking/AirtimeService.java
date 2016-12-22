@@ -7,6 +7,10 @@ import retrofit2.Retrofit;
 import java.io.IOException;
 import java.util.HashMap;
 
+
+/**
+ * Airtime Service; send airtime
+ */
 public final class AirtimeService extends Service {
 
 

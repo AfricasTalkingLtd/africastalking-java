@@ -48,8 +48,7 @@ compile 'com.africastalking:ussd:1.0.0'
 
 ## Services
 
-All methods return a `String` of `xml` or `json` data based on the specified format.
-All methods are synchronous (i.e. will block current thread) but provide asynchronous variants that take a `Callback<String>` as the last argument.
+All methods return a `String` of `xml` or `json` data based on the specified format. All methods are synchronous (i.e. will block current thread) but provide asynchronous variants that take a `Callback<String>` as the last argument.
 
 ### `AccountService`
 
@@ -61,27 +60,32 @@ All methods are synchronous (i.e. will block current thread) but provide asynchr
 
 - `send(HashMap<String,Float> recipients)`: Send airtime to a bunch of phone numbers. The keys in the `recipients` map are phone numbers while the values are aitrime amounts.
 
+For more information about status notification, please read [http://docs.africastalking.com/airtime/callback](http://docs.africastalking.com/airtime/callback)
+
 ### `SMSService`
 
-- `send()`
+- `send(String message, String[] recipients)`: Send a message
 
-- `sendBulk()`
+- `sendBulk(String message, String[] recipients)`: Send a message in bulk
+    
+- `sendPremium(String message, String keyword, String linkId, String[] recipients)`: Send a premium SMS
 
-- `sendPremium()`
+- `fetchMessage()`: Fetch your messages
+    
+- `fetchSubscription(String shortCode, String keyword)`: Fetch your premium subscription data
 
-- `fetchMessage()`
+- `createSubscription(String shortCode, String keyword, String phoneNumber)`: Create a premium subscription
 
-- `fetchSubscription()`
+For more information on: 
 
-- `createSubscription()`
-
-
+- How to receive SMS: [http://docs.africastalking.com/sms/callback](http://docs.africastalking.com/sms/callback)
+- How to get notified of delivery reports: [http://docs.africastalking.com/sms/deliveryreports](http://docs.africastalking.com/sms/deliveryreports)
+- How to listen for subscription notifications: [http://docs.africastalking.com/subscriptions/callback](http://docs.africastalking.com/subscriptions/callback)
 
 ### `USSDService`
 
-- `END`
+For more information, please read [http://docs.africastalking.com/ussd](http://docs.africastalking.com/ussd)
 
-- `CON`
 
 ### `VoiceService`
 

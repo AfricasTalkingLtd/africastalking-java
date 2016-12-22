@@ -23,7 +23,7 @@ public class AirtimeTest {
     public void testSendSingle() throws IOException {
 
         AirtimeService service = AfricasTalking.getService(AirtimeService.class);
-        String response = service.send("0718769882", 10.5f);
+        String response = service.send("0718769882", 130.5f);
         System.out.println(response);
         Assert.assertNotNull(response);
 
@@ -33,7 +33,7 @@ public class AirtimeTest {
     public void testSendMultiple() throws IOException {
         AirtimeService service = AfricasTalking.getService(AirtimeService.class);
         HashMap<String, Float> people = new HashMap<>();
-        people.put("0718769882", 54.7f);
+        people.put("0731034588", 54.7f);
         people.put("254718769882", 434.5f);
         String response = service.send(people);
         System.out.println(response);
