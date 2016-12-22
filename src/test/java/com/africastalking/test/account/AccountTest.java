@@ -1,9 +1,7 @@
-package com.africastalking.test;
+package com.africastalking.test.account;
 
-import com.africastalking.AccountService;
-import com.africastalking.AfricasTalking;
-import com.africastalking.Callback;
-import com.africastalking.Format;
+import com.africastalking.*;
+import com.africastalking.test.Fixtures;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +19,7 @@ public class AccountTest {
     @Before
     public void setup() {
         lock = new CountDownLatch(10);
-        AfricasTalking.initialize(Fixtures.USERNAME, Fixtures.API_KEY, Format.JSON, Fixtures.DEBUG);
+        AfricasTalking.initialize(Fixtures.USERNAME, Fixtures.API_KEY, Format.JSON, Fixtures.CURRENCY, Fixtures.DEBUG);
     }
 
     @Test
@@ -29,10 +27,10 @@ public class AccountTest {
 
         AccountService service = AfricasTalking.getService(AccountService.class);
         try {
-            final String user = service.fetchUser();
+            final String user = service.getUser();
             Assert.assertNotNull(user);
 
-            service.fetchUser(new Callback<String>() {
+            service.getUser(new Callback<String>() {
                 @Override
                 public void onSuccess(String data) {
                     assertEquals(user, data);

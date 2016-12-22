@@ -15,7 +15,8 @@ public final class AfricasTalking {
 
     private static String sUsername, sApiKey;
     private static Format sFormat;
-    private static Boolean DEBUG;
+    private static Currency sCurrency;
+    static Boolean DEBUG;
 
 
     /**
@@ -25,7 +26,7 @@ public final class AfricasTalking {
      * @param format
      * @param debug
      */
-    public static void initialize(String username, String apiKey, Format format, boolean debug) {
+    public static void initialize(String username, String apiKey, Format format, Currency currency, boolean debug) {
 
         destroyAllServices();
 
@@ -34,6 +35,7 @@ public final class AfricasTalking {
         sUsername = username;
         sApiKey = apiKey;
         sFormat = format;
+        sCurrency = currency;
     }
 
     /**
@@ -43,7 +45,7 @@ public final class AfricasTalking {
      * @param format
      */
     public static void initialize(String username, String apiKey, Format format) {
-        initialize(username, apiKey, format, false);
+        initialize(username, apiKey, format, Currency.KES, false);
     }
 
     /**
@@ -52,7 +54,7 @@ public final class AfricasTalking {
      * @param apiKey
      */
     public static void initialize(String username, String apiKey) {
-        initialize(username, apiKey, Format.XML, false);
+        initialize(username, apiKey, Format.XML, Currency.KES, false);
     }
 
 
@@ -69,7 +71,7 @@ public final class AfricasTalking {
             if (sApiKey == null || sUsername == null) {
                 return raw;
             }
-            return (T)raw.getInstance(sUsername, sApiKey, sFormat, DEBUG);
+            return (T)raw.getInstance(sUsername, sApiKey, sFormat, sCurrency);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

@@ -5,7 +5,7 @@ public final class SMSService extends Service {
 
 
     @Override
-    protected SMSService getInstance(String username, String apiKey, Format format, boolean debug) {
+    protected <T extends Service> T getInstance(String username, String apiKey, Format format, Currency currency) {
         return null;
     }
 

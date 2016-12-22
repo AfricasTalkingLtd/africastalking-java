@@ -14,8 +14,8 @@ public final class AccountService extends Service {
     private static AccountService sInstance;
     private IAccount service;
 
-    private AccountService(String username, String apiKey, Format format, boolean debug) {
-        super(username, apiKey, format, debug);
+    private AccountService(String username, String apiKey, Format format, Currency currency) {
+        super(username, apiKey, format, currency);
     }
 
     AccountService() {
@@ -23,10 +23,10 @@ public final class AccountService extends Service {
     }
 
     @Override
-    protected AccountService getInstance(String username, String apiKey, Format format, boolean debug) {
+    protected AccountService getInstance(String username, String apiKey, Format format, Currency currency) {
 
         if (sInstance == null) {
-            sInstance = new AccountService(username, apiKey, format, debug);
+            sInstance = new AccountService(username, apiKey, format, currency);
         }
 
         return sInstance;
@@ -65,9 +65,9 @@ public final class AccountService extends Service {
      * @return String in specified format, xml or json
      * @throws IOException
      */
-    public String fetchUser() throws IOException {
-        Response<String> resp = service.fetchUser().execute();
-        return resp.body().trim();
+    public String getUser() throws IOException {
+        Response<String> resp = service.getUser(mUsername).execute();
+        return resp.body();
     }
 
     /**
@@ -78,8 +78,8 @@ public final class AccountService extends Service {
      * </p>
      * @param callback
      */
-    public void fetchUser(final Callback<String> callback) {
-        service.fetchUser().enqueue(makeCallback(callback));
+    public void getUser(final Callback<String> callback) {
+        service.getUser(mUsername).enqueue(makeCallback(callback));
     }
 
 

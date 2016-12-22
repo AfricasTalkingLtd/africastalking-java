@@ -18,9 +18,15 @@ abstract class Service {
     boolean DEBUG = false;
     Retrofit.Builder mRetrofitBuilder;
 
-    Service(final String username, final String apiKey, final Format format, boolean debug) {
+    String mUsername;
+    Currency mCurrency;
 
-        DEBUG = debug;
+    Service(final String username, final String apiKey, final Format format, Currency currency) {
+
+        DEBUG = AfricasTalking.DEBUG;
+
+        mUsername = username;
+        mCurrency = currency;
 
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -40,14 +46,9 @@ abstract class Service {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request original = chain.request();
-                HttpUrl originalHttpUrl = original.url();
-
-                HttpUrl url = originalHttpUrl.newBuilder().addQueryParameter("username", username).build();
-
                 Request request = original.newBuilder()
                         .addHeader("apiKey", apiKey)
                         .addHeader("Accept", format.toString())
-                        .url(url)
                         .build();
 
                 return chain.proceed(request);
@@ -85,15 +86,15 @@ abstract class Service {
     }
 
     /**
-     * Get am instance of a service. It
+     * Get an instance of a service.
      * @param username
      * @param apiKey
      * @param format
-     * @param debug
+     * @param currency
      * @param <T>
      * @return
      */
-    protected abstract <T extends Service> T getInstance(String username, String apiKey, Format format, boolean debug);
+    protected abstract <T extends Service> T getInstance(String username, String apiKey, Format format, Currency currency);
 
     /**
      * Check if a service is initialized
