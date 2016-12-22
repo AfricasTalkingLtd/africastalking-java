@@ -13,7 +13,7 @@ AfricasTalking.initialize(USERNAME, API_KEY);
 SMSService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
 
 // Use the service
-boolean sent = sms.send(new String[] {"2547xxxxxx"}, "App", "Hello Message!");
+boolean sent = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
 
 
 ```
