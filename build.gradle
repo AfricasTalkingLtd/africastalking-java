@@ -8,6 +8,15 @@ version '1.0.0'
 targetCompatibility = 1.7
 sourceCompatibility = 1.7
 
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Africa\'s Talking SDK', 'Implementation-Version': version
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
 repositories {
     mavenCentral()
 }

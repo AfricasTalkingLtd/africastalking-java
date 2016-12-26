@@ -22,7 +22,7 @@ boolean sent = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
 
 ## Download
 
-Downloadable .jars can be found on the [GitHub download page][2].
+Downloadable .jars can be found on the [GitHub download page](releases).
 You can also depend on the .jar through Maven:
 ```xml
 <dependency>

@@ -6,4 +6,8 @@ include 'voice'
 include 'ussd'
 include 'account'
 include 'common'
+include 'example:web'
+//include 'example:android'
+//findProject(':example:web')?.name = 'web'
+//findProject(':example:android')?.name = 'android'
 
