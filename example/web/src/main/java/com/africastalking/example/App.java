@@ -1,7 +1,10 @@
 package com.africastalking.example;
 
 
-import com.africastalking.*;
+import com.africastalking.AfricasTalking;
+import com.africastalking.Environment;
+import com.africastalking.Format;
+import com.africastalking.SMSService;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
@@ -20,8 +23,7 @@ public class App {
         AfricasTalking.initialize(
                 "at2fa",
                 "8c940cd77db666ca100e9dd0d784191ada2ee3eaa1d0a952170a68595313f4ab",
-                Format.JSON,
-                Currency.KES
+                Format.JSON
         );
         AfricasTalking.setEnvironment(Environment.SANDBOX);
         AfricasTalking.enableLogging(false);
