@@ -2,6 +2,7 @@ package com.africastalking.test.airtime;
 
 import com.africastalking.AfricasTalking;
 import com.africastalking.AirtimeService;
+import com.africastalking.Environment;
 import com.africastalking.Format;
 import com.africastalking.test.Fixtures;
 import org.junit.Assert;
@@ -16,7 +17,8 @@ public class AirtimeTest {
 
     @Before
     public void setup() {
-        AfricasTalking.initialize(Fixtures.USERNAME, Fixtures.API_KEY, Format.JSON, Fixtures.CURRENCY, Fixtures.DEBUG);
+        AfricasTalking.initialize(Fixtures.USERNAME, Fixtures.API_KEY, Format.JSON, Fixtures.CURRENCY);
+        AfricasTalking.setEnvironment(Environment.SANDBOX);
     }
 
     @Test

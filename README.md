@@ -47,17 +47,21 @@ compile 'com.africastalking:ussd:1.0.0'
 
 ```
 
-## Services
+## Initialization
 
-All methods return a `String` of `xml` or `json` data based on the specified format. All methods are synchronous (i.e. will block current thread) but provide asynchronous variants that take a `Callback<String>` as the last argument.
-
+The following static methods are available on the `AfricasTalking` class to initialize the SDK:
 
 - `initialize(USERNAME, API_KEY, Format = XML, Currency = KES)`: Initialize SDK.
 
 - `setEnvironment(Environment = PRODUCTION)`: Define environment. Can either be `Environment.SANDBOX` or `Environment.PRODUCTION` (by default)
 
-- `enableLogging(bool)`: Enable or disable request logging
+- `enableLogging(bool)`: Enable or disable request logging.
 
+- `getService(Service.class | AfricasTalking.SERVICE_*)`: Get an instance to a given service by name or by class.
+
+## Services
+
+All methods return a `String` of `xml` or `json` data based on the specified format. All methods are synchronous (i.e. will block current thread) but provide asynchronous variants that take a `Callback<String>` as the last argument.
 
 ### `AccountService`
 

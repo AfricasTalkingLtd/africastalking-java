@@ -19,7 +19,8 @@ public class AccountTest {
     @Before
     public void setup() {
         lock = new CountDownLatch(10);
-        AfricasTalking.initialize(Fixtures.USERNAME, Fixtures.API_KEY, Format.JSON, Fixtures.CURRENCY, Fixtures.DEBUG);
+        AfricasTalking.initialize(Fixtures.USERNAME, Fixtures.API_KEY, Format.JSON, Fixtures.CURRENCY);
+        AfricasTalking.setEnvironment(Environment.SANDBOX);
     }
 
     @Test
