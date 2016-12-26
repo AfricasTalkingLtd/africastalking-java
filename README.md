@@ -8,6 +8,7 @@
 
 // Initialize SDK
 AfricasTalking.initialize(USERNAME, API_KEY);
+AfricasTalking.setEnvironment(Environment.SANDBOX); // Environment.PRODUCTION by default
 
 // Initialize a service e.g. SMS
 SMSService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
@@ -49,6 +50,14 @@ compile 'com.africastalking:ussd:1.0.0'
 ## Services
 
 All methods return a `String` of `xml` or `json` data based on the specified format. All methods are synchronous (i.e. will block current thread) but provide asynchronous variants that take a `Callback<String>` as the last argument.
+
+
+- `initialize(USERNAME, API_KEY, Format = XML, Currency = KES)`: Initialize SDK.
+
+- `setEnvironment(Environment = PRODUCTION)`: Define environment. Can either be `Environment.SANDBOX` or `Environment.PRODUCTION` (by default)
+
+- `enableLogging(bool)`: Enable or disable request logging
+
 
 ### `AccountService`
 

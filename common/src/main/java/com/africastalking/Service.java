@@ -15,7 +15,6 @@ import java.io.IOException;
  */
 abstract class Service {
 
-    boolean DEBUG = false;
     Retrofit.Builder mRetrofitBuilder;
 
     String mUsername;
@@ -23,15 +22,13 @@ abstract class Service {
 
     Service(final String username, final String apiKey, final Format format, Currency currency) {
 
-        DEBUG = AfricasTalking.DEBUG;
-
         mUsername = username;
         mCurrency = currency;
 
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
-        if (DEBUG) {
+        if (AfricasTalking.LOGGING) {
             HttpLoggingInterceptor logger = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                 @Override
                 public void log(String message) {

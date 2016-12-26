@@ -16,7 +16,9 @@ public final class AfricasTalking {
     private static String sUsername, sApiKey;
     private static Format sFormat;
     private static Currency sCurrency;
-    static Boolean DEBUG;
+
+    static Environment ENV = Environment.PRODUCTION;
+    static Boolean LOGGING = false;
 
 
     /**
@@ -24,14 +26,12 @@ public final class AfricasTalking {
      * @param username
      * @param apiKey
      * @param format
-     * @param debug
      */
-    public static void initialize(String username, String apiKey, Format format, Currency currency, boolean debug) {
+    public static void initialize(String username, String apiKey, Format format, Currency currency) {
 
         destroyAllServices();
 
         // Init
-        DEBUG = debug;
         sUsername = username;
         sApiKey = apiKey;
         sFormat = format;
@@ -45,7 +45,7 @@ public final class AfricasTalking {
      * @param format
      */
     public static void initialize(String username, String apiKey, Format format) {
-        initialize(username, apiKey, format, Currency.KES, false);
+        initialize(username, apiKey, format, Currency.KES);
     }
 
     /**
@@ -54,9 +54,25 @@ public final class AfricasTalking {
      * @param apiKey
      */
     public static void initialize(String username, String apiKey) {
-        initialize(username, apiKey, Format.XML, Currency.KES, false);
+        initialize(username, apiKey, Format.XML, Currency.KES);
     }
 
+
+    /**
+     * Define environment
+     * @param env
+     */
+    public static void setEnvironment(Environment env) {
+        ENV = env;
+    }
+
+    /**
+     * Enable/Disable logging
+     * @param debug
+     */
+    public static void enableLogging(boolean debug) {
+        LOGGING = debug;
+    }
 
     /**
      * Get a service by class. e.g. SMService.class

@@ -1,14 +1,8 @@
 package com.africastalking.example;
 
 
-import com.africastalking.AfricasTalking;
-import com.africastalking.Currency;
-import com.africastalking.Format;
-import com.africastalking.SMSService;
-import com.africastalking.example.models.RequestSend;
-import com.google.gson.Gson;
+import com.africastalking.*;
 import spark.ModelAndView;
-import spark.ResponseTransformer;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
 import java.util.HashMap;
@@ -20,16 +14,17 @@ public class App {
 
     private static final int PORT = 3000;
     private static HandlebarsTemplateEngine hbs = new HandlebarsTemplateEngine("/views");
-    static SMSService sms;
+    private static SMSService sms;
 
     static {
         AfricasTalking.initialize(
                 "at2fa",
                 "8c940cd77db666ca100e9dd0d784191ada2ee3eaa1d0a952170a68595313f4ab",
                 Format.JSON,
-                Currency.KES,
-                true
+                Currency.KES
         );
+        AfricasTalking.setEnvironment(Environment.SANDBOX);
+        AfricasTalking.enableLogging(false);
 
         sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
     }
@@ -49,9 +44,7 @@ public class App {
             return render("index", data);
         });
 
-        post("/register/:phone", (req, res) -> {
-            return sms.send("Welcome to Awesome Company", new String[] {req.params("phone")});
-        });
+        post("/register/:phone", (req, res) -> sms.send("Welcome to Awesome Company", new String[] {req.params("phone")}));
 
     }
 
