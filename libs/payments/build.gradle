@@ -1,0 +1,18 @@
+group 'com.africastalking'
+version '1.0.0'
+
+apply plugin: 'java'
+
+targetCompatibility = 1.7
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    compile project(":common")
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}

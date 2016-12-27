@@ -57,6 +57,8 @@ The following static methods are available on the `AfricasTalking` class to init
 
 - `enableLogging(bool)`: Enable or disable request logging.
 
+- `setLogger(Logger)`: Set logging object.
+
 - `getService(Service.class | AfricasTalking.SERVICE_*)`: Get an instance to a given service by name or by class.
 
 ## Services

@@ -1,34 +1,13 @@
-plugins {
-    id 'java'
-}
-
 group 'com.africastalking'
 version '1.0.0'
 
-targetCompatibility = 1.7
-sourceCompatibility = 1.7
+subprojects {
+    group 'com.africastalking'
+    version '1.0.0'
+}
 
-
-task fatJar(type: Jar) {
-    manifest {
-        attributes 'Implementation-Title': 'Africa\'s Talking SDK', 'Implementation-Version': version
+allprojects {
+    repositories {
+        jcenter()
     }
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-
-    compile project(":account")
-    compile project(":airtime")
-    compile project(":payments")
-    compile project(":sms")
-    compile project(":ussd")
-    compile project(":voice")
-
-    testCompile group: 'junit', name: 'junit', version: '4.11'
 }
