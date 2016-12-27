@@ -37,5 +37,37 @@ public class App {
 
 ```java
 
+import com.africastalking.AfricasTalking;
+import com.africastalking.SMSService;
+
+public class MainActivity extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        String username = ... // from super secret place
+        String apiKey = ... // from extra super secret place
+
+        AfricasTalking.initialize(username, apiKey);
+        SMSService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
+        
+        sms.send(text, new String[]{number}, new Callback<String>() {
+            @Override
+            public void onSuccess(String s) {
+                Timber.i(s);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Timber.e(throwable.getMessage());
+            }
+        });
+    }
+    
+    // ...
+    
+}
 
 ```
