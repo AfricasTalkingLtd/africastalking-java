@@ -2,29 +2,23 @@ group 'com.africastalking'
 version '1.0.0'
 
 apply plugin: 'java'
+apply plugin: 'application'
+mainClassName = "com.africastalking.AT"
 
 targetCompatibility = 1.7
 sourceCompatibility = 1.7
 
+jar {
+	manifest {
+   		attributes 'Implementation-Title': 'Africa\'s Talking SDK', 
+			'Implementation-Version': version,
+			'Main-Class': mainClassName
+	}
+}
+
 repositories {
     mavenCentral()
 }
-
-
-task fatJar(type: Jar) {
-    manifest {
-        attributes 'Implementation-Title': 'Africa\'s Talking SDK', 'Implementation-Version': version
-    }
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
-}
-
-task exportJarAndroid(dependsOn: fatJar, type: Copy) {
-    from "build/libs/core-${version}.jar"
-    into "../../example/android/libs/"
-}
-
-
 
 dependencies {
 
