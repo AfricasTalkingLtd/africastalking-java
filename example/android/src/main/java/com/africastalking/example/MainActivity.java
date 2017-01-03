@@ -6,9 +6,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.africastalking.*;
@@ -19,6 +17,11 @@ public class MainActivity extends Activity {
 
     private EditText phone, message;
     private SMSService sms;
+
+
+    static {
+        Timber.plant(new ConsoleTree());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +53,6 @@ public class MainActivity extends Activity {
             }
         });
 
-        Timber.plant(new ConsoleTree());
         Timber.d("Getting account...");
         AccountService accountService = AfricasTalking.getService(AccountService.class);
         accountService.getUser(new Callback<String>() {

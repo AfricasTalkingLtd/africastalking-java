@@ -35,11 +35,11 @@
             <EditText
                     android:id="@+id/message"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
                     android:inputType="textAutoComplete"
                     android:hint="@string/message"
                     android:maxLines="10"
-                    android:padding="15dp"
+                    android:padding="10dp"
                     android:gravity="top|left"
                     android:imeOptions="actionSend"/>
 
