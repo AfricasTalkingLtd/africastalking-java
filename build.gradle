@@ -1,9 +1,24 @@
+buildscript {
+	repositories {
+	    jcenter()
+	}
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+    }
+}	
+
+
 group 'com.africastalking'
 version '1.0.0'
+
+
 
 subprojects {
     group 'com.africastalking'
     version '1.0.0'
+
+    apply plugin: 'com.github.johnrengelman.shadow'
+
 }
 
 allprojects {
@@ -11,3 +26,4 @@ allprojects {
         jcenter()
     }
 }
+
