@@ -97,12 +97,12 @@ For more information on:
 - How to get notified of delivery reports: [http://docs.africastalking.com/sms/deliveryreports](http://docs.africastalking.com/sms/deliveryreports)
 - How to listen for subscription notifications: [http://docs.africastalking.com/subscriptions/callback](http://docs.africastalking.com/subscriptions/callback)
 
-### `USSDService`
+### `USSDService` *TODO*
 
 For more information, please read [http://docs.africastalking.com/ussd](http://docs.africastalking.com/ussd)
 
 
-### `VoiceService`
+### `VoiceService` *TODO*
 
 - `call()`
 
@@ -122,7 +122,7 @@ For more information, please read [http://docs.africastalking.com/ussd](http://d
     - `redirect()`:
     - `build()`
 
-### `PaymentService`
+### `PaymentService` *TODO*
 
 - `checkout()`
 

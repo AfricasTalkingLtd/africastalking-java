@@ -3,52 +3,48 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
+
 
     <com.jraska.console.Console
             android:id="@+id/console"
             android:layout_width="match_parent"
             android:layout_height="200dp"/>
 
-    <LinearLayout
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:layout_height="match_parent">
 
-        <EditText
-                android:id="@+id/phone"
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:hint="Phone number"
-                android:padding="15dp"/>
+                android:orientation="vertical"
+                android:padding="20dp">
 
-        <EditText
-                android:id="@+id/message"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:inputType="textAutoComplete"
-                android:hint="Message"
-                android:maxLines="10"
-                android:padding="15dp"
-                android:gravity="top|left"/>
+            <EditText
+                    android:id="@+id/phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:hint="@string/phone_number"
+                    android:padding="15dp"/>
 
-
-        <Button
-                android:id="@+id/send"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:text="Send"/>
-
-    </LinearLayout>
+            <EditText
+                    android:id="@+id/message"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:inputType="textAutoComplete"
+                    android:hint="@string/message"
+                    android:maxLines="10"
+                    android:padding="15dp"
+                    android:gravity="top|left"
+                    android:imeOptions="actionSend"/>
 
 
+        </LinearLayout>
 
-
+    </ScrollView>
 </LinearLayout>

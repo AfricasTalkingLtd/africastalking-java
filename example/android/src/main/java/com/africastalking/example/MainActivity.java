@@ -3,15 +3,22 @@ package com.africastalking.example;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import com.africastalking.*;
 import com.jraska.console.timber.ConsoleTree;
 import timber.log.Timber;
 
 public class MainActivity extends Activity {
 
+    private EditText phone, message;
+    private SMSService sms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,46 +34,23 @@ public class MainActivity extends Activity {
                 Timber.v(s);
             }
         });
-        final SMSService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
+        sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
 
 
-        final EditText phone = (EditText) findViewById(R.id.phone);
-        final EditText message = (EditText) findViewById(R.id.message);
-        Button send = (Button) findViewById(R.id.send);
+        phone = (EditText) findViewById(R.id.phone);
+        message = (EditText) findViewById(R.id.message);
 
-        Timber.plant(new ConsoleTree());
-
-        send.setOnClickListener(new View.OnClickListener() {
+        message.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View view) {
-                String number = phone.getText().toString();
-                String text = message.getText().toString();
-                if (TextUtils.isEmpty(number)) {
-                    Timber.e("Enter a phone number");
-                    return;
+            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                if (id == EditorInfo.IME_ACTION_SEND) {
+                    sendSMS();
                 }
-
-                if (TextUtils.isEmpty(text)) {
-                    Timber.e("Enter a message");
-                    return;
-                }
-
-                Timber.d("Sending SMS...");
-                sms.send(text, new String[]{number}, new Callback<String>() {
-                    @Override
-                    public void onSuccess(String s) {
-                        Timber.i(s);
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Timber.e(throwable.getMessage());
-                    }
-                });
+                return false;
             }
         });
 
-
+        Timber.plant(new ConsoleTree());
         Timber.d("Getting account...");
         AccountService accountService = AfricasTalking.getService(AccountService.class);
         accountService.getUser(new Callback<String>() {
@@ -81,6 +65,54 @@ public class MainActivity extends Activity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int itemId = item.getItemId();
+
+        switch (itemId) {
+            case R.id.mnuSend:
+                //
+                sendSMS();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void sendSMS() {
+        String number = phone.getText().toString();
+        String text = message.getText().toString();
+        if (TextUtils.isEmpty(number)) {
+            Timber.e("Enter a phone number");
+            return;
+        }
+
+        if (TextUtils.isEmpty(text)) {
+            Timber.e("Enter a message");
+            return;
+        }
+
+        Timber.d("Sending SMS...");
+        sms.send(text, new String[]{number}, new Callback<String>() {
+            @Override
+            public void onSuccess(String s) {
+                Timber.i(s);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Timber.e(throwable.getMessage());
+            }
+        });
     }
 
 }

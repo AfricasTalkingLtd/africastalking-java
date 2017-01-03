@@ -16,7 +16,7 @@ android {
 
     defaultConfig {
         applicationId "com.africastalking.example"
-        minSdkVersion 25
+        minSdkVersion 23
         targetSdkVersion 25
         versionCode 1
         versionName rootProject.version
