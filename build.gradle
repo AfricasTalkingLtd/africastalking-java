@@ -1,3 +1,7 @@
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 buildscript {
 	repositories {
 	    jcenter()
@@ -16,8 +20,6 @@ allprojects {
 }
 
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 Set<String> publishedLibs = new HashSet<String>()
 publishedLibs << 'sms'
@@ -44,15 +46,16 @@ configure(subprojects.findAll {publishedLibs.contains(it.name)}){
         }
     }
 
-    artifacts {
-        archives shadowJar
+    shadowJar{
+        // FIXME: Not working!?!?
+        archiveName = "${baseName}-${version}.${extension}"
     }
 
     publishing {
         publications {
-            Bintray(MavenPublication) {
-                from components.java
-                groupId 'com.aksalj.africastalking'
+            SDK(MavenPublication) {
+                artifact shadowJar
+                groupId properties.getProperty("bintray.groupId")
                 artifactId project.name
                 version project.version
             }
@@ -60,14 +63,14 @@ configure(subprojects.findAll {publishedLibs.contains(it.name)}){
     }
 
     bintray {
-        dryRun = true
+        dryRun = false
         publish = false
         user = properties.getProperty("bintray.user")
         key = properties.getProperty("bintray.key")
-        publications = ['Bintray']
+        publications = ['SDK']
         pkg {
             repo = properties.getProperty("bintray.repo")
-            name = properties.getProperty("bintray.pakage")
+            name = properties.getProperty("bintray.package")
             userOrg = properties.getProperty("bintray.organization")
             vcsUrl = properties.getProperty("bintray.vcsUrl")
             version {

@@ -37,6 +37,16 @@ android {
     }
 }
 
+repositories{
+    maven {
+        url  "http://devaksal.bintray.com/AT"
+        credentials {
+            username "aksalj"
+            password "2e8b2409f43dabec322ab59609b72a4b621a0e50"
+        }
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
@@ -44,9 +54,15 @@ dependencies {
     compile 'com.jraska:console:0.4.3'
     compile 'com.jraska:console-timber-tree:0.4.3'
 
+//    // TODO: Should be able to do
+//    compile project(":core")
+//    // TODO: or choose one or more libs
+//    compile project(":sms")
+//    compile project(":account")
+
     // TODO: Should be able to do
-    //compile project(":core")
+    compile "com.africastalking:core:1.0.0"
     // TODO: or choose one or more libs
-    compile project(":sms")
-    compile project(":account")
+    //compile "com.africastalking:sms:1.0.0"
+    //compile "com.africastalking:account:1.0.0"
 }
