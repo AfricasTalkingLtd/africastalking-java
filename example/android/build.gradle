@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.0-alpha3'
+        classpath 'com.android.tools.build:gradle:2.3.0-beta1'
     }
 }
 
@@ -61,7 +61,7 @@ dependencies {
 //    compile project(":account")
 
     // TODO: Should be able to do
-    compile "com.africastalking:core:1.0.0"
+    compile "com.africastalking:core:1.0.0:all"
     // TODO: or choose one or more libs
     //compile "com.africastalking:sms:1.0.0"
     //compile "com.africastalking:account:1.0.0"

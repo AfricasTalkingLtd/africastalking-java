@@ -2,7 +2,7 @@ package com.africastalking;
 
 import java.io.IOException;
 
-public class AT {
+class AT {
 
     private static void log(String message) {
         System.out.println(message);
