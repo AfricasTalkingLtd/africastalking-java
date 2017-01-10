@@ -50,7 +50,7 @@ configure(subprojects.findAll {publishedLibs.contains(it.name)}){
     }
 
     shadowJar {
-        classifier = "" // Avoid classifiers for now...
+        classifier = null // Avoid classifiers for now...
     }
 
     publishing {

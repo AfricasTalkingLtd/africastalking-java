@@ -104,11 +104,11 @@ For more information, please read [http://docs.africastalking.com/ussd](http://d
 
 ### `VoiceService` *TODO*
 
-- `call()`
+- `call(String phone)`: Initiate a phone call
 
-- `fetchQueuedCalls()`
+- `fetchQueuedCalls(String phone)`: Get queued calls
 
-- `ResponseBuilder`:
+- `VoiceMessage.Builder`: Build voice xml when callback URL receives a `POST` from Africa's Talking
 
     - `say()`:
     - `play()`:
@@ -120,7 +120,9 @@ For more information, please read [http://docs.africastalking.com/ussd](http://d
     - `dequeue()`:
     - `reject()`:
     - `redirect()`:
-    - `build()`
+    - `build()`: Build xml
+    
+- `VoiceClient`: Make voice calls, i.e. dial a phone number and talk :D `Android ONLY`?
 
 ### `PaymentService` *TODO*
 
