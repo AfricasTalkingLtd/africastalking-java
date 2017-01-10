@@ -1,13 +1,12 @@
 package com.africastalking.example;
 
 
-import com.africastalking.AfricasTalking;
-import com.africastalking.Environment;
-import com.africastalking.Format;
-import com.africastalking.SMSService;
+import com.africastalking.*;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +17,7 @@ public class App {
     private static final int PORT = 3000;
     private static HandlebarsTemplateEngine hbs = new HandlebarsTemplateEngine("/views");
     private static SMSService sms;
+    private static VoiceService voice;
 
     static {
         AfricasTalking.initialize(
@@ -28,13 +28,13 @@ public class App {
         AfricasTalking.setEnvironment(Environment.SANDBOX);
         AfricasTalking.enableLogging(false);
 
+        voice = AfricasTalking.getService(VoiceService.class);
         sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MalformedURLException {
 
         exception(Exception.class, (e, req, res) -> e.printStackTrace()); // print all exceptions
-
 
         staticFiles.location("/public");
 

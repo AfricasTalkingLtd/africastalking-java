@@ -15,6 +15,11 @@ public final class VoiceService extends Service {
         super(username, apiKey, format, Currency.KES);
     }
 
+
+    VoiceService() {
+        super();
+    }
+
     @Override
     protected VoiceService getInstance(String username, String apiKey, Format format, Currency currency) {
         if (sInstance == null) {

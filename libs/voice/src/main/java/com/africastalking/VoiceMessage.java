@@ -6,7 +6,16 @@ import java.net.URL;
 public class VoiceMessage {
 
 
+    private String xml;
 
+    private VoiceMessage(String xml) {
+        this.xml = xml;
+    }
+
+    @Override
+    public String toString() {
+        return this.xml;
+    }
 
     public static class Builder{
 
@@ -17,9 +26,9 @@ public class VoiceMessage {
             xml.append("<Response>");
         }
 
-        public String build() {
+        public VoiceMessage build() {
             xml.append("</Response>");
-            return xml.toString();
+            return new VoiceMessage(xml.toString());
         }
 
         public Builder say(String text, boolean playBeep, String voice) {
@@ -39,7 +48,7 @@ public class VoiceMessage {
         public Builder getDigits(String text, URL url, int numDigits, long timeout, String finishOnKey, URL callbackUrl) {
 
             String str = "<GetDigits timeout=\"" + timeout + "\" finishOnKey=\""+finishOnKey+"\" " +
-                    "numDigits=\"" + numDigits + "\" callbackUrl=\""+ callbackUrl.toString() +"\">";
+                    "numDigits=\"" + numDigits + "\" callbackUrl=\""+ callbackUrl +"\">";
             if (url == null) {
                 str += "<Say>" + text + "</Say>";
             } else {
