@@ -13,6 +13,7 @@ public class MainActivity extends Activity {
 
     static SMSService sms;
     static PaymentsService payment;
+    static AirtimeService airtime;
 
 
     static {
@@ -35,6 +36,7 @@ public class MainActivity extends Activity {
         });
         sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
         payment = AfricasTalking.getService(PaymentsService.class);
+        airtime = AfricasTalking.getService(AirtimeService.class);
 
 
         Timber.d("Getting account...");

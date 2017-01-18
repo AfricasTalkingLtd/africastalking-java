@@ -17,6 +17,7 @@ public class PagerAdapter extends android.support.v4.view.PagerAdapter {
 
     enum PagesEnum {
 
+        AIRTIME("Airtime", R.layout.fragment_airtime),
         SMS("SMS", R.layout.fragment_sms),
         PAYMENT("Payment", R.layout.fragment_payment);
 
@@ -52,10 +53,13 @@ public class PagerAdapter extends android.support.v4.view.PagerAdapter {
         collection.addView(layout);
 
         switch (position){
-            case 0: // SMS
+            case 0: // Airtime
+                setupAirtime(layout);
+                break;
+            case 1: // SMS
                 setupSMS(layout);
                 break;
-            case 1: // Payments
+            case 2: // Payments
                 setupPayment(layout);
                 break;
         }
@@ -63,6 +67,32 @@ public class PagerAdapter extends android.support.v4.view.PagerAdapter {
 
 
         return layout;
+    }
+
+    private void setupAirtime(View root) {
+
+        final EditText phone = (EditText) root.findViewById(R.id.phone);
+        final EditText amount = (EditText) root.findViewById(R.id.amount);
+
+
+        amount.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                if (id == EditorInfo.IME_ACTION_SEND) {
+                    sendAirtime(phone.getText().toString(), Float.valueOf(amount.getText().toString()));
+                }
+                return false;
+            }
+        });
+
+        final Button btnSend = (Button) root.findViewById(R.id.btnSend);
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendAirtime(phone.getText().toString(), Float.valueOf(amount.getText().toString()));
+            }
+        });
+
     }
 
     private void setupSMS(View root) {
@@ -121,7 +151,44 @@ public class PagerAdapter extends android.support.v4.view.PagerAdapter {
 
 
 
+    private void sendAirtime(String phone, float amount) {
+
+        if (TextUtils.isEmpty(phone)) {
+            Timber.e("Enter a phone number");
+            return;
+        }
+
+        if (amount <= 0) {
+            Timber.e("Enter a valid amount");
+            return;
+        }
+
+        MainActivity.airtime.send(phone, amount, new Callback<String> (){
+            @Override
+            public void onSuccess(String s) {
+                Timber.i(s);
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Timber.e(throwable.getMessage());
+            }
+        });
+
+    }
+
     private void checkout(String phone, float amount) {
+
+        if (TextUtils.isEmpty(phone)) {
+            Timber.e("Enter a phone number");
+            return;
+        }
+
+        if (amount <= 0) {
+            Timber.e("Enter a valid amount");
+            return;
+        }
+
         MainActivity.payment.checkout(BuildConfig.PAYMENT_PRODUCT, phone, amount, Currency.KES, null, new Callback<String> (){
             @Override
             public void onSuccess(String s) {
