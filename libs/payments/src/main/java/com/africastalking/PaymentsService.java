@@ -87,6 +87,16 @@ public final class PaymentsService extends Service {
 
     }
 
+    public String checkout(String productName, String phoneNumber, float amount, Currency currency) throws IOException {
+
+        HashMap<String, Object> body = makeCheckoutRequest(productName, phoneNumber, amount, currency, null);
+
+        Call<String> call = payment.checkout(body);
+        Response<String> res = call.execute();
+        return res.body();
+
+    }
+
     /**
      *
      * @param productName
@@ -98,6 +108,12 @@ public final class PaymentsService extends Service {
      */
     public void checkout(String productName, String phoneNumber, float amount, Currency currency, Map metadata, Callback<String> callback) {
         HashMap<String, Object> body = makeCheckoutRequest(productName, phoneNumber, amount, currency, metadata);
+        Call<String> call = payment.checkout(body);
+        call.enqueue(makeCallback(callback));
+    }
+
+    public void checkout(String productName, String phoneNumber, float amount, Currency currency, Callback<String> callback) {
+        HashMap<String, Object> body = makeCheckoutRequest(productName, phoneNumber, amount, currency, null);
         Call<String> call = payment.checkout(body);
         call.enqueue(makeCallback(callback));
     }

@@ -124,10 +124,10 @@ For more information, please read [http://docs.africastalking.com/ussd](http://d
     
 - `VoiceClient`: Make voice calls, i.e. dial a phone number and talk :D `Android ONLY`?
 
-### `PaymentService` *TODO*
+### `PaymentService`
 
-- `checkout()`
+- `checkout(String productName, String phoneNumber, float amount, Currency currency)`: Initiate mobile checkout.
 
-- `transfer()`
+- `transfer()` *TODO*
 
-- `balance()`
+- `balance()` *TODO*
