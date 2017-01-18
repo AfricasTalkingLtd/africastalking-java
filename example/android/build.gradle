@@ -55,13 +55,14 @@ dependencies {
     compile 'com.jraska:console-timber-tree:0.4.3'
 
 //    // TODO: Should be able to do
-//    compile project(":core")
+    compile project(":core")
 //    // TODO: or choose one or more libs
 //    compile project(":sms")
 //    compile project(":account")
+//    compile project(":payments")
 
     // TODO: Should be able to do
-    compile "com.africastalking:core:1.0.0:all"
+//    compile "com.africastalking:core:1.0.0:all"
     // TODO: or choose one or more libs
     //compile "com.africastalking:sms:1.0.0"
     //compile "com.africastalking:account:1.0.0"
