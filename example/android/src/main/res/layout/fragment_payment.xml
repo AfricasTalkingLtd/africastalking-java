@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
             android:hint="Amount e.g. 49999.99"
+            android:imeOptions="actionSend"
             android:padding="15dp"/>
 
 
