@@ -31,7 +31,7 @@ publishedLibs << 'account'
 publishedLibs << 'core'
 configure(subprojects.findAll {publishedLibs.contains(it.name)}){
     group properties.getProperty("bintray.groupId")
-    version properties.getProperty("bintray.version")
+    version "1.1.0"
 
     apply plugin: 'java'
     apply plugin: "maven-publish"
