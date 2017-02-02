@@ -50,7 +50,7 @@ compile 'com.africastalking:ussd:1.0.0'
 
 The following static methods are available on the `AfricasTalking` class to initialize the SDK:
 
-- `initialize(USERNAME, API_KEY, Format = XML, Currency = KES, Environment = PRODUCTION)`: Initialize SDK.
+- `initialize(USERNAME, API_KEY, Format = XML, Currency = KES)`: Initialize SDK.
 
 - `setEnvironment(Environment = PRODUCTION)`: Define environment. Can either be `Environment.SANDBOX` or `Environment.PRODUCTION` (by default)
 
