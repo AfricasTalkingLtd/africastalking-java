@@ -22,16 +22,12 @@ public final class AfricasTalking {
     static Logger LOGGER = new BaseLogger();
 
     /**
-     *
+     * Initialize the SDK
      * @param username
      * @param apiKey
      * @param format
-     * @param currency
-     * @param env
      */
-    public static void initialize(String username, String apiKey, Format format, Currency currency, Environment env) {
-
-        ENV = env;
+    public static void initialize(String username, String apiKey, Format format, Currency currency) {
 
         destroyAllServices();
 
@@ -40,17 +36,6 @@ public final class AfricasTalking {
         sApiKey = apiKey;
         sFormat = format;
         sCurrency = currency;
-    }
-
-
-    /**
-     * Initialize the SDK
-     * @param username
-     * @param apiKey
-     * @param format
-     */
-    public static void initialize(String username, String apiKey, Format format, Currency currency) {
-        initialize(username, apiKey, format, currency, Environment.PRODUCTION);
     }
 
     /**
@@ -83,10 +68,10 @@ public final class AfricasTalking {
 
     /**
      * Enable/Disable logging
-     * @param debug
+     * @param enable
      */
-    public static void enableLogging(boolean debug) {
-        LOGGING = debug;
+    public static void enableLogging(boolean enable) {
+        LOGGING = enable;
     }
 
     /**
@@ -94,6 +79,9 @@ public final class AfricasTalking {
      * @param logger
      */
     public static void setLogger(Logger logger) {
+        if (logger != null) {
+            enableLogging(true);
+        }
         LOGGER = logger;
     }
 

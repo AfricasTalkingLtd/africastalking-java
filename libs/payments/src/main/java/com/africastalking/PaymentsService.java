@@ -1,12 +1,17 @@
 package com.africastalking;
 
 
+import com.africastalking.recipient.Business;
+import com.africastalking.recipient.Consumer;
+import com.google.gson.Gson;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class PaymentsService extends Service {
@@ -67,6 +72,29 @@ public final class PaymentsService extends Service {
         return body;
     }
 
+    private HashMap<String, Object> makeB2CRequest(String product, List<Consumer> recipients) {
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("username", mUsername);
+        body.put("productName", product);
+        body.put("recipients", recipients);
+
+        return body;
+    }
+
+    private HashMap<String, Object> makeB2BRequest(String product, Business recipient) {
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("username", mUsername);
+        body.put("productName", product);
+
+        //
+        Gson gson = new Gson();
+        String json = gson.toJson(recipient);
+        HashMap map = gson.fromJson(json, HashMap.class);
+        body.putAll(map);
+
+        return body;
+    }
+
     /**
      *
      * @param productName
@@ -87,6 +115,15 @@ public final class PaymentsService extends Service {
 
     }
 
+    /**
+     *
+     * @param productName
+     * @param phoneNumber
+     * @param amount
+     * @param currency
+     * @return
+     * @throws IOException
+     */
     public String checkout(String productName, String phoneNumber, float amount, Currency currency) throws IOException {
 
         HashMap<String, Object> body = makeCheckoutRequest(productName, phoneNumber, amount, currency, null);
@@ -118,13 +155,57 @@ public final class PaymentsService extends Service {
         call.enqueue(makeCallback(callback));
     }
 
-    // TODO: http://docs.africastalking.com/payments/mobile-b2c
-    public String transfer(String to, float amount) {
-        return null;
+
+    /**
+     *
+     * @param product
+     * @param recipients
+     * @return
+     */
+    public String payConsumers(String product, List<Consumer> recipients) throws IOException {
+        HashMap<String, Object> body = makeB2CRequest(product, recipients);
+        Call<String> call = payment.requestB2C(body);
+        Response<String> res = call.execute();
+        return res.body();
     }
 
-    public void transfer(String to, float amount, Callback<String> callback) {
-
+    public String payConsumer(String product, Consumer recipient) throws IOException {
+        List<Consumer> recipients = new ArrayList<>();
+        recipients.add(recipient);
+        return payConsumers(product, recipients);
     }
+
+    /**
+     *
+     * @param product
+     * @param recipients
+     * @param callback
+     */
+    public void payConsumers(String product, List<Consumer> recipients, Callback<String> callback) {
+        HashMap<String, Object> body = makeB2CRequest(product, recipients);
+        Call<String> call = payment.requestB2C(body);
+        call.enqueue(makeCallback(callback));
+    }
+
+    public void payConsumer(String product, Consumer recipient, Callback<String> callback) {
+        List<Consumer> recipients = new ArrayList<>();
+        recipients.add(recipient);
+        payConsumers(product, recipients, callback);
+    }
+
+    public String payBusiness(String product, Business recipient) throws IOException {
+        HashMap<String, Object> body = makeB2BRequest(product, recipient);
+        Call<String> call = payment.requestB2B(body);
+        Response<String> res = call.execute();
+        return res.body();
+    }
+
+    public void payBusiness(String product, Business recipient, Callback<String> callback) throws IOException {
+        HashMap<String, Object> body = makeB2BRequest(product, recipient);
+        Call<String> call = payment.requestB2B(body);
+        call.enqueue(makeCallback(callback));
+    }
+
+
 
 }

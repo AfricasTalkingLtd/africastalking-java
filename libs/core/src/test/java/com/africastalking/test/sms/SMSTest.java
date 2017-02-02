@@ -25,7 +25,7 @@ public class SMSTest {
     @Test
     public void testSend() throws IOException {
         SMSService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
-        String resp = sms.send("testSend()", "AT2FA", new String[] {"0718769882", "0731034588"});
+        String resp = sms.send("testSend()", "AT2FA", new String[] {"0711082302", "0731034588"});
         System.out.print("\n" + resp + "\n");
         Assert.assertNotNull(resp);
     }
@@ -33,7 +33,7 @@ public class SMSTest {
     @Test
     public void testSendBulk() throws IOException {
         SMSService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
-        String resp = sms.sendBulk("testSendBulk()", "AT2FA", true, new String[] {"0718769882", "0731034588"});
+        String resp = sms.sendBulk("testSendBulk()", "AT2FA", true, new String[] {"0711082302", "0731034588"});
         System.out.print("\n" + resp + "\n");
         Assert.assertNotNull(resp);
     }
@@ -42,7 +42,7 @@ public class SMSTest {
     public void testSendPremium() throws IOException {
 
         SMSService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
-        String resp = sms.sendPremium("testSendPremium()", "AT2FA", "KiKi", "Linky", 10, new String[] {"0718769882", "0731034588"});
+        String resp = sms.sendPremium("testSendPremium()", "AT2FA", "KiKi", "Linky", 10, new String[] {"0711082302", "0731034588"});
         System.out.print("\n" + resp + "\n");
         Assert.assertNotNull(resp);
 

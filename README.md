@@ -101,7 +101,9 @@ For more information on:
 
 - `checkout(String productName, String phoneNumber, float amount, Currency currency)`: Initiate mobile checkout.
 
-- `transfer()`: Send money *TODO*
+- `payCustomer(String productName, Consumer recipient)`: Send money to consumer. 
+
+- `payBusiness(String productName, Business recipient)`: Send money to business.
 
 
 For more information, please read [http://docs.africastalking.com/payments](http://docs.africastalking.com/payments)
@@ -136,6 +138,6 @@ For more information, please read [http://docs.africastalking.com/ussd](http://d
 
 ## 
 
-**Important**: The old `AfricasTalkingGateway` class is deprecated and should not be used.
+**Important**: The old `AfricasTalkingGateway` class is still available, but is being phased out! :)
 
 
