@@ -18,6 +18,7 @@ boolean sent = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
 
 ```
 
+See [example](example/) for more usage examples.
 
 
 ## Download
@@ -34,15 +35,15 @@ You can also depend on the .jar through Maven (from `http://jcenter.bintray.com`
 or Gradle:
 ```groovy
 // Get all services
-compile 'com.africastalking:core:1.0.0'
+compile 'com.africastalking:core:1.1.0'
 
 // or get individual services
-compile 'com.africastalking:account:1.0.0'
-compile 'com.africastalking:payments:1.0.0'
-compile 'com.africastalking:airtime:1.0.0'
-compile 'com.africastalking:voice:1.0.0'
-compile 'com.africastalking:sms:1.0.0'
-compile 'com.africastalking:ussd:1.0.0'
+compile 'com.africastalking:account:1.1.0'
+compile 'com.africastalking:payments:1.1.0'
+compile 'com.africastalking:airtime:1.1.0'
+compile 'com.africastalking:voice:1.1.0'
+compile 'com.africastalking:sms:1.1.0'
+compile 'com.africastalking:ussd:1.1.0'
 
 ```
 
