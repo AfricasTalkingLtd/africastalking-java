@@ -13,6 +13,4 @@ interface IPayments {
     @POST("mobile/checkout/request")
     Call<String> checkout(@Body HashMap<String, Object> body);
 
-
-
 }

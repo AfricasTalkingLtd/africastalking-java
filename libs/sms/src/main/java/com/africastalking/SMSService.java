@@ -36,7 +36,7 @@ public final class SMSService extends Service {
 
     @Override
     protected void initService() {
-        String baseUrl = "https://api."+ (AfricasTalking.ENV == Environment.SANDBOX ? Const.SANDBOX_DOMAIN : Const.BASE_DOMAIN) + "/version1/";
+        String baseUrl = "https://api."+ (AfricasTalking.ENV == Environment.SANDBOX ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN) + "/version1/";
         sms = mRetrofitBuilder.baseUrl(baseUrl).build().create(ISMS.class);
     }
 

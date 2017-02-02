@@ -37,7 +37,7 @@ public final class AirtimeService extends Service {
 
     @Override
     protected void initService() {
-        String url = "https://api."+ (AfricasTalking.ENV == Environment.SANDBOX ? Const.SANDBOX_DOMAIN : Const.BASE_DOMAIN);
+        String url = "https://api."+ (AfricasTalking.ENV == Environment.SANDBOX ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN);
         url += "/version1/airtime/";
         Retrofit retrofit = mRetrofitBuilder
                 .baseUrl(url)

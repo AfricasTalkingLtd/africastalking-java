@@ -1,8 +1,6 @@
 package com.africastalking;
 
 
-import sun.rmi.runtime.Log;
-
 public final class AfricasTalking {
 
     private static final String BASE_PACKAGE = AfricasTalking.class.getPackage().getName();
@@ -23,14 +21,17 @@ public final class AfricasTalking {
     static Boolean LOGGING = false;
     static Logger LOGGER = new BaseLogger();
 
-
     /**
-     * Initialize the SDK
+     *
      * @param username
      * @param apiKey
      * @param format
+     * @param currency
+     * @param env
      */
-    public static void initialize(String username, String apiKey, Format format, Currency currency) {
+    public static void initialize(String username, String apiKey, Format format, Currency currency, Environment env) {
+
+        ENV = env;
 
         destroyAllServices();
 
@@ -39,6 +40,17 @@ public final class AfricasTalking {
         sApiKey = apiKey;
         sFormat = format;
         sCurrency = currency;
+    }
+
+
+    /**
+     * Initialize the SDK
+     * @param username
+     * @param apiKey
+     * @param format
+     */
+    public static void initialize(String username, String apiKey, Format format, Currency currency) {
+        initialize(username, apiKey, format, currency, Environment.PRODUCTION);
     }
 
     /**

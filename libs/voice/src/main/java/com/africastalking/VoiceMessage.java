@@ -66,7 +66,7 @@ public class VoiceMessage {
         }
 
         public Builder getDigits(URL url) {
-            return getDigits(null, null, -1, -1, null, null);
+            return getDigits(null, url, -1, -1, null, null);
         }
 
         public Builder dial(String phoneNumbers, String ringbackTone, boolean record, boolean sequential, String callerId, long maxDuration) {

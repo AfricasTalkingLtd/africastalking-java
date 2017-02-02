@@ -40,7 +40,7 @@ public final class PaymentsService extends Service {
 
     @Override
     protected void initService() {
-        String baseUrl = "https://payments."+ (AfricasTalking.ENV == Environment.SANDBOX ? Const.SANDBOX_DOMAIN : Const.BASE_DOMAIN) + "/";
+        String baseUrl = "https://payments."+ (AfricasTalking.ENV == Environment.SANDBOX ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN) + "/";
         payment = mRetrofitBuilder
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(baseUrl)
@@ -119,5 +119,12 @@ public final class PaymentsService extends Service {
     }
 
     // TODO: http://docs.africastalking.com/payments/mobile-b2c
+    public String transfer(String to, float amount) {
+        return null;
+    }
+
+    public void transfer(String to, float amount, Callback<String> callback) {
+
+    }
 
 }

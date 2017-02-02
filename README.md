@@ -1,7 +1,6 @@
 # Africa's Talking Java SDK
 
 
-
 ## Usage
 
 ```java
@@ -51,7 +50,7 @@ compile 'com.africastalking:ussd:1.0.0'
 
 The following static methods are available on the `AfricasTalking` class to initialize the SDK:
 
-- `initialize(USERNAME, API_KEY, Format = XML, Currency = KES)`: Initialize SDK.
+- `initialize(USERNAME, API_KEY, Format = XML, Currency = KES, Environment = PRODUCTION)`: Initialize SDK.
 
 - `setEnvironment(Environment = PRODUCTION)`: Define environment. Can either be `Environment.SANDBOX` or `Environment.PRODUCTION` (by default)
 
@@ -97,12 +96,18 @@ For more information on:
 - How to get notified of delivery reports: [http://docs.africastalking.com/sms/deliveryreports](http://docs.africastalking.com/sms/deliveryreports)
 - How to listen for subscription notifications: [http://docs.africastalking.com/subscriptions/callback](http://docs.africastalking.com/subscriptions/callback)
 
-### `USSDService` *TODO*
 
-For more information, please read [http://docs.africastalking.com/ussd](http://docs.africastalking.com/ussd)
+### `PaymentsService`
+
+- `checkout(String productName, String phoneNumber, float amount, Currency currency)`: Initiate mobile checkout.
+
+- `transfer()`: Send money *TODO*
 
 
-### `VoiceService` *TODO*
+For more information, please read [http://docs.africastalking.com/payments](http://docs.africastalking.com/payments)
+
+
+### `VoiceService
 
 - `call(String phone)`: Initiate a phone call
 
@@ -122,12 +127,15 @@ For more information, please read [http://docs.africastalking.com/ussd](http://d
     - `redirect()`:
     - `build()`: Build xml
     
-- `VoiceClient`: Make voice calls, i.e. dial a phone number and talk :D `Android ONLY`?
 
-### `PaymentService`
+For more information, please read [http://docs.africastalking.com/voice](http://docs.africastalking.com/voice)
+    
+### `USSDService` *TODO*
 
-- `checkout(String productName, String phoneNumber, float amount, Currency currency)`: Initiate mobile checkout.
+For more information, please read [http://docs.africastalking.com/ussd](http://docs.africastalking.com/ussd)
 
-- `transfer()` *TODO*
+## 
 
-- `balance()` *TODO*
+**Important**: The old `AfricasTalkingGateway` class is deprecated and should not be used.
+
+
