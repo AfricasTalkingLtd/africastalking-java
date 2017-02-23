@@ -21,7 +21,7 @@ boolean sent = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
 See [example](example/) for more usage examples.
 
 
-## Download
+## Download `TODO`
 
 Downloadable .jars can be found on the [GitHub download page](releases).
 You can also depend on the .jar through Maven (from `http://jcenter.bintray.com`):
@@ -29,7 +29,7 @@ You can also depend on the .jar through Maven (from `http://jcenter.bintray.com`
 <dependency>
   <groupId>com.africastalking</groupId>
   <artifactId>core</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 or Gradle:
