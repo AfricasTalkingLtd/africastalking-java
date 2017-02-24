@@ -21,29 +21,35 @@ boolean sent = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
 See [example](example/) for more usage examples.
 
 
-## Download `TODO`
+## Download
 
 Downloadable .jars can be found on the [GitHub download page](releases).
-You can also depend on the .jar through Maven (from `http://jcenter.bintray.com`):
+You can also depend on the .jar through Maven (from `http://dl.bintray.com/africastalking/java`):
 ```xml
 <dependency>
   <groupId>com.africastalking</groupId>
   <artifactId>core</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
 </dependency>
 ```
 or Gradle:
 ```groovy
+repositories {
+    maven {
+        url  "http://dl.bintray.com/africastalking/java"
+    }
+}
+
 // Get all services
-compile 'com.africastalking:core:1.1.0'
+compile 'com.africastalking:core:1.1.1'
 
 // or get individual services
-compile 'com.africastalking:account:1.1.0'
-compile 'com.africastalking:payments:1.1.0'
-compile 'com.africastalking:airtime:1.1.0'
-compile 'com.africastalking:voice:1.1.0'
-compile 'com.africastalking:sms:1.1.0'
-compile 'com.africastalking:ussd:1.1.0'
+compile 'com.africastalking:account:1.1.1'
+compile 'com.africastalking:payments:1.1.1'
+compile 'com.africastalking:airtime:1.1.1'
+compile 'com.africastalking:voice:1.1.1'
+compile 'com.africastalking:sms:1.1.1'
+compile 'com.africastalking:ussd:1.1.1'
 
 ```
 
@@ -110,7 +116,7 @@ For more information on:
 For more information, please read [http://docs.africastalking.com/payments](http://docs.africastalking.com/payments)
 
 
-### `VoiceService
+### VoiceService
 
 - `call(String phone)`: Initiate a phone call
 

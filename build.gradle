@@ -31,7 +31,7 @@ publishedLibs << 'account'
 publishedLibs << 'core'
 configure(subprojects.findAll {publishedLibs.contains(it.name)}){
     group properties.getProperty("bintray.groupId")
-    version "1.1.0"
+    version "1.1.1"
 
     apply plugin: 'java'
     apply plugin: "maven-publish"
@@ -75,11 +75,12 @@ configure(subprojects.findAll {publishedLibs.contains(it.name)}){
             name = properties.getProperty("bintray.package")
             userOrg = properties.getProperty("bintray.organization")
             vcsUrl = properties.getProperty("bintray.vcsUrl")
+            licenses = ['Apache-2.0']
             version {
                 name = project.version
                 desc = 'Africa\'s Talking SDK'
                 released  = new Date()
-                attributes = ['maturity': 'Experimental']
+                attributes = ['maturity': 'Development']
             }
         }
     }

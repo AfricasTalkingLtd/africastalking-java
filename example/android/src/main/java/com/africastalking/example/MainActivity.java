@@ -83,13 +83,5 @@ public class MainActivity extends Activity {
         strip.setTabIndicatorColorResource(R.color.accent);
     }
 
-
-
-
-
-
-
-
-
 }
 
