@@ -51,10 +51,9 @@ public class Business {
     public String destinationAccount = null;
     public HashMap<String, String> metadata = new HashMap<>();
 
-    public Business(String destinationChannel, String destinationAccount, TransferType transferType, Currency currency, float amount) {
+    public Business(String destinationChannel, TransferType transferType, Currency currency, float amount) {
         this.transferType = transferType.toString();
         this.destinationChannel = destinationChannel;
-        this.destinationAccount = destinationAccount;
         this.currencyCode = currency;
         this.amount = amount;
     }
