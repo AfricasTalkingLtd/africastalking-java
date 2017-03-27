@@ -48,7 +48,7 @@ public class PaymentsTest {
     @Test
     public void testPayBusiness() throws IOException {
         PaymentsService service = AfricasTalking.getService(PaymentsService.class);
-        Business recip = new Business("SBDev", Business.TransferType.TRANSFER, Currency.KES, 24512);
+        Business recip = new Business("SBDev", "AccDest", Business.TransferType.TRANSFER, Currency.KES, 24512);
         String resp = service.payBusiness("TestProduct", recip);
         System.out.print("\n" + resp + "\n");
         Assert.assertNotNull(resp);
