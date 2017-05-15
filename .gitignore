@@ -78,3 +78,8 @@ doc/javadoc/
 
 # #
 local.properties
+.vscode/
+.settings/
+.project
+.classpath
+bin/
