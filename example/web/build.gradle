@@ -2,6 +2,8 @@ group 'com.africastalking.example'
 version '1.0.0'
 
 apply plugin: 'java'
+apply plugin: 'application'
+mainClassName = "com.africastalking.example.App"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
