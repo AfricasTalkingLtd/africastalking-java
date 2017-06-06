@@ -8,6 +8,6 @@ interface IAirtime {
 
     @FormUrlEncoded
     @POST("send")
-    Call<String> send(@Field("username") String username, @Field(value = "recipients", encoded = true) String recipients);
+    Call<String> send(@Field("username") String username, @Field(value = "recipients", encoded = false) String recipients);
 
 }
