@@ -21,6 +21,12 @@ boolean sent = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
 See [example](example/) for more usage examples.
 
 
+**Important**:
+
+- **Remember your API key has to be kept secret, so hard-coding it into an apk or a jar you publish is a security risk.**
+
+- The old `AfricasTalkingGateway` class is still available, but is being phased out! :)
+
 ## Download
 
 Downloadable .jars can be found on the [GitHub download page](releases).
@@ -142,9 +148,4 @@ For more information, please read [http://docs.africastalking.com/voice](http://
 ### `USSDService` *TODO*
 
 For more information, please read [http://docs.africastalking.com/ussd](http://docs.africastalking.com/ussd)
-
-## 
-
-**Important**: The old `AfricasTalkingGateway` class is still available, but is being phased out! :)
-
 
