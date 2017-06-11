@@ -82,7 +82,4 @@ public final class AccountService extends Service {
     public void getUser(final Callback<String> callback) {
         service.getUser(mUsername).enqueue(makeCallback(callback));
     }
-
-
-
 }

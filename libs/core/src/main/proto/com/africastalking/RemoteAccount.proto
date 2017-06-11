@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option java_package = "com.africastalking";
+
+message AccountRequest {
+    int64 id = 1;
+}
+
+message BaseResponse {
+    string response = 2;
+}
+
+service RemoteAccount {
+    rpc getUser(AccountRequest) returns (BaseResponse) {}
+}

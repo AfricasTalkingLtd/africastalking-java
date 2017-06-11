@@ -9,6 +9,7 @@ buildscript {
     dependencies {
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.1'
     }
 }
 
@@ -18,7 +19,6 @@ allprojects {
         jcenter()
     }
 }
-
 
 
 Set<String> publishedLibs = new HashSet<String>()
