@@ -8,10 +8,11 @@ import java.io.IOException;
 
 public class RpcServer {
 
-    private int port = 59123;
-    private Server server;
+    private static final int DEFAULT_PORT = 59123;
+    private static Logger LOGGER = new BaseLogger();
 
-    static Logger LOGGER = new BaseLogger();
+    private Server server;
+    private int port;
 
     public RpcServer(int port, String username, String apiKey, Format format, Environment environment, Logger logger) {
         AfricasTalking.initialize(username, apiKey, format);
@@ -21,6 +22,22 @@ public class RpcServer {
             LOGGER = logger;
         }
         initServer(port);
+    }
+
+    public RpcServer(int port, String username, String apiKey, Format format, Environment environment) {
+        this(port, username, apiKey, format, environment, null);
+    }
+
+    public RpcServer(int port, String username, String apiKey, Format format) {
+        this(port, username, apiKey, format, Environment.SANDBOX, null);
+    }
+
+    public RpcServer(int port, String username, String apiKey) {
+        this(port, username, apiKey, Format.JSON, Environment.SANDBOX, null);
+    }
+
+    public RpcServer(String username, String apiKey) {
+        this(DEFAULT_PORT, username, apiKey, Format.JSON, Environment.SANDBOX, null);
     }
 
 
@@ -39,7 +56,7 @@ public class RpcServer {
             @Override
             public void run() {
                 // Use stderr here since the logger may has been reset by its JVM shutdown hook.
-                System.err.println("*** shutting down gRPC server since JVM is shutting down");
+                System.err.println("*** shutting down server since JVM is shutting down");
                 RpcServer.this.stop();
                 System.err.println("*** server shut down");
             }

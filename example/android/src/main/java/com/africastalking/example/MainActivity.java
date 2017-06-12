@@ -11,11 +11,6 @@ import timber.log.Timber;
 
 public class MainActivity extends Activity {
 
-    static SMSService sms;
-    static PaymentsService payment;
-    static AirtimeService airtime;
-
-
     static {
         Timber.plant(new ConsoleTree());
     }
@@ -25,22 +20,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        AfricasTalking.initialize(BuildConfig.USERNAME, BuildConfig.API_KEY, Format.JSON);
-        AfricasTalking.setEnvironment(Environment.SANDBOX);
-        AfricasTalking.enableLogging(false); // Set true to display SDK logs in console
-        AfricasTalking.setLogger(new Logger() {
-            @Override
-            public void log(String s, Object... objects) {
-                Timber.v(s);
-            }
-        });
-        sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
-        payment = AfricasTalking.getService(PaymentsService.class);
-        airtime = AfricasTalking.getService(AirtimeService.class);
 
+        RpcClient.initialize(BuildConfig.RPC_HOST, BuildConfig.RPC_PORT);
+        Account accountService = RpcClient.getAccountService();
 
         Timber.d("Getting account...");
-        AccountService accountService = AfricasTalking.getService(AccountService.class);
         accountService.getUser(new Callback<String>() {
             @Override
             public void onSuccess(String s) {

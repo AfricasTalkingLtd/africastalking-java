@@ -29,6 +29,8 @@ publishedLibs << 'voice'
 publishedLibs << 'ussd'
 publishedLibs << 'account'
 publishedLibs << 'core'
+publishedLibs << 'server'
+//publishedLibs << 'client' Android @aar
 configure(subprojects.findAll {publishedLibs.contains(it.name)}){
     group properties.getProperty("bintray.groupId")
     version "1.1.1"
