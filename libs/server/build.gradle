@@ -2,7 +2,10 @@ apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'com.google.protobuf'
-mainClassName = "com.africastalking.AT"
+mainClassName = "com.africastalking.SimpleServer"
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
 
 protobuf {
     protoc {
@@ -59,5 +62,11 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
-sourceCompatibility = "1.7"
-targetCompatibility = "1.7"
+task runServer(type: JavaExec, dependsOn: classes){
+    if(project.hasProperty('auth')){
+        args(auth.split(':'))
+    }
+    description = "Simple gRPC Server"
+    main = "com.africastalking.SimpleServer"
+    classpath = sourceSets.main.runtimeClasspath
+}

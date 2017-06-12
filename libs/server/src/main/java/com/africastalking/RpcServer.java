@@ -44,6 +44,8 @@ public class RpcServer {
     private void initServer(int port) {
         this.port = port;
         server = ServerBuilder.forPort(port)
+                // Enable TLS
+                .useTransportSecurity(certChainFile, privateKeyFile)
                 .addService(new RemoteAccountService())
                 .build();
 

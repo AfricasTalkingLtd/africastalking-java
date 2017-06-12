@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.view.*;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import com.africastalking.*;
 import com.jraska.console.timber.ConsoleTree;
 import timber.log.Timber;
@@ -37,7 +41,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        setupPager();
+        // setupPager();
 
     }
 
@@ -59,13 +63,13 @@ public class MainActivity extends Activity {
     }
 
 
-    private void setupPager() {
-        ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(new PagerAdapter(this));
+    // private void setupPager() {
+    //     ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
+    //     mViewPager.setAdapter(new PagerAdapter(this));
 
-        PagerTabStrip strip = (PagerTabStrip) findViewById(R.id.tabStrip);
-        strip.setTabIndicatorColorResource(R.color.accent);
-    }
+    //     PagerTabStrip strip = (PagerTabStrip) findViewById(R.id.tabStrip);
+    //     strip.setTabIndicatorColorResource(R.color.accent);
+    // }
 
 }
 

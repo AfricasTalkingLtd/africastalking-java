@@ -2,11 +2,13 @@ package com.africastalking;
 
 import com.africastalking.RemoteAccountGrpc.*;
 import com.africastalking.RemoteAccountOuterClass.*;
+
 import io.grpc.stub.StreamObserver;
 
 public class RemoteAccountService extends RemoteAccountImplBase {
 
     private static AccountService service;
+    private static Logger logger = new BaseLogger();
 
     RemoteAccountService() {
         service = AfricasTalking.getService(AccountService.class);

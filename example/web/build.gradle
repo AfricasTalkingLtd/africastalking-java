@@ -10,13 +10,6 @@ targetCompatibility = 1.8
 
 repositories {
     jcenter()
-    maven {
-        url  "http://devaksal.bintray.com/AT"
-        credentials {
-            username "aksalj"
-            password "2e8b2409f43dabec322ab59609b72a4b621a0e50"
-        }
-    }
 }
 
 
@@ -27,6 +20,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     compile project(':sms')
     compile project(':voice')
-    //    compile "com.africastalking:core:1.0.0:"
+    //    compile "com.africastalking:core:1.1.1"
     testCompile 'junit:junit:4.11'
 }

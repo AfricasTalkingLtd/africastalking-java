@@ -25,8 +25,8 @@ android {
         versionCode 1
         versionName rootProject.version
 
-        buildConfigField 'String', 'RPC_HOST', "\"localhost\""
-        buildConfigField 'int', 'RPC_PORT', "8787"
+        buildConfigField 'String', 'RPC_HOST', "\"192.168.0.119\""
+        buildConfigField 'int', 'RPC_PORT', "59123"
 
     }
     buildTypes {
