@@ -52,6 +52,7 @@ dependencies {
     compile 'com.jraska:console-timber-tree:0.4.3'
 
     compile project(":common")
+    compile project(":account")
     compile project(":client")
 
     // TODO: Should be able to do
