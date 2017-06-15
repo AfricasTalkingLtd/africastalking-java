@@ -10,29 +10,27 @@ import io.grpc.stub.StreamObserver;
 
 import java.io.IOException;
 
-public final class Account extends AccountService {
+public final class Account {
 
     private RemoteAccountBlockingStub blockingStub;
     private RemoteAccountStub asyncStub;
 
 
     Account() {
-        ManagedChannel channel = RpcClient.getChannel();
+        ManagedChannel channel = AfricastalkingClient.getChannel();
         blockingStub = RemoteAccountGrpc.newBlockingStub(channel);
         asyncStub = RemoteAccountGrpc.newStub(channel);
 
     }
 
-    @Override
     public String getUser() throws IOException {
-        AccountRequest req = AccountRequest.newBuilder().setToken(Token.newBuilder().setId(RpcClient.TOKEN)).build();
+        AccountRequest req = AccountRequest.newBuilder().setToken(Token.newBuilder().setId(AfricastalkingClient.TOKEN)).build();
         Response resp = blockingStub.getUser(req);
         return resp.getResponse();
     }
 
-    @Override
     public void getUser(final Callback<String> callback) {
-        AccountRequest req = AccountRequest.newBuilder().setToken(Token.newBuilder().setId(RpcClient.TOKEN)).build();
+        AccountRequest req = AccountRequest.newBuilder().setToken(Token.newBuilder().setId(AfricastalkingClient.TOKEN)).build();
         asyncStub.getUser(req, new StreamObserver<Response>() {
             @Override
             public void onNext(Response value) {

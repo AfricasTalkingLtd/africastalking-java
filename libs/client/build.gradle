@@ -74,7 +74,6 @@ protobuf {
 dependencies {
 
     compile project(":common")
-    compile project(":account")
     compile project(":payments")
 
     // grpc

@@ -1,9 +1,12 @@
 package com.africastalking;
 
+import io.grpc.ConnectivityState;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
-public class RpcClient {
+import java.io.IOException;
+
+public class AfricastalkingClient {
 
     static String HOST;
     static int PORT;
@@ -21,7 +24,9 @@ public class RpcClient {
         HOST = host;
         PORT = port;
         TOKEN = token;
+        CHANNEL = null;
     }
+
     static ManagedChannel getChannel() {
         if (CHANNEL == null) {
             ManagedChannelBuilder<?> channelBuilder = ManagedChannelBuilder

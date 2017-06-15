@@ -9,6 +9,7 @@ import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -96,6 +97,8 @@ class RemotePaymentService extends RemotePaymentImplBase implements IAuthenticat
                     Currency.valueOf(recipient.getCurrency().getText()),
                     recipient.getAmount()
             );
+            consumer.reason = Consumer.Reason.valueOf(recipient.getReason());
+            consumer.metadata = new HashMap<>(recipient.getMetadataMap());
             consumers.add(consumer);
         }
 

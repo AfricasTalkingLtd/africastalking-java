@@ -54,7 +54,7 @@ public class RpcServer {
 
     public void start() throws IOException {
         server.start();
-        LOGGER.log("Server started, listening on " + port);
+        LOGGER.log("Server started, listening on port %s\n", port);
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {

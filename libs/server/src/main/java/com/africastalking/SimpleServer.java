@@ -17,7 +17,7 @@ public class SimpleServer {
         } catch (NumberFormatException ex) { /* ignore */ }
 
         for (int i = 0; i < tokenCount; i++) {
-            logger.log("\t%s\n", i+1, server.generateToken());
+            logger.log("\t%s\n", server.generateToken());
         }
 
         server.start();

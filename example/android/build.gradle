@@ -27,6 +27,7 @@ android {
 
         buildConfigField 'String', 'RPC_HOST', "\"192.168.0.119\""
         buildConfigField 'int', 'RPC_PORT', "59123"
+        buildConfigField 'String', 'PAYMENT_PRODUCT', "\"TestProduct\""
 
     }
     buildTypes {

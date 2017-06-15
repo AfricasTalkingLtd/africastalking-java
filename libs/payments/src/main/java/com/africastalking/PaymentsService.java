@@ -123,13 +123,7 @@ public class PaymentsService extends Service {
      * @throws IOException
      */
     public String checkout(String productName, String phoneNumber, float amount, Currency currency) throws IOException {
-
-        HashMap<String, Object> body = makeCheckoutRequest(productName, phoneNumber, amount, currency, null);
-
-        Call<String> call = payment.checkout(body);
-        Response<String> res = call.execute();
-        return res.body();
-
+        return this.checkout(productName, phoneNumber, amount, currency, new HashMap());
     }
 
     /**
@@ -148,9 +142,7 @@ public class PaymentsService extends Service {
     }
 
     public void checkout(String productName, String phoneNumber, float amount, Currency currency, Callback<String> callback) {
-        HashMap<String, Object> body = makeCheckoutRequest(productName, phoneNumber, amount, currency, null);
-        Call<String> call = payment.checkout(body);
-        call.enqueue(makeCallback(callback));
+        this.checkout(productName, phoneNumber, amount, currency, new HashMap(), callback);
     }
 
 
@@ -170,7 +162,7 @@ public class PaymentsService extends Service {
     public String payConsumer(String product, Consumer recipient) throws IOException {
         List<Consumer> recipients = new ArrayList<>();
         recipients.add(recipient);
-        return payConsumers(product, recipients);
+        return this.payConsumers(product, recipients);
     }
 
     /**
@@ -188,7 +180,7 @@ public class PaymentsService extends Service {
     public void payConsumer(String product, Consumer recipient, Callback<String> callback) {
         List<Consumer> recipients = new ArrayList<>();
         recipients.add(recipient);
-        payConsumers(product, recipients, callback);
+        this.payConsumers(product, recipients, callback);
     }
 
     public String payBusiness(String product, Business recipient) throws IOException {

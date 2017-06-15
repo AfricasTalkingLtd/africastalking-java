@@ -24,5 +24,7 @@ message Business {
 message Consumer {
     string phoneNumber = 1;
     float amount = 2;
-    Currency currency = 3;
+    string reason = 3;
+    map<string, string> metadata = 4;
+    Currency currency = 5;
 }
