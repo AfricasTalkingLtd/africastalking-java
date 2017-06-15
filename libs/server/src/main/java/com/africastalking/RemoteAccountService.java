@@ -1,25 +1,37 @@
 package com.africastalking;
 
-import com.africastalking.RemoteAccountGrpc.*;
-import com.africastalking.RemoteAccountOuterClass.*;
+import com.africastalking.proto.account.RemoteAccountGrpc.*;
+import com.africastalking.proto.account.RemoteAccountOuterClass.*;
+import com.africastalking.proto.Base.*;
 
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 
-public class RemoteAccountService extends RemoteAccountImplBase {
+class RemoteAccountService extends RemoteAccountImplBase implements IAuthenticator {
 
     private static AccountService service;
-    private static Logger logger = new BaseLogger();
 
     RemoteAccountService() {
         service = AfricasTalking.getService(AccountService.class);
     }
 
     @Override
-    public void getUser(AccountRequest request, final StreamObserver<BaseResponse> responseObserver) {
+    public boolean isValidToken(Token token, StreamObserver<Response> responseObserver) {
+        if (!RpcServer.authenticate(token.getId())){
+            responseObserver.onError(Status.UNAUTHENTICATED.asException());
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void getUser(AccountRequest request, final StreamObserver<Response> responseObserver) {
+        if (!isValidToken(request.getToken(), responseObserver)) { return; }
+
         service.getUser(new Callback<String>() {
             @Override
             public void onSuccess(String data) {
-                BaseResponse resp = BaseResponse.newBuilder().setResponse(data).build();
+                Response resp = Response.newBuilder().setResponse(data).build();
                 responseObserver.onNext(resp);
                 responseObserver.onCompleted();
 

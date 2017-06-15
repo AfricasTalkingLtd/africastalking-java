@@ -1,0 +1,28 @@
+syntax = "proto3";
+option java_package = "com.africastalking.proto";
+
+message Token {
+    string id = 1;
+}
+
+message Response {
+    string response = 1;
+}
+
+message Currency {
+    string text = 1;
+}
+
+message Business {
+    string destinationChannel = 1;
+    string destinationAccount = 2;
+    string transferType = 3;
+    float amount = 4;
+    Currency currency = 5;
+}
+
+message Consumer {
+    string phoneNumber = 1;
+    float amount = 2;
+    Currency currency = 3;
+}

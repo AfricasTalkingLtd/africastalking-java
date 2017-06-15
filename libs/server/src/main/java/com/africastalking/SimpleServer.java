@@ -8,6 +8,18 @@ public class SimpleServer {
         Logger logger = new BaseLogger();
         logger.log("\nAfrica's Talking gRPC Server\n");
         RpcServer server = new RpcServer(argv[0], argv[1]);
+
+
+        logger.log("Sample Tokens: ");
+        int tokenCount = 5;
+        try {
+            tokenCount = Integer.parseInt(argv[2]);
+        } catch (NumberFormatException ex) { /* ignore */ }
+
+        for (int i = 0; i < tokenCount; i++) {
+            logger.log("\t%s\n", i+1, server.generateToken());
+        }
+
         server.start();
         server.blockUntilShutdown();
     }

@@ -1,26 +1,23 @@
 package com.africastalking;
 
 import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
 
-import com.africastalking.RemoteAccountGrpc.*;
-import com.africastalking.RemoteAccountOuterClass.*;
+import com.africastalking.proto.account.RemoteAccountGrpc;
+import com.africastalking.proto.account.RemoteAccountGrpc.*;
+import com.africastalking.proto.account.RemoteAccountOuterClass.*;
+import com.africastalking.proto.Base.*;
 import io.grpc.stub.StreamObserver;
 
 import java.io.IOException;
 
-public class Account extends AccountService {
+public final class Account extends AccountService {
 
-    ManagedChannel channel;
-    RemoteAccountBlockingStub blockingStub;
-    RemoteAccountStub asyncStub;
+    private RemoteAccountBlockingStub blockingStub;
+    private RemoteAccountStub asyncStub;
 
-    Account(String host, int port) {
-        this(ManagedChannelBuilder.forAddress(host, port).usePlaintext(true));
-    }
 
-    Account(ManagedChannelBuilder<?> channelBuilder) {
-        channel = channelBuilder.build();
+    Account() {
+        ManagedChannel channel = RpcClient.getChannel();
         blockingStub = RemoteAccountGrpc.newBlockingStub(channel);
         asyncStub = RemoteAccountGrpc.newStub(channel);
 
@@ -28,17 +25,17 @@ public class Account extends AccountService {
 
     @Override
     public String getUser() throws IOException {
-        AccountRequest req = AccountRequest.newBuilder().setId(System.currentTimeMillis()).build();
-        BaseResponse resp = blockingStub.getUser(req);
+        AccountRequest req = AccountRequest.newBuilder().setToken(Token.newBuilder().setId(RpcClient.TOKEN)).build();
+        Response resp = blockingStub.getUser(req);
         return resp.getResponse();
     }
 
     @Override
     public void getUser(final Callback<String> callback) {
-        AccountRequest req = AccountRequest.newBuilder().setId(System.currentTimeMillis()).build();
-        asyncStub.getUser(req, new StreamObserver<BaseResponse>() {
+        AccountRequest req = AccountRequest.newBuilder().setToken(Token.newBuilder().setId(RpcClient.TOKEN)).build();
+        asyncStub.getUser(req, new StreamObserver<Response>() {
             @Override
-            public void onNext(BaseResponse value) {
+            public void onNext(Response value) {
                 callback.onSuccess(value.getResponse());
             }
 

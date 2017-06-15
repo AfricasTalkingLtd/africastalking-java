@@ -1,6 +1,5 @@
 package com.africastalking;
 
-
 import com.africastalking.recipient.Business;
 import com.africastalking.recipient.Consumer;
 import com.google.gson.Gson;
@@ -14,11 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class PaymentsService extends Service {
+public class PaymentsService extends Service {
 
     PaymentsService sInstance;
     IPayments payment;
-
 
 
     private PaymentsService(String username, String apiKey) {
@@ -200,7 +198,7 @@ public final class PaymentsService extends Service {
         return res.body();
     }
 
-    public void payBusiness(String product, Business recipient, Callback<String> callback) throws IOException {
+    public void payBusiness(String product, Business recipient, Callback<String> callback) {
         HashMap<String, Object> body = makeB2BRequest(product, recipient);
         Call<String> call = payment.requestB2B(body);
         call.enqueue(makeCallback(callback));

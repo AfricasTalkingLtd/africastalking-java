@@ -2,14 +2,11 @@ package com.africastalking.example;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.view.PagerTabStrip;
-import android.support.v4.view.ViewPager;
-import android.view.*;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-import com.africastalking.*;
+import android.view.Menu;
+import android.view.MenuItem;
+import com.africastalking.Account;
+import com.africastalking.Callback;
+import com.africastalking.RpcClient;
 import com.jraska.console.timber.ConsoleTree;
 import timber.log.Timber;
 

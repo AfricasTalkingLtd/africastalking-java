@@ -1,15 +1,12 @@
 syntax = "proto3";
+option java_package = "com.africastalking.proto.account";
 
-option java_package = "com.africastalking";
+import "com/africastalking/Base.proto";
 
 message AccountRequest {
-    int64 id = 1;
-}
-
-message BaseResponse {
-    string response = 2;
+    Token token = 1;
 }
 
 service RemoteAccount {
-    rpc getUser(AccountRequest) returns (BaseResponse) {}
+    rpc getUser(AccountRequest) returns (Response) {}
 }

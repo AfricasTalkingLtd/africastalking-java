@@ -2,9 +2,9 @@ package com.africastalking;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import io.grpc.ServerServiceDefinition;
 
 import java.io.IOException;
+import java.util.HashSet;
 
 public class RpcServer {
 
@@ -13,6 +13,7 @@ public class RpcServer {
 
     private Server server;
     private int port;
+    private static HashSet<String> tokenStore = new HashSet<>(); // FIXME: Find a scalable solution
 
     public RpcServer(int port, String username, String apiKey, Format format, Environment environment, Logger logger) {
         AfricasTalking.initialize(username, apiKey, format);
@@ -44,9 +45,9 @@ public class RpcServer {
     private void initServer(int port) {
         this.port = port;
         server = ServerBuilder.forPort(port)
-                // Enable TLS
-                .useTransportSecurity(certChainFile, privateKeyFile)
+                // TODO: TLS Auth
                 .addService(new RemoteAccountService())
+                .addService(new RemotePaymentService())
                 .build();
 
     }
@@ -79,6 +80,30 @@ public class RpcServer {
         if (server != null) {
             server.awaitTermination();
         }
+    }
+
+    /**
+     * CHeck a token's validity
+     * @param token String
+     * @return authenticated boolean
+     */
+    static boolean authenticate(String token) {
+        return tokenStore.contains(token);
+    }
+
+    /**
+     * Generate a new auth token to be sent securely, out-of-band to the client
+     * @return token String
+     */
+    public String generateToken() {
+        String token = String.valueOf(System.currentTimeMillis()); // FIXME: Find a better way
+        tokenStore.add(token);
+        return token;
+    }
+
+    public boolean revokeToken(String token) {
+        tokenStore.remove(token);
+        return true;
     }
 
 }
