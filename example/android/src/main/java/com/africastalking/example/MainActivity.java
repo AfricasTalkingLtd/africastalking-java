@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import com.africastalking.Account;
 import com.africastalking.Callback;
-import com.africastalking.AfricastalkingClient;
+import com.africastalking.ATClient;
 import com.jraska.console.timber.ConsoleTree;
 import timber.log.Timber;
 
@@ -22,8 +22,8 @@ public class MainActivity extends Activity {
     }
 
 
-    private void initSDK(String token) {
-        AfricastalkingClient.initialize(BuildConfig.RPC_HOST, BuildConfig.RPC_PORT, token);
+    private void initSDK(String host, int port, String token) {
+        ATClient.initialize(host, port, token);
     }
 
     @Override
@@ -54,15 +54,18 @@ public class MainActivity extends Activity {
 
     private void setupConnect() {
         final EditText tokenInput = (EditText) findViewById(R.id.token);
+        final EditText serverInput = (EditText) findViewById(R.id.server);
         Button connectButton = (Button) findViewById(R.id.connect);
 
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String server = serverInput.getEditableText().toString();
                 String token = tokenInput.getEditableText().toString();
-                initSDK(token);
+                String[] parts = server.split(":");
+                initSDK(parts[0], Integer.parseInt(parts[1]), token);
 
-                Account account = AfricastalkingClient.getAccountService();
+                Account account = ATClient.getAccountService();
 
                 Timber.d("Getting account...");
                 account.getUser(new Callback<String>() {

@@ -17,8 +17,8 @@
 
      enum PagesEnum {
 
-         // AIRTIME("Airtime", R.layout.fragment_airtime),
-         // SMS("SMS", R.layout.fragment_sms),
+          AIRTIME("Airtime", R.layout.fragment_airtime),
+         SMS("SMS", R.layout.fragment_sms),
          PAYMENT("Payment", R.layout.fragment_payment);
 
          private String mTitle;
@@ -53,13 +53,13 @@
          collection.addView(layout);
 
          switch (position){
-//             case 0: // Airtime
-//                 setupAirtime(layout);
-//                 break;
-//             case 1: // SMS
-//                 setupSMS(layout);
-//                 break;
-             case 0: // Payments
+             case 0: // Airtime
+                 setupAirtime(layout);
+                 break;
+             case 1: // SMS
+                 setupSMS(layout);
+                 break;
+             case 2: // Payments
                  setupPayment(layout);
                  break;
          }
@@ -69,56 +69,56 @@
          return layout;
      }
 
-//     private void setupAirtime(View root) {
-//
-//         final EditText phone = (EditText) root.findViewById(R.id.phone);
-//         final EditText amount = (EditText) root.findViewById(R.id.amount);
-//
-//
-//         amount.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//             @Override
-//             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-//                 if (id == EditorInfo.IME_ACTION_SEND) {
-//                     sendAirtime(phone.getText().toString(), Float.valueOf(amount.getText().toString()));
-//                 }
-//                 return false;
-//             }
-//         });
-//
-//         final Button btnSend = (Button) root.findViewById(R.id.btnSend);
-//         btnSend.setOnClickListener(new View.OnClickListener() {
-//             @Override
-//             public void onClick(View view) {
-//                 sendAirtime(phone.getText().toString(), Float.valueOf(amount.getText().toString()));
-//             }
-//         });
-//
-//     }
+     private void setupAirtime(View root) {
 
-//     private void setupSMS(View root) {
-//
-//         final EditText phone = (EditText) root.findViewById(R.id.phone);
-//         final EditText message = (EditText) root.findViewById(R.id.message);
-//         final Button btnSend = (Button) root.findViewById(R.id.btnSend);
-//
-//         btnSend.setOnClickListener(new View.OnClickListener() {
-//             @Override
-//             public void onClick(View view) {
-//                 sendSMS(phone.getText().toString(), message.getText().toString());
-//             }
-//         });
-//
-//         message.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//             @Override
-//             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-//                 if (id == EditorInfo.IME_ACTION_SEND) {
-//                     sendSMS(phone.getText().toString(), message.getText().toString());
-//                 }
-//                 return false;
-//             }
-//         });
-//
-//     }
+         final EditText phone = (EditText) root.findViewById(R.id.phone);
+         final EditText amount = (EditText) root.findViewById(R.id.amount);
+
+
+         amount.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+             @Override
+             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                 if (id == EditorInfo.IME_ACTION_SEND) {
+                     sendAirtime(phone.getText().toString(), Float.valueOf(amount.getText().toString()));
+                 }
+                 return false;
+             }
+         });
+
+         final Button btnSend = (Button) root.findViewById(R.id.btnSend);
+         btnSend.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 sendAirtime(phone.getText().toString(), Float.valueOf(amount.getText().toString()));
+             }
+         });
+
+     }
+
+     private void setupSMS(View root) {
+
+         final EditText phone = (EditText) root.findViewById(R.id.phone);
+         final EditText message = (EditText) root.findViewById(R.id.message);
+         final Button btnSend = (Button) root.findViewById(R.id.btnSend);
+
+         btnSend.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 sendSMS(phone.getText().toString(), message.getText().toString());
+             }
+         });
+
+         message.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+             @Override
+             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                 if (id == EditorInfo.IME_ACTION_SEND) {
+                     sendSMS(phone.getText().toString(), message.getText().toString());
+                 }
+                 return false;
+             }
+         });
+
+     }
 
      private void setupPayment(View root) {
 
@@ -147,31 +147,32 @@
      }
 
 
-//     private void sendAirtime(String phone, float amount) {
-//
-//         if (TextUtils.isEmpty(phone)) {
-//             Timber.e("Enter a phone number");
-//             return;
-//         }
-//
-//         if (amount <= 0) {
-//             Timber.e("Enter a valid amount");
-//             return;
-//         }
-//
-//         MainActivity.airtime.send(phone, amount, new Callback<String> (){
-//             @Override
-//             public void onSuccess(String s) {
-//                 Timber.i(s);
-//             }
-//
-//             @Override
-//             public void onFailure(Throwable throwable) {
-//                 Timber.e(throwable.getMessage());
-//             }
-//         });
-//
-//     }
+     private void sendAirtime(String phone, float amount) {
+
+         if (TextUtils.isEmpty(phone)) {
+             Timber.e("Enter a phone number");
+             return;
+         }
+
+         if (amount <= 0) {
+             Timber.e("Enter a valid amount");
+             return;
+         }
+
+         Airtime airtime = ATClient.getAirtimeService();
+         airtime.send(phone, amount, new Callback<String> (){
+             @Override
+             public void onSuccess(String s) {
+                 Timber.i(s);
+             }
+
+             @Override
+             public void onFailure(Throwable throwable) {
+                 Timber.e(throwable.getMessage());
+             }
+         });
+
+     }
 
      private void checkout(String phone, float amount) {
 
@@ -185,7 +186,7 @@
              return;
          }
 
-         Payment payment = AfricastalkingClient.getPaymentService();
+         Payment payment = ATClient.getPaymentService();
 
          payment.checkout(BuildConfig.PAYMENT_PRODUCT, phone, amount, Currency.KES, null, new Callback<String> (){
              @Override
@@ -200,30 +201,31 @@
          });
      }
 
-//     private void sendSMS(String number, String text) {
-//         if (TextUtils.isEmpty(number)) {
-//             Timber.e("Enter a phone number");
-//             return;
-//         }
-//
-//         if (TextUtils.isEmpty(text)) {
-//             Timber.e("Enter a message");
-//             return;
-//         }
-//
-//         Timber.d("Sending SMS...");
-//         MainActivity.sms.send(text, new String[]{number}, new Callback<String>() {
-//             @Override
-//             public void onSuccess(String s) {
-//                 Timber.i(s);
-//             }
-//
-//             @Override
-//             public void onFailure(Throwable throwable) {
-//                 Timber.e(throwable.getMessage());
-//             }
-//         });
-//     }
+     private void sendSMS(String number, String text) {
+         if (TextUtils.isEmpty(number)) {
+             Timber.e("Enter a phone number");
+             return;
+         }
+
+         if (TextUtils.isEmpty(text)) {
+             Timber.e("Enter a message");
+             return;
+         }
+
+         Timber.d("Sending SMS...");
+         SMS sms = ATClient.getSmsService();
+         sms.send(text, new String[]{number}, new Callback<String>() {
+             @Override
+             public void onSuccess(String s) {
+                 Timber.i(s);
+             }
+
+             @Override
+             public void onFailure(Throwable throwable) {
+                 Timber.e(throwable.getMessage());
+             }
+         });
+     }
 
 
      @Override

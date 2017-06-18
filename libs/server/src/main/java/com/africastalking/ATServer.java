@@ -1,12 +1,18 @@
 package com.africastalking;
 
+import com.africastalking.utils.Networking;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import org.hashids.Hashids;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.UUID;
 
-public class RpcServer {
+public class ATServer {
 
     private static final int DEFAULT_PORT = 59123;
     private static Logger LOGGER = new BaseLogger();
@@ -15,7 +21,9 @@ public class RpcServer {
     private int port;
     private static HashSet<String> tokenStore = new HashSet<>(); // FIXME: Find a scalable solution
 
-    public RpcServer(int port, String username, String apiKey, Format format, Environment environment, Logger logger) {
+    private static Hashids hashids = new Hashids(UUID.randomUUID().toString());
+
+    public ATServer(int port, String username, String apiKey, Format format, Environment environment, Logger logger) {
         AfricasTalking.initialize(username, apiKey, format);
         AfricasTalking.setEnvironment(environment);
         AfricasTalking.setLogger(logger);
@@ -25,19 +33,19 @@ public class RpcServer {
         initServer(port);
     }
 
-    public RpcServer(int port, String username, String apiKey, Format format, Environment environment) {
+    public ATServer(int port, String username, String apiKey, Format format, Environment environment) {
         this(port, username, apiKey, format, environment, null);
     }
 
-    public RpcServer(int port, String username, String apiKey, Format format) {
+    public ATServer(int port, String username, String apiKey, Format format) {
         this(port, username, apiKey, format, Environment.SANDBOX, null);
     }
 
-    public RpcServer(int port, String username, String apiKey) {
+    public ATServer(int port, String username, String apiKey) {
         this(port, username, apiKey, Format.JSON, Environment.SANDBOX, null);
     }
 
-    public RpcServer(String username, String apiKey) {
+    public ATServer(String username, String apiKey) {
         this(DEFAULT_PORT, username, apiKey, Format.JSON, Environment.SANDBOX, null);
     }
 
@@ -48,19 +56,30 @@ public class RpcServer {
                 // TODO: TLS Auth
                 .addService(new RemoteAccountService())
                 .addService(new RemotePaymentService())
+                .addService(new RemoteSMSService())
+                .addService(new RemoteAirtimeService())
                 .build();
 
     }
 
     public void start() throws IOException {
         server.start();
-        LOGGER.log("Server started, listening on port %s\n", port);
+        Enumeration<NetworkInterface> ifaces = NetworkInterface.getNetworkInterfaces();
+        LOGGER.log("Server started...");
+
+        InetAddress inetAddress = Networking.getDefaultInetAddress();
+        if (inetAddress != null) {
+            LOGGER.log("\t%s:%s\n", inetAddress.getHostAddress(), port);
+        } else {
+            LOGGER.log("\tListening on port %d", port);
+        }
+
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
                 // Use stderr here since the logger may has been reset by its JVM shutdown hook.
                 System.err.println("*** shutting down server since JVM is shutting down");
-                RpcServer.this.stop();
+                ATServer.this.stop();
                 System.err.println("*** server shut down");
             }
         });
@@ -96,11 +115,16 @@ public class RpcServer {
      * @return token String
      */
     public String generateToken() {
-        String token = String.valueOf(System.currentTimeMillis()); // FIXME: Find a better way
+        String token = hashids.encode(System.currentTimeMillis());
         tokenStore.add(token);
         return token;
     }
 
+    /**
+     * Revoke token
+     * @param token
+     * @return
+     */
     public boolean revokeToken(String token) {
         tokenStore.remove(token);
         return true;

@@ -17,7 +17,7 @@ class RemoteAccountService extends RemoteAccountImplBase implements IAuthenticat
 
     @Override
     public boolean isValidToken(Token token, StreamObserver<Response> responseObserver) {
-        if (!RpcServer.authenticate(token.getId())){
+        if (!ATServer.authenticate(token.getId())){
             responseObserver.onError(Status.UNAUTHENTICATED.asException());
             return false;
         }
@@ -39,6 +39,7 @@ class RemoteAccountService extends RemoteAccountImplBase implements IAuthenticat
 
             @Override
             public void onFailure(Throwable throwable) {
+                throwable.printStackTrace();
                 responseObserver.onError(throwable);
             }
         });

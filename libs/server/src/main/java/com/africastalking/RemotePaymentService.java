@@ -24,7 +24,7 @@ class RemotePaymentService extends RemotePaymentImplBase implements IAuthenticat
 
     @Override
     public boolean isValidToken(Base.Token token, StreamObserver<Base.Response> responseObserver) {
-        if (!RpcServer.authenticate(token.getId())){
+        if (!ATServer.authenticate(token.getId())){
             responseObserver.onError(Status.UNAUTHENTICATED.asException());
             return false;
         }

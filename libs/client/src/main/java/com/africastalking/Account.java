@@ -17,20 +17,20 @@ public final class Account {
 
 
     Account() {
-        ManagedChannel channel = AfricastalkingClient.getChannel();
+        ManagedChannel channel = ATClient.getChannel();
         blockingStub = RemoteAccountGrpc.newBlockingStub(channel);
         asyncStub = RemoteAccountGrpc.newStub(channel);
 
     }
 
     public String getUser() throws IOException {
-        AccountRequest req = AccountRequest.newBuilder().setToken(Token.newBuilder().setId(AfricastalkingClient.TOKEN)).build();
+        AccountRequest req = AccountRequest.newBuilder().setToken(Token.newBuilder().setId(ATClient.TOKEN)).build();
         Response resp = blockingStub.getUser(req);
         return resp.getResponse();
     }
 
     public void getUser(final Callback<String> callback) {
-        AccountRequest req = AccountRequest.newBuilder().setToken(Token.newBuilder().setId(AfricastalkingClient.TOKEN)).build();
+        AccountRequest req = AccountRequest.newBuilder().setToken(Token.newBuilder().setId(ATClient.TOKEN)).build();
         asyncStub.getUser(req, new StreamObserver<Response>() {
             @Override
             public void onNext(Response value) {

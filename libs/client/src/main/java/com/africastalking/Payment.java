@@ -11,6 +11,7 @@ import io.grpc.stub.StreamObserver;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public final class Payment {
 
 
     Payment() {
-        ManagedChannel channel = AfricastalkingClient.getChannel();
+        ManagedChannel channel = ATClient.getChannel();
         blockingStub = RemotePaymentGrpc.newBlockingStub(channel);
         asyncStub = RemotePaymentGrpc.newStub(channel);
     }
@@ -29,8 +30,12 @@ public final class Payment {
 
     public String checkout(String productName, String phoneNumber, float amount, Currency currency, Map metadata) throws IOException {
 
+        if (metadata == null) {
+            metadata = new HashMap();
+        }
+
         CheckoutRequest request = CheckoutRequest.newBuilder()
-                .setToken(Base.Token.newBuilder().setId(AfricastalkingClient.TOKEN).build())
+                .setToken(Base.Token.newBuilder().setId(ATClient.TOKEN).build())
                 .setProductName(productName)
                 .setPhoneNumber(phoneNumber)
                 .setAmount(amount)
@@ -43,8 +48,13 @@ public final class Payment {
     }
 
     public void checkout(String productName, String phoneNumber, float amount, Currency currency, Map metadata, final Callback<String> callback) {
+
+        if (metadata == null) {
+            metadata = new HashMap();
+        }
+
         CheckoutRequest request = CheckoutRequest.newBuilder()
-                .setToken(Base.Token.newBuilder().setId(AfricastalkingClient.TOKEN).build())
+                .setToken(Base.Token.newBuilder().setId(ATClient.TOKEN).build())
                 .setProductName(productName)
                 .setPhoneNumber(phoneNumber)
                 .setAmount(amount)
@@ -83,7 +93,7 @@ public final class Payment {
         }
 
         B2CRequest request = B2CRequest.newBuilder()
-                .setToken(Base.Token.newBuilder().setId(AfricastalkingClient.TOKEN).build())
+                .setToken(Base.Token.newBuilder().setId(ATClient.TOKEN).build())
                 .setProductName(product)
                 .addAllRecipients(consumers)
                 .build();
@@ -106,7 +116,7 @@ public final class Payment {
         }
 
         B2CRequest request = B2CRequest.newBuilder()
-                .setToken(Base.Token.newBuilder().setId(AfricastalkingClient.TOKEN).build())
+                .setToken(Base.Token.newBuilder().setId(ATClient.TOKEN).build())
                 .setProductName(product)
                 .addAllRecipients(consumers)
                 .build();
@@ -138,7 +148,7 @@ public final class Payment {
                 .build();
 
         B2BRequest request = B2BRequest.newBuilder()
-                .setToken(Base.Token.newBuilder().setId(AfricastalkingClient.TOKEN).build())
+                .setToken(Base.Token.newBuilder().setId(ATClient.TOKEN).build())
                 .setProductName(product)
                 .setRecipient(business)
                 .build();
@@ -158,7 +168,7 @@ public final class Payment {
                 .build();
 
         B2BRequest request = B2BRequest.newBuilder()
-                .setToken(Base.Token.newBuilder().setId(AfricastalkingClient.TOKEN).build())
+                .setToken(Base.Token.newBuilder().setId(ATClient.TOKEN).build())
                 .setProductName(product)
                 .setRecipient(business)
                 .build();

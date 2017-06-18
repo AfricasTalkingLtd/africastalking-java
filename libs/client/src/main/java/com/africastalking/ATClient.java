@@ -1,22 +1,20 @@
 package com.africastalking;
 
-import io.grpc.ConnectivityState;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
-import java.io.IOException;
+public class ATClient {
 
-public class AfricastalkingClient {
-
-    static String HOST;
-    static int PORT;
+    private static String HOST;
+    private static int PORT = -1;
     static String TOKEN;
 
     private static ManagedChannel CHANNEL;
 
     private static Account account;
     private static Payment payment;
-//    private static SMS sms;
+    private static SMS sms;
+    private static Airtime airtime;
 //    private static USSD ussd;
 //    private static Voice voice;
 
@@ -28,6 +26,7 @@ public class AfricastalkingClient {
     }
 
     static ManagedChannel getChannel() {
+        if (HOST == null || PORT == -1) throw new RuntimeException("call ATClient.initialize(host, port, token) first");
         if (CHANNEL == null) {
             ManagedChannelBuilder<?> channelBuilder = ManagedChannelBuilder
                     .forAddress(HOST, PORT)
@@ -49,6 +48,20 @@ public class AfricastalkingClient {
             payment = new Payment();
         }
         return payment;
+    }
+
+    public static SMS getSmsService() {
+        if (sms == null) {
+            sms = new SMS();
+        }
+        return sms;
+    }
+
+    public static Airtime getAirtimeService() {
+        if (airtime == null) {
+            airtime = new Airtime();
+        }
+        return airtime;
     }
 
 }
