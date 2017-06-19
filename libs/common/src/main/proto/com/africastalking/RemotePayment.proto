@@ -1,0 +1,35 @@
+syntax = "proto3";
+option java_package = "com.africastalking.proto.payment";
+
+import "com/africastalking/Base.proto";
+
+
+message CheckoutRequest {
+    Token token = 1;
+
+    string productName = 2;
+    string phoneNumber = 3;
+    float amount = 4;
+    Currency currency = 5;
+    map<string, string> meta = 6;
+}
+
+message B2CRequest {
+    Token token = 1;
+
+    string productName = 2;
+    repeated Consumer recipients = 3;
+}
+
+message B2BRequest {
+    Token token = 1;
+
+    string productName = 2;
+    Business recipient = 3;
+}
+
+service RemotePayment {
+    rpc checkout(CheckoutRequest) returns (Response) {}
+    rpc payCustomers(B2CRequest) returns (Response) {}
+    rpc payBusiness(B2BRequest) returns (Response) {}
+}

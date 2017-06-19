@@ -72,7 +72,11 @@ abstract class Service {
         return new retrofit2.Callback<T>() {
             @Override
             public void onResponse(Call<T> call, retrofit2.Response<T> response) {
-                cb.onSuccess(response.body());
+                if (response.isSuccessful()) {
+                    cb.onSuccess(response.body());
+                } else {
+                    cb.onFailure(new Exception(response.message()));
+                }
             }
 
             @Override

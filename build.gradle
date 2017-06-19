@@ -9,6 +9,7 @@ buildscript {
     dependencies {
         classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.1'
     }
 }
 
@@ -20,7 +21,6 @@ allprojects {
 }
 
 
-
 Set<String> publishedLibs = new HashSet<String>()
 publishedLibs << 'sms'
 publishedLibs << 'payments'
@@ -29,6 +29,8 @@ publishedLibs << 'voice'
 publishedLibs << 'ussd'
 publishedLibs << 'account'
 publishedLibs << 'core'
+publishedLibs << 'server'
+//publishedLibs << 'client' Android @aar
 configure(subprojects.findAll {publishedLibs.contains(it.name)}){
     group properties.getProperty("bintray.groupId")
     version "1.1.1"

@@ -1,6 +1,5 @@
 package com.africastalking;
 
-
 import com.africastalking.recipient.Business;
 import com.africastalking.recipient.Consumer;
 import com.google.gson.Gson;
@@ -14,11 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class PaymentsService extends Service {
+public class PaymentsService extends Service {
 
     PaymentsService sInstance;
     IPayments payment;
-
 
 
     private PaymentsService(String username, String apiKey) {
@@ -125,13 +123,7 @@ public final class PaymentsService extends Service {
      * @throws IOException
      */
     public String checkout(String productName, String phoneNumber, float amount, Currency currency) throws IOException {
-
-        HashMap<String, Object> body = makeCheckoutRequest(productName, phoneNumber, amount, currency, null);
-
-        Call<String> call = payment.checkout(body);
-        Response<String> res = call.execute();
-        return res.body();
-
+        return this.checkout(productName, phoneNumber, amount, currency, new HashMap());
     }
 
     /**
@@ -150,9 +142,7 @@ public final class PaymentsService extends Service {
     }
 
     public void checkout(String productName, String phoneNumber, float amount, Currency currency, Callback<String> callback) {
-        HashMap<String, Object> body = makeCheckoutRequest(productName, phoneNumber, amount, currency, null);
-        Call<String> call = payment.checkout(body);
-        call.enqueue(makeCallback(callback));
+        this.checkout(productName, phoneNumber, amount, currency, new HashMap(), callback);
     }
 
 
@@ -172,7 +162,7 @@ public final class PaymentsService extends Service {
     public String payConsumer(String product, Consumer recipient) throws IOException {
         List<Consumer> recipients = new ArrayList<>();
         recipients.add(recipient);
-        return payConsumers(product, recipients);
+        return this.payConsumers(product, recipients);
     }
 
     /**
@@ -190,7 +180,7 @@ public final class PaymentsService extends Service {
     public void payConsumer(String product, Consumer recipient, Callback<String> callback) {
         List<Consumer> recipients = new ArrayList<>();
         recipients.add(recipient);
-        payConsumers(product, recipients, callback);
+        this.payConsumers(product, recipients, callback);
     }
 
     public String payBusiness(String product, Business recipient) throws IOException {
@@ -200,7 +190,7 @@ public final class PaymentsService extends Service {
         return res.body();
     }
 
-    public void payBusiness(String product, Business recipient, Callback<String> callback) throws IOException {
+    public void payBusiness(String product, Business recipient, Callback<String> callback) {
         HashMap<String, Object> body = makeB2BRequest(product, recipient);
         Call<String> call = payment.requestB2B(body);
         call.enqueue(makeCallback(callback));

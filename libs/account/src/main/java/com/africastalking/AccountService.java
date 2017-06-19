@@ -9,7 +9,7 @@ import java.io.IOException;
 /**
  * Account service. Retrieve user account info
  */
-public final class AccountService extends Service {
+public class AccountService extends Service {
 
     private static AccountService sInstance;
     private IAccount service;
@@ -82,7 +82,4 @@ public final class AccountService extends Service {
     public void getUser(final Callback<String> callback) {
         service.getUser(mUsername).enqueue(makeCallback(callback));
     }
-
-
-
 }

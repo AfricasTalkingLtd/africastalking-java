@@ -1,0 +1,15 @@
+syntax = "proto3";
+option java_package = "com.africastalking.proto.airtime";
+
+import "com/africastalking/Base.proto";
+
+
+message AirtimeRequest {
+    Token token = 1;
+
+    map<string, float> recipients = 2;
+}
+
+service RemoteAirtime {
+    rpc send(AirtimeRequest) returns (Response) {}
+}
