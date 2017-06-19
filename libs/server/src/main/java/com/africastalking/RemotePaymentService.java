@@ -3,8 +3,8 @@ package com.africastalking;
 import com.africastalking.proto.Base;
 import com.africastalking.proto.payment.RemotePaymentGrpc.*;
 import com.africastalking.proto.payment.RemotePaymentOuterClass.*;
-import com.africastalking.recipient.*;
-import com.africastalking.recipient.Consumer;
+import com.africastalking.payments.recipient.*;
+import com.africastalking.payments.recipient.Consumer;
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 
@@ -65,7 +65,7 @@ class RemotePaymentService extends RemotePaymentImplBase implements IAuthenticat
         Business business = new Business(
                 recipient.getDestinationChannel(),
                 recipient.getDestinationAccount(),
-                com.africastalking.recipient.Business.TransferType.valueOf(recipient.getTransferType()),
+                Business.TransferType.valueOf(recipient.getTransferType()),
                 Currency.valueOf(recipient.getCurrency().getText()),
                 recipient.getAmount()
         );

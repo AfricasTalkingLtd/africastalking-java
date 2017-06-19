@@ -1,8 +1,8 @@
 package com.africastalking.test.payments;
 
 import com.africastalking.*;
-import com.africastalking.recipient.Business;
-import com.africastalking.recipient.Consumer;
+import com.africastalking.payments.recipient.Business;
+import com.africastalking.payments.recipient.Consumer;
 import com.africastalking.test.Fixtures;
 import org.junit.Assert;
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package com.africastalking.recipient;
+package com.africastalking.payments.recipient;
 
 import com.africastalking.Currency;
 

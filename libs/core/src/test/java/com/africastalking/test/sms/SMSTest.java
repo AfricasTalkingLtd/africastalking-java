@@ -42,7 +42,7 @@ public class SMSTest {
     public void testSendPremium() throws IOException {
 
         SMSService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
-        String resp = sms.sendPremium("testSendPremium()", "AT2FA", "KiKi", "Linky", 10, new String[] {"0711082302", "0731034588"});
+        String resp = sms.sendPremium("testSendPremium()", "8989", "KiKi", "Linky", 10, new String[] {"0711082302", "0731034588"});
         System.out.print("\n" + resp + "\n");
         Assert.assertNotNull(resp);
 

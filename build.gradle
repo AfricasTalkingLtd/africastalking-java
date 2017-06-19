@@ -20,7 +20,6 @@ allprojects {
     }
 }
 
-
 Set<String> publishedLibs = new HashSet<String>()
 publishedLibs << 'sms'
 publishedLibs << 'payments'
@@ -30,10 +29,9 @@ publishedLibs << 'ussd'
 publishedLibs << 'account'
 publishedLibs << 'core'
 publishedLibs << 'server'
-//publishedLibs << 'client' Android @aar
 configure(subprojects.findAll {publishedLibs.contains(it.name)}){
     group properties.getProperty("bintray.groupId")
-    version "1.1.1"
+    version properties.getProperty("bintray.version")
 
     apply plugin: 'java'
     apply plugin: "maven-publish"
@@ -42,7 +40,6 @@ configure(subprojects.findAll {publishedLibs.contains(it.name)}){
 
     targetCompatibility = 1.7
     sourceCompatibility = 1.7
-
 
     jar {
         manifest {
@@ -68,7 +65,7 @@ configure(subprojects.findAll {publishedLibs.contains(it.name)}){
 
     bintray {
         dryRun = false
-        publish = false
+        publish = true
         user = properties.getProperty("bintray.user")
         key = properties.getProperty("bintray.key")
         publications = ['SDK']
@@ -86,6 +83,4 @@ configure(subprojects.findAll {publishedLibs.contains(it.name)}){
             }
         }
     }
-
 }
-

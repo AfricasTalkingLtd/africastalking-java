@@ -52,10 +52,10 @@ dependencies {
     compile 'com.jraska:console:0.4.3'
     compile 'com.jraska:console-timber-tree:0.4.3'
 
-    compile project(":common")
-    compile project(":account")
-    compile project(":client")
+    // compile project(":common")
+    // compile project(":account")
+    // compile project(":client")
 
     // TODO: Should be able to do
-//    compile "com.africastalking:client:1.1.1"
+   compile "com.africastalking:client:1.1.2-rc"
 }

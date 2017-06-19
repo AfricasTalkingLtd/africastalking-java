@@ -4,8 +4,8 @@ import com.africastalking.proto.Base;
 import com.africastalking.proto.payment.RemotePaymentGrpc;
 import com.africastalking.proto.payment.RemotePaymentGrpc.*;
 import com.africastalking.proto.payment.RemotePaymentOuterClass.*;
-import com.africastalking.recipient.Business;
-import com.africastalking.recipient.Consumer;
+import com.africastalking.payments.recipient.Business;
+import com.africastalking.payments.recipient.Consumer;
 import io.grpc.ManagedChannel;
 import io.grpc.stub.StreamObserver;
 

@@ -1,7 +1,7 @@
 package com.africastalking;
 
-import com.africastalking.recipient.Business;
-import com.africastalking.recipient.Consumer;
+import com.africastalking.payments.recipient.Business;
+import com.africastalking.payments.recipient.Consumer;
 import com.google.gson.Gson;
 import retrofit2.Call;
 import retrofit2.Response;
