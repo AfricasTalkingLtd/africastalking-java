@@ -11,13 +11,18 @@
  import android.widget.EditText;
  import android.widget.TextView;
  import timber.log.Timber;
- import com.africastalking.*;
+ import com.africastalking.ATClient;
+ import com.africastalking.Airtime;
+ import com.africastalking.Payment;
+ import com.africastalking.SMS;
+ import com.africastalking.Callback;
+ import com.africastalking.Currency;
 
  public class PagerAdapter extends android.support.v4.view.PagerAdapter {
 
      enum PagesEnum {
 
-          AIRTIME("Airtime", R.layout.fragment_airtime),
+         AIRTIME("Airtime", R.layout.fragment_airtime),
          SMS("SMS", R.layout.fragment_sms),
          PAYMENT("Payment", R.layout.fragment_payment);
 
