@@ -1,5 +1,7 @@
 # Africa's Talking Java SDK
 
+[ ![Download](https://api.bintray.com/packages/africastalking/java/com.africastalking/images/download.svg) ](https://bintray.com/africastalking/java/com.africastalking/_latestVersion)
+
 I recommend using the client/server setup of the SDK to avoid hardcoding your username and API key into the distributed APK. The client would need a token to authenticate to the server. This token can be generated on login (or whenever your app authenticates users).
 
 ## Usage 

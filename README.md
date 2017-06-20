@@ -1,5 +1,7 @@
 # Africa's Talking Java SDK
 
+[ ![Download](https://api.bintray.com/packages/africastalking/java/com.africastalking/images/download.svg) ](https://bintray.com/africastalking/java/com.africastalking/_latestVersion)
+
 
 ## Usage
 
