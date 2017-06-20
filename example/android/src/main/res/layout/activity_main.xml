@@ -19,15 +19,32 @@
                 android:id="@+id/server"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:hint="192.168.0.5:3000"/>
-    </LinearLayout>
 
-    <Button
-            android:id="@+id/connect"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Connect"
-            android:layout_margin="15dp"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <Button
+                    android:id="@+id/connect"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Connect"
+                    android:layout_margin="15dp"/>
+            <Button
+                    android:enabled="false"
+                    android:id="@+id/disconnect"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Disconnect"
+                    android:layout_margin="15dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
 
     <android.support.v4.view.ViewPager
             android:id="@+id/pager"

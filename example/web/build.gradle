@@ -20,7 +20,8 @@ dependencies {
     compile 'com.sparkjava:spark-core:2.5.4'
     compile 'com.sparkjava:spark-template-handlebars:2.3'
     compile 'com.google.code.gson:gson:2.8.0'
-    compile "com.africastalking:server:+"
+    compile 'com.africastalking:server:+'
+//    compile project(":server")
     testCompile 'junit:junit:4.11'
 }
 

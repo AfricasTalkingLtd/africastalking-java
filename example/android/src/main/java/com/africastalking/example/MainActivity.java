@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.AsyncTask;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,8 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 public class MainActivity extends Activity {
+
+    Button connectButton, disconnectButton;
 
     static {
         Timber.plant(new ConsoleTree());
@@ -62,15 +65,23 @@ public class MainActivity extends Activity {
 
     private void setupConnect() {
         final EditText serverInput = (EditText) findViewById(R.id.server);
-        Button connectButton = (Button) findViewById(R.id.connect);
+        connectButton = (Button) findViewById(R.id.connect);
+        disconnectButton = (Button) findViewById(R.id.disconnect);
 
-        serverInput.setText(BuildConfig.WEB_HOST);
+        serverInput.setText("http://" + BuildConfig.WEB_HOST);
 
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String server = serverInput.getEditableText().toString();
                 (new LoginTask()).execute(new String[] { server });
+            }
+        });
+
+        disconnectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                (new LogoutTask()).execute();
             }
         });
     }
@@ -91,9 +102,10 @@ public class MainActivity extends Activity {
 
 
      class LoginTask extends AsyncTask<String, Void,  SampleAuthResponse> {
+
         protected SampleAuthResponse doInBackground(String... servers) {
             try {
-                String url = servers[0];
+                String url = servers[0] + "/auth/login";
 
                 MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
@@ -106,9 +118,10 @@ public class MainActivity extends Activity {
                     .build();
                 Response response = client.newCall(request).execute();
                 String json = response.body().string();
+                Log.e("JJ", json);
                 //
                 return new Gson().fromJson(json, SampleAuthResponse.class);
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
 
@@ -121,6 +134,9 @@ public class MainActivity extends Activity {
                 Timber.e("Failed to connect!");
                 return;
             }
+
+            Timber.d("Got token, initializing SDK...");
+
             initSDK(result.host, result.port, result.token);
 
             Account account = ATClient.getAccountService();
@@ -137,7 +153,27 @@ public class MainActivity extends Activity {
                     Timber.e(throwable.getMessage());
                 }
             });
+
+
+            connectButton.setEnabled(false);
+            disconnectButton.setEnabled(true);
         }
+     }
+
+     class LogoutTask extends AsyncTask<Void, Void, Void> {
+         @Override
+         protected Void doInBackground(Void... voids) {
+             // TODO: Logout to revoke token
+             return null;
+         }
+
+         @Override
+         protected void onPostExecute(Void aVoid) {
+             super.onPostExecute(aVoid);
+
+             connectButton.setEnabled(true);
+             disconnectButton.setEnabled(false);
+         }
      }
 
 }

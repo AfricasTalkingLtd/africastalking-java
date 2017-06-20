@@ -127,10 +127,8 @@
 
      private void setupPayment(View root) {
 
-
          final EditText phone = (EditText) root.findViewById(R.id.phone);
          final EditText amount = (EditText) root.findViewById(R.id.amount);
-
 
          amount.setOnEditorActionListener(new TextView.OnEditorActionListener() {
              @Override
@@ -164,6 +162,7 @@
              return;
          }
 
+         Timber.d("Sending Airtime...");
          Airtime airtime = ATClient.getAirtimeService();
          airtime.send(phone, amount, new Callback<String> (){
              @Override
@@ -191,8 +190,8 @@
              return;
          }
 
+         Timber.d("Sending checkout...");
          Payment payment = ATClient.getPaymentService();
-
          payment.checkout(BuildConfig.PAYMENT_PRODUCT, phone, amount, Currency.KES, null, new Callback<String> (){
              @Override
              public void onSuccess(String s) {

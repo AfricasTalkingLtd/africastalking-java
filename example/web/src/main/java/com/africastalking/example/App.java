@@ -5,8 +5,11 @@ import com.africastalking.*;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
+import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,13 +28,19 @@ public class App {
     private static ATServer server;
     private static SMSService sms;
 
-    private static void setupAfricastalking() {
+    private static void setupAfricastalking() throws IOException {
         // SDK Server
         server = new ATServer(RPC_PORT, USERNAME, API_KEY);
+        server.start();
         sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
+
     }
 
-    public static void main(String[] args) throws MalformedURLException {
+    public static void main(String[] args) throws IOException {
+
+        InetAddress host = Inet4Address.getLocalHost();
+
+        System.out.println(String.format("Server: %s:%d", host.getHostAddress(), HTTP_PORT));
 
         setupAfricastalking();
 
@@ -50,9 +59,15 @@ public class App {
         post("/auth/login", (req, res) -> {
             // Check username and password....
             HashMap<String, Object> data = new HashMap<>();
+            data.put("host", host.getHostAddress());
             data.put("port", RPC_PORT);
             data.put("token", server.generateToken());
             return data;
+        }, gson::toJson);
+
+        get("/auth/logout/:token", (req, res) -> {
+            server.revokeToken(req.params("token"));
+            return "{}";
         }, gson::toJson);
 
         // Send SMS on server, or let client send from their end
