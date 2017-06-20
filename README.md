@@ -9,7 +9,7 @@
 
 // Initialize SDK
 AfricasTalking.initialize(USERNAME, API_KEY);
-AfricasTalking.setEnvironment(Environment.SANDBOX); // Environment.PRODUCTION by default
+AfricasTalking.setEnvironment(Environment.PRODUCTION); // Environment.SANDBOX by default
 
 // Initialize a service e.g. SMS
 SMSService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);

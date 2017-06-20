@@ -25,7 +25,7 @@ android {
         versionCode 1
         versionName rootProject.version
 
-        buildConfigField 'String', 'RPC_HOST', "\"192.168.1.73:59123\""
+        buildConfigField 'String', 'WEB_HOST', "\"192.168.1.73:3000\""
         buildConfigField 'String', 'PAYMENT_PRODUCT', "\"TestProduct\""
 
     }
@@ -44,10 +44,6 @@ repositories {
     }
 }
 
-
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
@@ -55,5 +51,5 @@ dependencies {
     compile 'com.jraska:console:0.4.3'
     compile 'com.jraska:console-timber-tree:0.4.3'
 
-    compile "com.africastalking:client:${properties.getProperty("bintray.version")}"
+    compile "com.africastalking:client:+"
 }

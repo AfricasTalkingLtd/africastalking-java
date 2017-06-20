@@ -17,7 +17,7 @@ public final class AfricasTalking {
     private static Format sFormat;
     private static Currency sCurrency;
 
-    static Environment ENV = Environment.PRODUCTION;
+    static Environment ENV = Environment.SANDBOX;
     static Boolean LOGGING = false;
     static Logger LOGGER = new BaseLogger();
 

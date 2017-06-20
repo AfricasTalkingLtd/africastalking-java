@@ -1,8 +1,6 @@
 apply plugin: 'idea'
 apply plugin: 'java'
-apply plugin: 'application'
 apply plugin: 'com.google.protobuf'
-mainClassName = "com.africastalking.SimpleServer"
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
@@ -69,14 +67,3 @@ properties.load(project.rootProject.file('local.properties').newDataInputStream(
 def username = properties.getProperty('username')
 def apiKey = properties.getProperty('apiKey')
 def tokenCount = properties.getProperty('tokenCount')
-
-task runServer(type: JavaExec, dependsOn: classes){
-    def params = new String[3]
-    params[0] = username
-    params[1] = apiKey
-    params[2] = tokenCount
-    args(params)
-    description = "Simple gRPC Server"
-    main = "com.africastalking.SimpleServer"
-    classpath = sourceSets.main.runtimeClasspath
-}

@@ -19,14 +19,7 @@
                 android:id="@+id/server"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="192.168.0.5:8973"/>
-
-        <EditText
-                android:id="@+id/token"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Token"
-                android:layout_weight=".8"/>
+                android:hint="192.168.0.5:3000"/>
     </LinearLayout>
 
     <Button

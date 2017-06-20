@@ -53,11 +53,10 @@ public class MainActivity extends Activity {
     }
 
     private void setupConnect() {
-        final EditText tokenInput = (EditText) findViewById(R.id.token);
         final EditText serverInput = (EditText) findViewById(R.id.server);
         Button connectButton = (Button) findViewById(R.id.connect);
 
-        serverInput.setText(BuildConfig.RPC_HOST);
+        serverInput.setText(BuildConfig.WEB_HOST);
 
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
