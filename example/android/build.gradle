@@ -25,8 +25,7 @@ android {
         versionCode 1
         versionName rootProject.version
 
-        buildConfigField 'String', 'RPC_HOST', "\"192.168.0.119\""
-        buildConfigField 'int', 'RPC_PORT', "59123"
+        buildConfigField 'String', 'RPC_HOST', "\"192.168.1.73:59123\""
         buildConfigField 'String', 'PAYMENT_PRODUCT', "\"TestProduct\""
 
     }
@@ -56,8 +55,5 @@ dependencies {
     compile 'com.jraska:console:0.4.3'
     compile 'com.jraska:console-timber-tree:0.4.3'
 
-    // compile project(":client")
-
-    // TODO: Should be able to do
-   compile "com.africastalking:client:${properties.getProperty("bintray.version")}@aar"
+    compile "com.africastalking:client:${properties.getProperty("bintray.version")}"
 }

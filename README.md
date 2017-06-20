@@ -15,7 +15,6 @@ SMSService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
 // Use the service
 boolean sent = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
 
-
 ```
 
 See [example](example/) for more usage examples.
@@ -23,7 +22,7 @@ See [example](example/) for more usage examples.
 
 **Important**:
 
-- **Remember your API key has to be kept secret, so hard-coding it into an apk or a jar you publish is a security risk.**
+- Remember your API key has to be kept secret, so hard-coding it into an apk or a jar you publish is a security risk, for usage on Android, [read this](doc/ANDROID.md).
 
 - The old `AfricasTalkingGateway` class is still available, but is being phased out! :)
 
@@ -35,28 +34,29 @@ You can also depend on the .jar through Maven (from `http://dl.bintray.com/afric
 <dependency>
   <groupId>com.africastalking</groupId>
   <artifactId>core</artifactId>
-  <version>1.1.1</version>
+  <version>VERSION</version>
 </dependency>
 ```
 or Gradle:
 ```groovy
 repositories {
-    maven {
-        url  "http://dl.bintray.com/africastalking/java"
-    }
+  maven {
+    url  "http://dl.bintray.com/africastalking/java"
+  }
 }
 
-// Get all services
-compile 'com.africastalking:core:1.1.1'
-
-// or get individual services
-compile 'com.africastalking:account:1.1.1'
-compile 'com.africastalking:payments:1.1.1'
-compile 'com.africastalking:airtime:1.1.1'
-compile 'com.africastalking:voice:1.1.1'
-compile 'com.africastalking:sms:1.1.1'
-compile 'com.africastalking:ussd:1.1.1'
-
+dependencies{
+  // Get all services
+  compile 'com.africastalking:core:VERSION'
+  
+  // or get individual services
+  compile 'com.africastalking:account:VERSION'
+  compile 'com.africastalking:payments:VERSION'
+  compile 'com.africastalking:airtime:VERSION'
+  compile 'com.africastalking:voice:VERSION'
+  compile 'com.africastalking:sms:VERSION'
+  compile 'com.africastalking:ussd:VERSION'
+}
 ```
 
 ## Initialization
@@ -79,7 +79,7 @@ All methods return a `String` of `xml` or `json` data based on the specified for
 
 ### `AccountService`
 
-- `getUser()`: Get user info.
+- `getUser()`: Get user information.
 
 ### `AirtimeService`
 
@@ -94,11 +94,11 @@ For more information about status notification, please read [http://docs.africas
 - `send(String message, String[] recipients)`: Send a message
 
 - `sendBulk(String message, String[] recipients)`: Send a message in bulk
-    
+
 - `sendPremium(String message, String keyword, String linkId, String[] recipients)`: Send a premium SMS
 
 - `fetchMessage()`: Fetch your messages
-    
+
 - `fetchSubscription(String shortCode, String keyword)`: Fetch your premium subscription data
 
 - `createSubscription(String shortCode, String keyword, String phoneNumber)`: Create a premium subscription
@@ -141,10 +141,10 @@ For more information, please read [http://docs.africastalking.com/payments](http
     - `reject()`:
     - `redirect()`:
     - `build()`: Build xml
-    
+
 
 For more information, please read [http://docs.africastalking.com/voice](http://docs.africastalking.com/voice)
-    
+​    
 ### `USSDService` *TODO*
 
 For more information, please read [http://docs.africastalking.com/ussd](http://docs.africastalking.com/ussd)
