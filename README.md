@@ -1,7 +1,6 @@
 # Africa's Talking Java SDK
 
-[ ![Download](https://api.bintray.com/packages/africastalking/java/com.africastalking/images/download.svg) ](https://bintray.com/africastalking/java/com.africastalking/_latestVersion)
-
+[ ![Download](https://api.bintray.com/packages/africastalking/java/com.africastalking/images/download.svg?version=1.1.1) ](https://bintray.com/africastalking/java/com.africastalking/1.1.1/link)
 
 ## Usage
 
