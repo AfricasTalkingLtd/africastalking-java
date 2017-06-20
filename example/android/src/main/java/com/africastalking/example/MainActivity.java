@@ -2,6 +2,7 @@ package com.africastalking.example;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.AsyncTask;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
@@ -14,6 +15,13 @@ import com.africastalking.Callback;
 import com.africastalking.ATClient;
 import com.jraska.console.timber.ConsoleTree;
 import timber.log.Timber;
+import com.google.gson.Gson;
+import java.io.IOException;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 public class MainActivity extends Activity {
 
@@ -62,24 +70,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 String server = serverInput.getEditableText().toString();
-                String token = tokenInput.getEditableText().toString();
-                String[] parts = server.split(":");
-                initSDK(parts[0], Integer.parseInt(parts[1]), token);
-
-                Account account = ATClient.getAccountService();
-
-                Timber.d("Getting account...");
-                account.getUser(new Callback<String>() {
-                    @Override
-                    public void onSuccess(String s) {
-                        Timber.i(s);
-                    }
-
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Timber.e(throwable.getMessage());
-                    }
-                });
+                (new LoginTask()).execute(new String[] { server });
             }
         });
     }
@@ -91,6 +82,62 @@ public class MainActivity extends Activity {
 
          PagerTabStrip strip = (PagerTabStrip) findViewById(R.id.tabStrip);
          strip.setTabIndicatorColorResource(R.color.accent);
+     }
+
+     public static class SampleAuthResponse {
+         public String token, host;
+         public int port;
+     }
+
+
+     class LoginTask extends AsyncTask<String, Void,  SampleAuthResponse> {
+        protected SampleAuthResponse doInBackground(String... servers) {
+            try {
+                String url = servers[0];
+
+                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+                OkHttpClient client = new OkHttpClient();
+
+                RequestBody body = RequestBody.create(JSON, "{ \"username\": \"aaa\", password: \"pwd\" }");
+                Request request = new Request.Builder()
+                    .url(url)
+                    .post(body)
+                    .build();
+                Response response = client.newCall(request).execute();
+                String json = response.body().string();
+                //
+                return new Gson().fromJson(json, SampleAuthResponse.class);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            return null;
+        }
+
+
+        protected void onPostExecute(SampleAuthResponse result) {
+            if (result == null) {
+                Timber.e("Failed to connect!");
+                return;
+            }
+            initSDK(result.host, result.port, result.token);
+
+            Account account = ATClient.getAccountService();
+
+            Timber.d("Getting account...");
+            account.getUser(new Callback<String>() {
+                @Override
+                public void onSuccess(String s) {
+                    Timber.i(s);
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    Timber.e(throwable.getMessage());
+                }
+            });
+        }
      }
 
 }

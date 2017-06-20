@@ -50,6 +50,7 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     compile 'com.jraska:console:0.4.3'
     compile 'com.jraska:console-timber-tree:0.4.3'
+    compile 'com.google.code.gson:gson:2.8.0'
 
     compile "com.africastalking:client:+"
 }
