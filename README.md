@@ -1,4 +1,4 @@
-# Africa's Talking Java SDK
+# Africa's Talking
 
 [ ![Download](https://api.bintray.com/packages/africastalking/java/com.africastalking/images/download.svg?version=1.1.1) ](https://bintray.com/africastalking/java/com.africastalking/1.1.1/link)
 
@@ -23,14 +23,13 @@ See [example](example/) for more usage examples.
 
 **Important**:
 
-- Remember your API key has to be kept secret, so hard-coding it into an apk or a jar you publish is a security risk, for usage on Android, [read this](doc/ANDROID.md).
+- Remember your API key has to be kept secret, so hard-coding it into an apk or a jar you publish is a security risk. For usage on Android, [read this](doc/ANDROID.md).
 
 - The old `AfricasTalkingGateway` class is still available, but is being phased out! :)
 
 ## Download
 
-Downloadable .jars can be found on the [GitHub download page](releases).
-You can also depend on the .jar through Maven (from `http://dl.bintray.com/africastalking/java`):
+You can depend on the .jar through Maven (from `http://dl.bintray.com/africastalking/java`):
 ```xml
 <dependency>
   <groupId>com.africastalking</groupId>
@@ -146,7 +145,7 @@ For more information, please read [http://docs.africastalking.com/payments](http
 
 For more information, please read [http://docs.africastalking.com/voice](http://docs.africastalking.com/voice)
 ​    
-### `USSDService` *TODO*
+### `USSDService` *TODO?*
 
 For more information, please read [http://docs.africastalking.com/ussd](http://docs.africastalking.com/ussd)
 

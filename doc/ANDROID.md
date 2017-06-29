@@ -1,40 +1,99 @@
-# Africa's Talking Java SDK
+# Africa's Talking
 
 [ ![Download](https://api.bintray.com/packages/africastalking/java/com.africastalking/images/download.svg) ](https://bintray.com/africastalking/java/com.africastalking/_latestVersion)
 
-I recommend using the client/server setup of the SDK to avoid hardcoding your username and API key into the distributed APK. The client would need a token to authenticate to the server. This token can be generated on login (or whenever your app authenticates users).
+I recommend using the client/server config to avoid hard-coding your username and API key into the distributed APK.
+The client would need a token to authenticate to the server.
+This token can be generated on login (or whenever/however your app authenticates its users).
 
 ## Usage 
 
 ```java
-/* On The App */
+/* On The Client (Android) */
 
-// 1. Get TOKEN out-of-band (e.g. on login)
-String token = some_function();
+public class SomeActivity extends Activity {
 
-// 2. Initialize SDK
-ATClient.initialize(host, port, token);
+    public String some_login_function(username, password);
 
-// 3. Initialize a service e.g. SMS
-SMS sms = ATClient.getSmsService();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(args)
+        setContentView(R.layout.some_activity);
 
-// Use the service
-boolean sent = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
+        // 1. Get auth token 
+        String token = some_login_function("usr", "pwd");
+
+        // 2. Initialize client with your server's configs + token
+        ATClient.initialize(HOST, PORT, token);
+
+        // 3. Use the library e.g. checkout then send sms
+        Payment payment = ATClient.getPaymentService();
+        payment.checkout("AwesomeProduct", "+2547xxxxxx", Currency.KES, new Callback<String>(){
+            @Override
+             public void onSuccess(String response) {
+                 Log.d(response); // json or xml depending on how you setup the server
+             }
+
+             @Override
+             public void onFailure(Throwable throwable) {
+                 Log.e(throwable.getMessage());
+             }
+        });
+
+        SMS sms = ATClient.getSmsService();
+        sms.send("Hello There!", new String[] {"+2547xxxxxx", "+2439xxxxxx"}, new Callback<String>() {
+            @Override
+             public void onSuccess(String response) {
+                 Log.d(response); // json or xml depending on how you setup the server
+             }
+
+             @Override
+             public void onFailure(Throwable throwable) {
+                 Log.e(throwable.getMessage());
+             }
+        });
+    }
+}
 
 
 
 
-/* On The Server (Java) */
-ATServer server = new ATServer(port, username, apiKey);
-server.start();
-// optionally block until server is shutdown
-server.blockUntilShutdown();
+/* On The Server (Java, Node.js, PHP, C/C++, C# and all languages supported by protobuf.) */
 
-// On request (e.g. login), issue a token to be used by the client
-String token = server.generateToken();
+public class SomeJavaApplication {
 
-// Later you can revoke the token (e.g. logout)
-server.revokeToken(token);
+    public static void main(String[] args) {
+
+        // 1. Initialize the server
+        ATServer mATServer = new ATServer(PORT, "USERNAME", "API_KEY");
+
+        // 2. Start the server
+        mATServer.start();
+
+
+        get("/", (req, res) -> Render("Home"));
+
+        get("/account", (req, res) -> Render("Account"));
+
+        post("/login", (req, res) -> {
+            boolean authenticated = login(req);
+            if (!authenticated) {
+                return res.sendUnauthorized();
+            }
+
+            String token = mATServer.
+        });
+
+        post("/logout", (req, res) -> {
+            // end some user session...
+            req.session.destroy();
+
+            // Revoke their token
+            String token = req.body.get("token");
+            mATServer.revokeToken(token)
+        });
+    }
+}
 
 ```
 
