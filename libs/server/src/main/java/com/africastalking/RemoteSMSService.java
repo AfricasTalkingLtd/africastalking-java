@@ -14,6 +14,13 @@ public class RemoteSMSService extends RemoteSMSImplBase implements IAuthenticato
         service = AfricasTalking.getService(SMSService.class);
     }
 
+
+    private String getSenderId(SendRequest request) {
+        String senderId = request.getFrom();
+        if (senderId.compareToIgnoreCase("") == 0) { return null; }
+        return senderId;
+    }
+
     @Override
     public boolean isValidToken(Base.Token token, StreamObserver<Base.Response> responseObserver) {
         if (!ATServer.authenticate(token.getId())){
@@ -88,7 +95,8 @@ public class RemoteSMSService extends RemoteSMSImplBase implements IAuthenticato
         for(int i = 0; i < recipients.length; i++) {
             recipients[i] = request.getRecipients(i);
         }
-        service.send(request.getMessage(), request.getFrom(), recipients, new Callback<String>() {
+
+        service.send(request.getMessage(), getSenderId(request), recipients, new Callback<String>() {
             @Override
             public void onSuccess(String data) {
                 Base.Response resp = Base.Response.newBuilder().setResponse(data).build();
@@ -111,7 +119,7 @@ public class RemoteSMSService extends RemoteSMSImplBase implements IAuthenticato
         for(int i = 0; i < recipients.length; i++) {
             recipients[i] = request.getRecipients(i);
         }
-        service.sendBulk(request.getMessage(), request.getFrom(), request.getEnqueue(), recipients, new Callback<String>() {
+        service.sendBulk(request.getMessage(), getSenderId(request), request.getEnqueue(), recipients, new Callback<String>() {
             @Override
             public void onSuccess(String data) {
                 Base.Response resp = Base.Response.newBuilder().setResponse(data).build();
@@ -134,7 +142,7 @@ public class RemoteSMSService extends RemoteSMSImplBase implements IAuthenticato
         for(int i = 0; i < recipients.length; i++) {
             recipients[i] = request.getRecipients(i);
         }
-        service.sendPremium(request.getMessage(), request.getFrom(), request.getKeyword(),
+        service.sendPremium(request.getMessage(), getSenderId(request), request.getKeyword(),
                 request.getLinkId(), request.getRetryDurationInHours(), recipients, new Callback<String>() {
                     @Override
                     public void onSuccess(String data) {

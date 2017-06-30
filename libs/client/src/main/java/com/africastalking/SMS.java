@@ -131,11 +131,11 @@ public final class SMS {
     }
 
     public String send(String message, String[] recipients) throws IOException {
-        return send(message, null, recipients);
+        return send(message, "", recipients);
     }
 
     public void send(String message, String[] recipients, Callback<String> callback) {
-        send(message, null, recipients, callback);
+        send(message, "", recipients, callback);
     }
 
     public String send(String message, String from, String[] recipients) throws IOException {
