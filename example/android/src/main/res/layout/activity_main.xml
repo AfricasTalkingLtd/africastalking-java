@@ -7,42 +7,54 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity"
-        android:layout_weight="12">
+    android:layout_weight="12">
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="5dp">
+            android:orientation="horizontal"
+            android:padding="3dp">
 
         <EditText
                 android:id="@+id/server"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight=".9"
                 android:gravity="center"
                 android:hint="192.168.0.5:3000"/>
 
-        <LinearLayout
-                android:layout_width="match_parent"
+        <Button
+                android:id="@+id/connect"
+                android:layout_width="wrap_content"
+                android:layout_weight=".1"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-            <Button
-                    android:id="@+id/connect"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Connect"
-                    android:layout_margin="15dp"/>
-            <Button
-                    android:enabled="false"
-                    android:id="@+id/disconnect"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="Disconnect"
-                    android:layout_margin="15dp"/>
-        </LinearLayout>
+                android:text="Connect"
+                android:layout_margin="15dp"
+                style="?android:attr/borderlessButtonStyle"/>
+
+        <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal">-->
+            <!--<Button-->
+                    <!--android:id="@+id/connect"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Connect"-->
+                    <!--android:layout_margin="15dp" -->
+                    <!--style="?android:attr/borderlessButtonStyle"/>-->
+            <!--<Button-->
+                    <!--android:enabled="false"-->
+                    <!--android:id="@+id/disconnect"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Disconnect"-->
+                    <!--android:layout_margin="15dp"-->
+                    <!--style="?android:attr/borderlessButtonStyle"/>-->
+        <!--</LinearLayout>-->
 
     </LinearLayout>
 
@@ -67,6 +79,6 @@
             android:id="@+id/console"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".4"/>
+            android:layout_weight=".6"/>
 
 </LinearLayout>

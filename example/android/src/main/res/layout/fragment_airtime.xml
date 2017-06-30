@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:inputType="phone"
             android:hint="@string/phone_number"
-            android:padding="15dp"/>
+            android:padding="8dp"/>
 
 
     <EditText
@@ -23,16 +23,16 @@
             android:inputType="numberDecimal"
             android:hint="Amount e.g. 49999.99"
             android:imeOptions="actionSend"
-            android:padding="15dp"/>
+            android:padding="8dp"/>
 
 
     <Button
             android:id="@+id/btnSend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
+            android:layout_margin="8dp"
             android:text="Send"
-            style="@android:style/Widget.Material.Light.Button"/>
+            style="?android:attr/borderlessButtonStyle"/>
 
 
 

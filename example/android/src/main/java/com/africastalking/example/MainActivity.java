@@ -26,10 +26,11 @@ import okhttp3.RequestBody;
 
 public class MainActivity extends Activity {
 
-    Button connectButton, disconnectButton;
+    Button connectButton;
+    // Button disconnectButton;
 
     static {
-        Timber.plant(new ConsoleTree());
+        Timber.plant(new ConsoleTree.Builder().build());
     }
 
 
@@ -66,7 +67,7 @@ public class MainActivity extends Activity {
     private void setupConnect() {
         final EditText serverInput = (EditText) findViewById(R.id.server);
         connectButton = (Button) findViewById(R.id.connect);
-        disconnectButton = (Button) findViewById(R.id.disconnect);
+        // disconnectButton = (Button) findViewById(R.id.disconnect);
 
         serverInput.setText("http://" + BuildConfig.WEB_HOST);
 
@@ -78,12 +79,12 @@ public class MainActivity extends Activity {
             }
         });
 
-        disconnectButton.setOnClickListener(new View.OnClickListener() {
+        /*disconnectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 (new LogoutTask()).execute();
             }
-        });
+        });*/
     }
 
 
@@ -156,7 +157,7 @@ public class MainActivity extends Activity {
 
 
             connectButton.setEnabled(false);
-            disconnectButton.setEnabled(true);
+            //disconnectButton.setEnabled(true);
         }
      }
 
@@ -172,7 +173,7 @@ public class MainActivity extends Activity {
              super.onPostExecute(aVoid);
 
              connectButton.setEnabled(true);
-             disconnectButton.setEnabled(false);
+             //disconnectButton.setEnabled(false);
          }
      }
 

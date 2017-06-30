@@ -11,7 +11,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="10dp">
 
             <EditText
                     android:id="@+id/phone"
@@ -19,16 +19,16 @@
                     android:layout_height="wrap_content"
                     android:inputType="phone"
                     android:hint="@string/phone_number"
-                    android:padding="15dp"/>
+                    android:padding="8dp"/>
 
             <EditText
                     android:id="@+id/message"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="45dp"
                     android:inputType="textAutoComplete"
                     android:hint="@string/message"
                     android:maxLines="10"
-                    android:padding="10dp"
+                    android:padding="8dp"
                     android:gravity="top|left"
                     android:imeOptions="actionSend"/>
 
@@ -36,9 +36,9 @@
                     android:id="@+id/btnSend"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
+                    android:layout_margin="8dp"
                     android:text="Send"
-                    style="@android:style/Widget.Material.Button"/>
+                    style="?android:attr/borderlessButtonStyle"/>
 
 
 

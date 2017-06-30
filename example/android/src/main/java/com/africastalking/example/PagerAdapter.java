@@ -218,7 +218,7 @@
 
          Timber.d("Sending SMS...");
          SMS sms = ATClient.getSmsService();
-         sms.send(text, new String[]{number}, new Callback<String>() {
+         sms.send(text, "AT2FA", new String[]{number}, new Callback<String>() {
              @Override
              public void onSuccess(String s) {
                  Timber.i(s);
