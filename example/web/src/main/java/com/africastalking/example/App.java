@@ -71,7 +71,7 @@ public class App {
         }, gson::toJson);
 
         // Send SMS on server, or let client send from their end
-        post("/auth/register/:phone", (req, res) -> sms.send("Welcome to Awesome Company", new String[] {req.params("phone")}));
+        post("/auth/register/:phone", (req, res) -> sms.send("Welcome to Awesome Company", "AT2FA", new String[] {req.params("phone")}));
     }
 
     private static String render(String view, Map data) {

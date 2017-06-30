@@ -2,14 +2,18 @@
 
 $(function () {
 
+
     function log(message) {
         $("#response").text(message);
+        $('pre span').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
     }
 
     $("#signUp").click(() => {
         let phone = $("#phone").val();
         if (!phone) {
-            log("Enter phone number!");
+            log(JSON.stringify({ error: "Enter a phone number"}, null, 2));
             return;
         }
 
@@ -17,9 +21,9 @@ $(function () {
 
         $.ajax({
             type: "POST",
-            url: `/register/${phone}`,
+            url: `/auth/register/${phone}`,
             success: (resp) => {
-                log(resp);
+                log(JSON.stringify(JSON.parse(resp), null, 2));
             }
         });
 
