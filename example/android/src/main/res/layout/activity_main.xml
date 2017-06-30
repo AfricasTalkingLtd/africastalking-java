@@ -21,7 +21,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight=".9"
-                android:gravity="center"
                 android:hint="192.168.0.5:3000"/>
 
         <Button
