@@ -108,8 +108,11 @@ public class PaymentsService extends Service {
         HashMap<String, Object> body = makeCheckoutRequest(productName, phoneNumber, amount, currency, metadata);
 
         Call<String> call = payment.checkout(body);
-        Response<String> res = call.execute();
-        return res.body();
+        Response<String> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            return resp.message();
+        }
+        return resp.body();
 
     }
 
@@ -155,8 +158,11 @@ public class PaymentsService extends Service {
     public String payConsumers(String product, List<Consumer> recipients) throws IOException {
         HashMap<String, Object> body = makeB2CRequest(product, recipients);
         Call<String> call = payment.requestB2C(body);
-        Response<String> res = call.execute();
-        return res.body();
+        Response<String> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            return resp.message();
+        }
+        return resp.body();
     }
 
     public String payConsumer(String product, Consumer recipient) throws IOException {
@@ -195,7 +201,5 @@ public class PaymentsService extends Service {
         Call<String> call = payment.requestB2B(body);
         call.enqueue(makeCallback(callback));
     }
-
-
 
 }

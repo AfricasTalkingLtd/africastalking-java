@@ -84,6 +84,9 @@ public final class SMSService extends Service {
      */
     public String send(String message, String from, String[] recipients) throws IOException {
         Response<String> resp = sms.send(mUsername, formatRecipients(recipients), from, message).execute();
+        if (!resp.isSuccessful()) {
+            return resp.message();
+        }
         return resp.body();
     }
 
@@ -150,6 +153,10 @@ public final class SMSService extends Service {
         Response<String> resp = sms.sendBulk(mUsername,
                 formatRecipients(recipients), from, message,
                 1, enqueue ? "1":null).execute();
+
+        if (!resp.isSuccessful()) {
+            return resp.message();
+        }
         return resp.body();
     }
 
@@ -279,6 +286,9 @@ public final class SMSService extends Service {
     public String sendPremium(String message, String from, String keyword, String linkId, long retryDurationInHours, String[] recipients) throws IOException {
         String retryDuration = retryDurationInHours <= 0 ? null : String.valueOf(retryDurationInHours);
         Response<String> resp = sms.sendPremium(mUsername, formatRecipients(recipients), from, message, keyword, linkId, retryDuration).execute();
+        if (!resp.isSuccessful()) {
+            return resp.message();
+        }
         return resp.body();
     }
 
@@ -416,6 +426,9 @@ public final class SMSService extends Service {
      */
     public String fetchMessage(String lastReceivedId) throws IOException {
         Response<String> resp = sms.fetchMessage(mUsername, lastReceivedId).execute();
+        if (!resp.isSuccessful()) {
+            return resp.message();
+        }
         return resp.body();
     }
 
@@ -471,6 +484,9 @@ public final class SMSService extends Service {
      */
     public String fetchSubscription(String shortCode, String keyword, String lastReceivedId) throws IOException {
         Response<String> resp = sms.fetchSubsciption(mUsername, shortCode, keyword, lastReceivedId).execute();
+        if (!resp.isSuccessful()) {
+            return resp.message();
+        }
         return resp.body();
     }
 
@@ -534,6 +550,9 @@ public final class SMSService extends Service {
      */
     public String createSubscription(String shortCode, String keyword, String phoneNumber) throws IOException {
         Response<String> resp = sms.createSubscription(mUsername, shortCode, keyword, phoneNumber).execute();
+        if (!resp.isSuccessful()) {
+            return resp.message();
+        }
         return resp.body();
     }
 

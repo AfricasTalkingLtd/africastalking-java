@@ -27,4 +27,6 @@ message Consumer {
     string reason = 3;
     map<string, string> metadata = 4;
     Currency currency = 5;
+    string name = 6;
+    string providerChannel = 7;
 }

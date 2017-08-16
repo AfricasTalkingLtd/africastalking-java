@@ -25,7 +25,7 @@ android {
         versionCode 1
         versionName rootProject.version
 
-        buildConfigField 'String', 'WEB_HOST', "\"localhost:3000\""
+        buildConfigField 'String', 'WEB_HOST', "\"192.168.1.253:3000\""
         buildConfigField 'String', 'PAYMENT_PRODUCT', "\"TestProduct\""
 
     }

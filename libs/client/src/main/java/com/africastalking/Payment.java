@@ -83,11 +83,13 @@ public final class Payment {
         List<Base.Consumer> consumers = new ArrayList<>();
         for (Consumer recipient:recipients) {
             Base.Consumer consumer = Base.Consumer.newBuilder()
+                    .setName(recipient.name)
                     .setAmount(recipient.amount)
                     .setPhoneNumber(recipient.phoneNumber)
                     .setReason(recipient.reason.toString())
                     .putAllMetadata(recipient.metadata)
                     .setCurrency(Base.Currency.newBuilder().setText(recipient.currencyCode.toString()).build())
+                    .setProviderChannel(recipient.providerChannel)
                     .build();
             consumers.add(consumer);
         }

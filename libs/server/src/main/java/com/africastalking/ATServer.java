@@ -5,6 +5,7 @@ import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import org.hashids.Hashids;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -18,51 +19,47 @@ public class ATServer {
     private static Logger LOGGER = new BaseLogger();
 
     private Server server;
-    private int port;
     private static HashSet<String> tokenStore = new HashSet<>(); // FIXME: Find a scalable solution
 
     private static Hashids hashids = new Hashids(UUID.randomUUID().toString());
 
-    public ATServer(int port, String username, String apiKey, Format format, Environment environment, Logger logger) {
-        AfricasTalking.initialize(username, apiKey, format);
+    public ATServer(String username, String apiKey, Environment environment, Logger logger) {
+        AfricasTalking.initialize(username, apiKey, Format.JSON);
         AfricasTalking.setEnvironment(environment);
         AfricasTalking.setLogger(logger);
         if (logger != null) {
             LOGGER = logger;
         }
-        initServer(port);
     }
 
-    public ATServer(int port, String username, String apiKey, Format format, Environment environment) {
-        this(port, username, apiKey, format, environment, null);
-    }
-
-    public ATServer(int port, String username, String apiKey, Format format) {
-        this(port, username, apiKey, format, Environment.SANDBOX, null);
-    }
-
-    public ATServer(int port, String username, String apiKey) {
-        this(port, username, apiKey, Format.JSON, Environment.SANDBOX, null);
+    public ATServer(String username, String apiKey, Environment environment) {
+        this(username, apiKey, environment, null);
     }
 
     public ATServer(String username, String apiKey) {
-        this(DEFAULT_PORT, username, apiKey, Format.JSON, Environment.SANDBOX, null);
-    }
-
-
-    private void initServer(int port) {
-        this.port = port;
-        server = ServerBuilder.forPort(port)
-                // TODO: TLS Auth
-                .addService(new RemoteAccountService())
-                .addService(new RemotePaymentService())
-                .addService(new RemoteSMSService())
-                .addService(new RemoteAirtimeService())
-                .build();
-
+        this(username, apiKey, Environment.PRODUCTION, null);
     }
 
     public void start() throws IOException {
+        this.start(DEFAULT_PORT, null, null);
+    }
+
+
+    public void start(int port, File certChainFile, File privateKeyFile) throws IOException {
+
+        ServerBuilder builder = ServerBuilder.forPort(port)
+                .addService(new RemoteAirtimeService())
+                .addService(new RemotePaymentService())
+                .addService(new RemoteSMSService())
+                .addService(new RemoteAirtimeService());
+
+        if (certChainFile != null && privateKeyFile != null) {
+            builder.useTransportSecurity(certChainFile, privateKeyFile);
+        }
+
+        server = builder.build();
+
+
         server.start();
         Enumeration<NetworkInterface> ifaces = NetworkInterface.getNetworkInterfaces();
         LOGGER.log("Server started...");

@@ -114,6 +114,9 @@ public final class VoiceService extends Service {
     public String fetchQueuedCalls(String phoneNumber) throws IOException {
         Call<String> call = voice.queueStatus(mUsername, phoneNumber);
         Response<String> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            return resp.message();
+        }
         return resp.body();
     }
 
@@ -131,7 +134,8 @@ public final class VoiceService extends Service {
                 if (success) {
                     callback.onSuccess(response.body());
                 } else {
-                    callback.onFailure(new Exception(response.body()));
+                    String body = response.body();
+                    callback.onFailure(new Exception(body != null ? body : response.message()));
                 }
             }
 

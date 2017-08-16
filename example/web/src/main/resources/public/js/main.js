@@ -23,7 +23,11 @@ $(function () {
             type: "POST",
             url: `/auth/register/${phone}`,
             success: (resp) => {
-                log(JSON.stringify(JSON.parse(resp), null, 2));
+                try {
+                    log(JSON.stringify(JSON.parse(resp), null, 2));
+                } catch (ex) {
+                    log(resp);
+                }
             }
         });
 

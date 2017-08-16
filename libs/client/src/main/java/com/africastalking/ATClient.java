@@ -6,7 +6,7 @@ import io.grpc.ManagedChannelBuilder;
 public class ATClient {
 
     private static String HOST;
-    private static int PORT = -1;
+    private static int PORT = 59123;
     static String TOKEN;
 
     private static ManagedChannel CHANNEL;
@@ -25,6 +25,10 @@ public class ATClient {
         CHANNEL = null;
     }
 
+    public static void initialize(String host, String token) {
+        initialize(host, PORT, token);
+    }
+
     static ManagedChannel getChannel() {
         if (HOST == null || PORT == -1) throw new RuntimeException("call ATClient.initialize(host, port, token) first");
         if (CHANNEL == null) {
@@ -36,6 +40,10 @@ public class ATClient {
         return CHANNEL;
     }
 
+    /**
+     *
+     * @return
+     */
     public static Account getAccountService() {
         if (account == null) {
             account = new Account();
@@ -43,6 +51,11 @@ public class ATClient {
         return account;
     }
 
+
+    /**
+     *
+     * @return
+     */
     public static Payment getPaymentService() {
         if (payment == null) {
             payment = new Payment();
@@ -50,6 +63,10 @@ public class ATClient {
         return payment;
     }
 
+    /**
+     *
+     * @return
+     */
     public static SMS getSmsService() {
         if (sms == null) {
             sms = new SMS();
@@ -57,6 +74,11 @@ public class ATClient {
         return sms;
     }
 
+
+    /**
+     *
+     * @return
+     */
     public static Airtime getAirtimeService() {
         if (airtime == null) {
             airtime = new Airtime();

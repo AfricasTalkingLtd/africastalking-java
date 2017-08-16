@@ -103,6 +103,9 @@ public final class AirtimeService extends Service {
     public String send(HashMap<String, Float> recipients) throws IOException {
         String json = _makeRecipientsJSON(recipients);
         Response<String> resp = service.send(mUsername, json).execute();
+        if (!resp.isSuccessful()) {
+            return resp.message();
+        }
         return resp.body();
     }
 

@@ -19,8 +19,8 @@ public class App {
 
     private static final int HTTP_PORT = 3000;
     private static final int RPC_PORT = 3001;
-    private static final String USERNAME = "at2fa";
-    private static final String API_KEY = "8c940cd77db666ca100e9dd0d784191ada2ee3eaa1d0a952170a68595313f4ab";
+    private static final String USERNAME = "sandbox";
+    private static final String API_KEY = "766ec9a0969a8a994a894c26e992e3333211d37836d2488c24d3e37266643ab4";
 
     private static Gson gson = new Gson();
 
@@ -28,10 +28,14 @@ public class App {
     private static ATServer server;
     private static SMSService sms;
 
+    private static void log(String message) {
+        System.out.println(message);
+    }
+
     private static void setupAfricastalking() throws IOException {
         // SDK Server
-        server = new ATServer(RPC_PORT, USERNAME, API_KEY);
-        server.start();
+        server = new ATServer(USERNAME, API_KEY, Environment.SANDBOX);
+        server.start(RPC_PORT, null, null);
         sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
 
     }
@@ -39,8 +43,7 @@ public class App {
     public static void main(String[] args) throws IOException {
 
         InetAddress host = Inet4Address.getLocalHost();
-
-        System.out.println(String.format("Server: %s:%d", host.getHostAddress(), HTTP_PORT));
+        log(String.format("Server: %s:%d", host.getHostAddress(), HTTP_PORT));
 
         setupAfricastalking();
 

@@ -93,10 +93,12 @@ class RemotePaymentService extends RemotePaymentImplBase implements IAuthenticat
         List<Consumer> consumers = new ArrayList<>();
         for (Base.Consumer recipient: recipients) {
             Consumer consumer = new Consumer(
+                    recipient.getName(),
                     recipient.getPhoneNumber(),
                     Currency.valueOf(recipient.getCurrency().getText()),
                     recipient.getAmount()
             );
+            consumer.providerChannel = recipient.getProviderChannel();
             consumer.reason = Consumer.Reason.valueOf(recipient.getReason());
             consumer.metadata = new HashMap<>(recipient.getMetadataMap());
             consumers.add(consumer);
