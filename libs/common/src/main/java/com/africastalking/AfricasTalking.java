@@ -1,6 +1,5 @@
 package com.africastalking;
 
-
 public final class AfricasTalking {
 
     private static final String BASE_PACKAGE = AfricasTalking.class.getPackage().getName();
@@ -14,28 +13,23 @@ public final class AfricasTalking {
 
 
     private static String sUsername, sApiKey;
-    private static Format sFormat;
-    private static Currency sCurrency;
 
-    static Environment ENV = Environment.SANDBOX;
-    static Boolean LOGGING = false;
-    static Logger LOGGER = new BaseLogger();
-
+    
     /**
      * Initialize the SDK
      * @param username
      * @param apiKey
      * @param format
      */
-    public static void initialize(String username, String apiKey, Format format, Currency currency) {
+    public static void initialize(String username, String apiKey, boolean sandbox){
 
         destroyAllServices();
 
         // Init
         sUsername = username;
         sApiKey = apiKey;
-        sFormat = format;
-        sCurrency = currency;
+        
+        Service.isSandbox = sandbox;
     }
 
     /**
@@ -44,34 +38,8 @@ public final class AfricasTalking {
      * @param apiKey
      * @param format
      */
-    public static void initialize(String username, String apiKey, Format format) {
-        initialize(username, apiKey, format, Currency.KES);
-    }
-
-    /**
-     *
-     * @param username
-     * @param apiKey
-     */
     public static void initialize(String username, String apiKey) {
-        initialize(username, apiKey, Format.XML, Currency.KES);
-    }
-
-
-    /**
-     * Define environment
-     * @param env
-     */
-    public static void setEnvironment(Environment env) {
-        ENV = env;
-    }
-
-    /**
-     * Enable/Disable logging
-     * @param enable
-     */
-    public static void enableLogging(boolean enable) {
-        LOGGING = enable;
+        initialize(username, apiKey, false);
     }
 
     /**
@@ -79,10 +47,7 @@ public final class AfricasTalking {
      * @param logger
      */
     public static void setLogger(Logger logger) {
-        if (logger != null) {
-            enableLogging(true);
-        }
-        LOGGER = logger;
+        Service.LOGGER = logger;
     }
 
     /**
@@ -98,7 +63,7 @@ public final class AfricasTalking {
             if (sApiKey == null || sUsername == null) {
                 return raw;
             }
-            return (T)raw.getInstance(sUsername, sApiKey, sFormat, sCurrency);
+            return (T)raw.getInstance(sUsername, sApiKey);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

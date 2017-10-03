@@ -52,10 +52,10 @@ public final class VoiceService extends Service {
      * @return
      * @throws IOException
      */
-    public boolean call(String to, String from) throws IOException {
+    public String call(String to, String from) throws IOException {
         Call<String> call = voice.call(mUsername, to, from);
         Response<String> resp = call.execute();
-        return resp.code() == 201;
+        return resp.body();
     }
 
     /**
@@ -64,7 +64,7 @@ public final class VoiceService extends Service {
      * @return
      * @throws IOException
      */
-    public boolean call(String to) throws IOException {
+    public String call(String to) throws IOException {
         return call(to, "");
     }
 
@@ -75,14 +75,14 @@ public final class VoiceService extends Service {
      * @param from
      * @param callback
      */
-    public void call(String to, String from, final Callback<Boolean> callback) {
+    public void call(String to, String from, final Callback<String> callback) {
         Call<String> call = voice.call(mUsername, to, from);
         call.enqueue(new retrofit2.Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 boolean success = response.code() == 201;
                 if (success) {
-                    callback.onSuccess(true);
+                    callback.onSuccess(response.body());
                 }else {
                     callback.onFailure(new Exception(response.body()));
                 }
@@ -100,7 +100,7 @@ public final class VoiceService extends Service {
      * @param to
      * @param callback
      */
-    public void call(String to, Callback<Boolean> callback) {
+    public void call(String to, Callback<String> callback) {
         call(to, "", callback);
     }
 

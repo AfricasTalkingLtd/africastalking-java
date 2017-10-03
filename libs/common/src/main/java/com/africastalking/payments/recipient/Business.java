@@ -1,7 +1,5 @@
 package com.africastalking.payments.recipient;
 
-import com.africastalking.Currency;
-
 import java.util.HashMap;
 
 public class Business {
@@ -43,7 +41,7 @@ public class Business {
 
     }
 
-    public Currency currencyCode;
+    public String currencyCode;
     public float amount;
     public String provider = Provider.ATHENA.toString();
     public String transferType;
@@ -51,12 +49,14 @@ public class Business {
     public String destinationAccount = null;
     public HashMap<String, String> metadata = new HashMap<>();
 
-    public Business(String destinationChannel, String destinationAccount, TransferType transferType, Currency currency, float amount) {
+    public Business(String destinationChannel, String destinationAccount, TransferType transferType, String amount) {
         this.transferType = transferType.toString();
         this.destinationChannel = destinationChannel;
         this.destinationAccount = destinationAccount;
-        this.currencyCode = currency;
-        this.amount = amount;
+
+        String[] currenyParts = amount.trim().split(" ");
+        this.currencyCode = currencyParts[0];
+        this.amount = Float.parse(currenyParts[1]);
     }
 
 }
