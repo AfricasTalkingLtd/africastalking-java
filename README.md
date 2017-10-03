@@ -63,11 +63,7 @@ dependencies{
 
 The following static methods are available on the `AfricasTalking` class to initialize the library:
 
-- `initialize(USERNAME, API_KEY, Format = XML, Currency = KES)`: Initialize the library.
-
-- `setEnvironment(Environment = PRODUCTION)`: Define environment. Can either be `Environment.SANDBOX` or `Environment.PRODUCTION` (by default)
-
-- `enableLogging(bool)`: Enable or disable request logging.
+- `initialize(string username, String apiKey)`: Initialize the library.
 
 - `setLogger(Logger)`: Set logging object.
 
@@ -75,7 +71,7 @@ The following static methods are available on the `AfricasTalking` class to init
 
 ## Services
 
-All methods return a `String` of `xml` or `json` data based on the specified format. All methods are synchronous (i.e. will block current thread) but provide asynchronous variants that take a `Callback<String>` as the last argument.
+All methods return a `String` of `json` data. All methods are synchronous (i.e. will block current thread) but provide asynchronous variants that take a `Callback<String>` as the last argument.
 
 ### `AccountService`
 
@@ -83,9 +79,9 @@ All methods return a `String` of `xml` or `json` data based on the specified for
 
 ### `AirtimeService`
 
-- `send(String phone, float amount)`: Send airtime to a phone number.
+- `send(String phone, String amount)`: Send airtime to a phone number. Example amount would be `KES 150`.
 
-- `send(HashMap<String,Float> recipients)`: Send airtime to a bunch of phone numbers. The keys in the `recipients` map are phone numbers while the values are aitrime amounts.
+- `send(HashMap<String,String> recipients)`: Send airtime to a bunch of phone numbers. The keys in the `recipients` map are phone numbers while the values are aitrime amounts. The amounts need to have currency info e.g. `UXG 4265`.
 
 For more information about status notification, please read [http://docs.africastalking.com/airtime/callback](http://docs.africastalking.com/airtime/callback)
 

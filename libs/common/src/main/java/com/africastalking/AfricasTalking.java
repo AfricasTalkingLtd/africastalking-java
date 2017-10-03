@@ -21,25 +21,14 @@ public final class AfricasTalking {
      * @param apiKey
      * @param format
      */
-    public static void initialize(String username, String apiKey, boolean sandbox){
+    public static void initialize(String username, String apiKey){
 
         destroyAllServices();
 
         // Init
         sUsername = username;
         sApiKey = apiKey;
-        
-        Service.isSandbox = sandbox;
-    }
-
-    /**
-     *
-     * @param username
-     * @param apiKey
-     * @param format
-     */
-    public static void initialize(String username, String apiKey) {
-        initialize(username, apiKey, false);
+        Service.isSandbox = username.toLowerCase().contentEquals("sandbox");
     }
 
     /**
