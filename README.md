@@ -97,7 +97,7 @@ For more information about status notification, please read [http://docs.africas
 
 - `fetchSubscription(String shortCode, String keyword)`: Fetch your premium subscription data
 
-- `createSubscription(String shortCode, String keyword, String phoneNumber)`: Create a premium subscription
+- `createSubscription(String shortCode, String keyword, String phoneNumber, String checkoutToken)`: Create a premium subscription
 
 For more information on: 
 
