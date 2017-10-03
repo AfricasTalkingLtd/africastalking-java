@@ -14,7 +14,6 @@ SMSService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
 
 // Use the service
 boolean sent = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
-
 ```
 
 See [example](example/) for more usage examples.
@@ -149,15 +148,14 @@ For more information, please read [http://docs.africastalking.com/ussd](http://d
 
 ## Development
 ```shell
-$ git clone 
+$ git clone https://github.com/aksalj/africastalking-java.git
 $ cd africastalking-java
 $ touch local.properties
-$ ./gradlew build
 ```
 
-Make sure your `local.properties` file has the following content
+Make sure your `local.properties` file has the following content then run `./gradlew build`
 
-```
+```ini
 # Android
 sdk.dir=/path/to/android/sdk
 
