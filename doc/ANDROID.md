@@ -137,7 +137,7 @@ The server `new ATServer(PORT, USERNAME, API_KEY)`……..
 
 ## Services
 
-All methods return a `String` of `xml` or `json` data based on the specified format. All methods are synchronous (i.e. will block current thread) but provide asynchronous variants that take a `Callback<String>` as the last argument.
+All methods return a `String` of `json` data. All methods are synchronous (i.e. will block current thread) but provide asynchronous variants that take a `Callback<String>` as the last argument.
 
 ### `Account`
 
@@ -167,7 +167,7 @@ For more information on:
 
 ### `Payment`
 
-- `checkout(String productName, String phoneNumber, float amount, Currency currency)`: Initiate mobile checkout.
+- `checkout(String productName, String phoneNumber, String amount)`: Initiate mobile checkout.
 - `payConsumers(String productName, List<Consumer> recipients)`: Send money to consumer. 
 - `payBusiness(String productName, Business recipient)`: Send money to business.
 

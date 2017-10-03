@@ -16,8 +16,8 @@ public final class SMSService extends Service {
     private static SMSService sInstance;
     private ISMS sms;
 
-    private SMSService(String username, String apiKey, Format format, Currency currency) {
-        super(username, apiKey, format, currency);
+    private SMSService(String username, String apiKey) {
+        super(username, apiKey);
     }
 
     SMSService() {
@@ -25,10 +25,10 @@ public final class SMSService extends Service {
     }
 
     @Override
-    protected SMSService getInstance(String username, String apiKey, Format format, Currency currency) {
+    protected SMSService getInstance(String username, String apiKey) {
 
         if (sInstance == null) {
-            sInstance = new SMSService(username, apiKey, format, currency);
+            sInstance = new SMSService(username, apiKey);
         }
 
         return sInstance;
@@ -36,7 +36,7 @@ public final class SMSService extends Service {
 
     @Override
     protected void initService() {
-        String baseUrl = "https://api."+ (AfricasTalking.ENV == Environment.SANDBOX ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN) + "/version1/";
+        String baseUrl = "https://api."+ (isSandbox ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN) + "/version1/";
         sms = mRetrofitBuilder.baseUrl(baseUrl).build().create(ISMS.class);
     }
 

@@ -10,7 +10,7 @@ class AT {
 
     public static void main(String[] argv) {
         log("\nAfrica's Talking SDK\n");
-        AfricasTalking.initialize(argv[0], argv[1], Format.XML);
+        AfricasTalking.initialize(argv[0], argv[1]);
         try {
             log("\tgetting user account...\n");
             String user = AfricasTalking.getService(AccountService.class).getUser();

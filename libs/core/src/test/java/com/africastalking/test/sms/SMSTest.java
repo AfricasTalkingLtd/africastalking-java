@@ -1,8 +1,6 @@
 package com.africastalking.test.sms;
 
 import com.africastalking.AfricasTalking;
-import com.africastalking.Environment;
-import com.africastalking.Format;
 import com.africastalking.SMSService;
 import com.africastalking.test.Fixtures;
 import org.junit.Assert;
@@ -13,13 +11,9 @@ import java.io.IOException;
 
 public class SMSTest {
 
-    static {
-        AfricasTalking.setEnvironment(Environment.SANDBOX);
-    }
-
     @Before
     public void setup() {
-        AfricasTalking.initialize(Fixtures.USERNAME, Fixtures.API_KEY, Format.JSON, Fixtures.CURRENCY);
+        AfricasTalking.initialize(Fixtures.USERNAME, Fixtures.API_KEY);
     }
 
     @Test

@@ -16,28 +16,21 @@ import java.util.UUID;
 public class ATServer {
 
     private static final int DEFAULT_PORT = 59123;
-    private static Logger LOGGER = new BaseLogger();
+    private static final Logger LOGGER = new Logger(){
+        @Override
+        public void log(String message, Object... args) {
+            System.out.println(String.format(message, args));
+        }
+    };
 
     private Server server;
     private static HashSet<String> tokenStore = new HashSet<>(); // FIXME: Find a scalable solution
 
     private static Hashids hashids = new Hashids(UUID.randomUUID().toString());
 
-    public ATServer(String username, String apiKey, Environment environment, Logger logger) {
-        AfricasTalking.initialize(username, apiKey, Format.JSON);
-        AfricasTalking.setEnvironment(environment);
-        AfricasTalking.setLogger(logger);
-        if (logger != null) {
-            LOGGER = logger;
-        }
-    }
-
-    public ATServer(String username, String apiKey, Environment environment) {
-        this(username, apiKey, environment, null);
-    }
-
     public ATServer(String username, String apiKey) {
-        this(username, apiKey, Environment.PRODUCTION, null);
+        AfricasTalking.initialize(username, apiKey);
+        AfricasTalking.setLogger(LOGGER);
     }
 
     public void start() throws IOException {

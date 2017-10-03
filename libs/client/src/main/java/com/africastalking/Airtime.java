@@ -21,19 +21,19 @@ public final class Airtime {
         asyncStub = RemoteAirtimeGrpc.newStub(channel);
     }
 
-    public String send(String phone, float amount) throws IOException {
-        HashMap<String, Float> recipient = new HashMap<>();
+    public String send(String phone, String amount) throws IOException {
+        HashMap<String, String> recipient = new HashMap<>();
         recipient.put(phone, amount);
         return send(recipient);
     }
 
-    public void send(String phone, float amount, Callback<String> callback) {
-        HashMap<String, Float> recipient = new HashMap<>();
+    public void send(String phone, String amount, Callback<String> callback) {
+        HashMap<String, String> recipient = new HashMap<>();
         recipient.put(phone, amount);
         send(recipient, callback);
     }
 
-    public String send(HashMap<String, Float> recipients) throws IOException {
+    public String send(HashMap<String, String> recipients) throws IOException {
         AirtimeRequest req = AirtimeRequest.newBuilder()
                 .setToken(Base.Token.newBuilder().setId(ATClient.TOKEN).build())
                 .putAllRecipients(recipients)
@@ -42,7 +42,7 @@ public final class Airtime {
         return res.getResponse();
     }
 
-    public void send(HashMap<String, Float> recipients, final Callback<String> callback) {
+    public void send(HashMap<String, String> recipients, final Callback<String> callback) {
         AirtimeRequest req = AirtimeRequest.newBuilder()
                 .setToken(Base.Token.newBuilder().setId(ATClient.TOKEN).build())
                 .putAllRecipients(recipients)

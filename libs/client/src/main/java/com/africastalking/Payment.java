@@ -34,14 +34,11 @@ public final class Payment {
             metadata = new HashMap();
         }
 
-        String[] amountParts = amount.split(" ");
-
         CheckoutRequest request = CheckoutRequest.newBuilder()
                 .setToken(Base.Token.newBuilder().setId(ATClient.TOKEN).build())
                 .setProductName(productName)
                 .setPhoneNumber(phoneNumber)
-                .setAmount(Float.parseFloat(amountParts[1]))
-                .setCurrencyCode(amountParts[0])
+                .setAmount(amount)
                 .putAllMeta(metadata)
                 .build();
 
@@ -55,14 +52,11 @@ public final class Payment {
             metadata = new HashMap();
         }
 
-        String[] amountParts = amount.split(" ");
-
         CheckoutRequest request = CheckoutRequest.newBuilder()
                 .setToken(Base.Token.newBuilder().setId(ATClient.TOKEN).build())
                 .setProductName(productName)
                 .setPhoneNumber(phoneNumber)
-                .setAmount(Float.parseFloat(amountParts[1]))
-                .setCurrencyCode(amountParts[0])
+                .setAmount(amount)
                 .putAllMeta(metadata)
                 .build();
 

@@ -9,8 +9,7 @@ message CheckoutRequest {
 
     string productName = 2;
     string phoneNumber = 3;
-    float amount = 4;
-    string currencyCode = 5;
+    string amount = 4;
     map<string, string> meta = 6;
 }
 

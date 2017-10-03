@@ -10,8 +10,8 @@ public final class VoiceService extends Service {
     private VoiceService sInstance;
     private IVoice voice;
 
-    private VoiceService(String username, String apiKey, Format format) {
-        super(username, apiKey, format, Currency.KES);
+    private VoiceService(String username, String apiKey) {
+        super(username, apiKey);
     }
 
 
@@ -20,9 +20,9 @@ public final class VoiceService extends Service {
     }
 
     @Override
-    protected VoiceService getInstance(String username, String apiKey, Format format, Currency currency) {
+    protected VoiceService getInstance(String username, String apiKey) {
         if (sInstance == null) {
-            sInstance = new VoiceService(username, apiKey, format);
+            sInstance = new VoiceService(username, apiKey);
         }
         return sInstance;
     }
@@ -34,7 +34,7 @@ public final class VoiceService extends Service {
 
     @Override
     protected void initService() {
-        String baseUrl = "https://voice."+ (AfricasTalking.ENV == Environment.SANDBOX ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN) + "/";
+        String baseUrl = "https://voice."+ (isSandbox ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN) + "/";
         voice = mRetrofitBuilder.baseUrl(baseUrl).build().create(IVoice.class);
     }
 
