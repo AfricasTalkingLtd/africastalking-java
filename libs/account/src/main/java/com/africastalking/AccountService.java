@@ -15,7 +15,7 @@ public class AccountService extends Service {
     private IAccount service;
 
     private AccountService(String username, String apiKey) {
-        super(username, apiKey, format);
+        super(username, apiKey);
     }
 
     AccountService() {

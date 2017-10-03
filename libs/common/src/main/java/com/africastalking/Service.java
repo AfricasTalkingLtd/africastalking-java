@@ -26,7 +26,6 @@ abstract class Service {
     Service(final String username, final String apiKey) {
 
         mUsername = username;
-        mCurrency = currency;
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
@@ -92,12 +91,10 @@ abstract class Service {
      * Get an instance of a service.
      * @param username
      * @param apiKey
-     * @param format
-     * @param currency
      * @param <T>
      * @return
      */
-    protected abstract <T extends Service> T getInstance(String username, String apiKey, Format format, Currency currency);
+    protected abstract <T extends Service> T getInstance(String username, String apiKey);
 
     /**
      * Check if a service is initialized

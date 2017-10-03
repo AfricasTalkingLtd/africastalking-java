@@ -10,7 +10,7 @@ message CheckoutRequest {
     string productName = 2;
     string phoneNumber = 3;
     float amount = 4;
-    Currency currency = 5;
+    string currencyCode = 5;
     map<string, string> meta = 6;
 }
 

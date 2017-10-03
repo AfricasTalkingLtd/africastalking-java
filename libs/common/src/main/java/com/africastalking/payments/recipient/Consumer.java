@@ -35,9 +35,9 @@ public class Consumer {
     public Consumer(String name, String phoneNumber, String amount) {
         this.name = name;
         this.phoneNumber = phoneNumber;
-        String[] currenyParts = amount.trim().split(" ");
-        this.currencyCode = currencyParts[0];
-        this.amount = Float.parse(currenyParts[1]);
+        String[] amountParts = amount.trim().split(" ");
+        this.currencyCode = amountParts[0];
+        this.amount = Float.parseFloat(amountParts[1]);
     }
 
 }
