@@ -27,6 +27,7 @@ allprojects {
 Set<String> publishedLibs = new HashSet<String>()
 publishedLibs << 'sms'
 publishedLibs << 'payments'
+publishedLibs << 'token'
 publishedLibs << 'airtime'
 publishedLibs << 'voice'
 publishedLibs << 'ussd'

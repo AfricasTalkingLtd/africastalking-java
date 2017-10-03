@@ -11,7 +11,7 @@ import org.junit.Test;
 import java.io.IOException;
 
 
-public class PaymentsTest {
+public class PaymentTest {
 
     @Before
     public void setup() {

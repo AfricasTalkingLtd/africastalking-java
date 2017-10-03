@@ -50,6 +50,7 @@ dependencies{
   // or get individual services
   compile 'com.africastalking:account:VERSION'
   compile 'com.africastalking:payments:VERSION'
+  compile 'com.africastalking:token:VERSION'
   compile 'com.africastalking:airtime:VERSION'
   compile 'com.africastalking:voice:VERSION'
   compile 'com.africastalking:sms:VERSION'
