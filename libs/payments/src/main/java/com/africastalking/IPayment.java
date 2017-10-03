@@ -7,7 +7,7 @@ import retrofit2.http.POST;
 
 import java.util.HashMap;
 
-interface IPayments {
+interface IPayment {
 
     @POST("mobile/checkout/request")
     Call<String> checkout(@Body HashMap<String, Object> body);

@@ -105,9 +105,9 @@ For more information on:
 - How to listen for subscription notifications: [http://docs.africastalking.com/subscriptions/callback](http://docs.africastalking.com/subscriptions/callback)
 
 
-### `PaymentsService`
+### `PaymentService`
 
-- `checkout(String productName, String phoneNumber, float amount, Currency currency)`: Initiate mobile checkout.
+- `checkout(String productName, String phoneNumber, String amount)`: Initiate mobile checkout.
 
 - `payCustomer(String productName, Consumer recipient)`: Send money to consumer. 
 

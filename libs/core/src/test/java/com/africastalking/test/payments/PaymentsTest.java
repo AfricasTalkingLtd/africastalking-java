@@ -26,7 +26,7 @@ public class PaymentsTest {
 
     @Test
     public void testCheckout() throws IOException {
-        PaymentsService service = AfricasTalking.getService(PaymentsService.class);
+        PaymentService service = AfricasTalking.getService(PaymentService.class);
         String resp = service.checkout("TestProduct", "0711082302", "KES 877");
         System.out.print("\n" + resp + "\n");
         Assert.assertNotNull(resp);
@@ -34,7 +34,7 @@ public class PaymentsTest {
 
     @Test
     public void testPayConsumer() throws IOException {
-        PaymentsService service = AfricasTalking.getService(PaymentsService.class);
+        PaymentService service = AfricasTalking.getService(PaymentService.class);
         Consumer recip = new Consumer("Salama", "0711082302", "KES 432");
         String resp = service.payConsumer("TestProduct", recip);
         System.out.print("\n" + resp + "\n");
@@ -43,7 +43,7 @@ public class PaymentsTest {
 
     @Test
     public void testPayBusiness() throws IOException {
-        PaymentsService service = AfricasTalking.getService(PaymentsService.class);
+        PaymentService service = AfricasTalking.getService(PaymentService.class);
         Business recip = new Business("SBDev", "AccDest", Business.TransferType.TRANSFER, "KES 24512");
         String resp = service.payBusiness("TestProduct", recip);
         System.out.print("\n" + resp + "\n");

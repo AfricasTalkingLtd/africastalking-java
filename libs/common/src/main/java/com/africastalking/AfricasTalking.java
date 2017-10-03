@@ -9,7 +9,7 @@ public final class AfricasTalking {
     public static final String SERVICE_VOICE = BASE_PACKAGE + ".VoiceService";
     public static final String SERVICE_USSD = BASE_PACKAGE + ".USSDService";
     public static final String SERVICE_AIRTIME = BASE_PACKAGE + ".AirtimeService";
-    public static final String SERVICE_PAYMENTS = BASE_PACKAGE + ".PaymentsService";
+    public static final String SERVICE_PAYMENT = BASE_PACKAGE + ".PaymentService";
 
 
     private static String sUsername, sApiKey;
@@ -89,7 +89,7 @@ public final class AfricasTalking {
                 getService(SERVICE_SMS),
                 getService(SERVICE_USSD),
                 getService(SERVICE_AIRTIME),
-                getService(SERVICE_PAYMENTS)
+                getService(SERVICE_PAYMENT)
         };
         for (Service service:services) {
             if (service != null && service.isInitialized()) {

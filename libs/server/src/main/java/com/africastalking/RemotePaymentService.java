@@ -15,11 +15,11 @@ import java.util.Map;
 
 class RemotePaymentService extends RemotePaymentImplBase implements IAuthenticator {
 
-    private static PaymentsService service;
+    private static PaymentService service;
 
 
     RemotePaymentService() {
-        service = AfricasTalking.getService(PaymentsService.class);
+        service = AfricasTalking.getService(PaymentService.class);
     }
 
     @Override

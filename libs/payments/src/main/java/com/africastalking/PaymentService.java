@@ -13,25 +13,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PaymentsService extends Service {
+public class PaymentService extends Service {
 
-    PaymentsService sInstance;
-    IPayments payment;
+    PaymentService sInstance;
+    IPayment payment;
 
 
-    private PaymentsService(String username, String apiKey) {
+    private PaymentService(String username, String apiKey) {
         super(username, apiKey);
 
     }
 
-    PaymentsService() {
+    PaymentService() {
         super();
     }
 
     @Override
-    protected PaymentsService getInstance(String username, String apiKey) {
+    protected PaymentService getInstance(String username, String apiKey) {
         if(sInstance == null) {
-            sInstance = new PaymentsService(username, apiKey);
+            sInstance = new PaymentService(username, apiKey);
         }
         return sInstance;
     }
@@ -48,7 +48,7 @@ public class PaymentsService extends Service {
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(baseUrl)
                 .build()
-                .create(IPayments.class);
+                .create(IPayment.class);
     }
 
     @Override
