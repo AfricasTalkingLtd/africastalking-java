@@ -545,11 +545,12 @@ public final class SMSService extends Service {
      * @param shortCode
      * @param keyword
      * @param phoneNumber
+     * @param checkoutToken
      * @return
      * @throws IOException
      */
-    public String createSubscription(String shortCode, String keyword, String phoneNumber) throws IOException {
-        Response<String> resp = sms.createSubscription(mUsername, shortCode, keyword, phoneNumber).execute();
+    public String createSubscription(String shortCode, String keyword, String phoneNumber, String checkoutToken) throws IOException {
+        Response<String> resp = sms.createSubscription(mUsername, shortCode, keyword, phoneNumber, checkoutToken).execute();
         if (!resp.isSuccessful()) {
             return resp.message();
         }
@@ -565,10 +566,11 @@ public final class SMSService extends Service {
      * @param shortCode
      * @param keyword
      * @param phoneNumber
+     * @param checkoutToken
      * @param callback
      */
-    public void createSubscription(String shortCode, String keyword, String phoneNumber, Callback<String> callback) {
-        sms.createSubscription(mUsername, shortCode, keyword, phoneNumber).enqueue(makeCallback(callback));
+    public void createSubscription(String shortCode, String keyword, String phoneNumber, String checkoutToken, Callback<String> callback) {
+        sms.createSubscription(mUsername, shortCode, keyword, phoneNumber, checkoutToken).enqueue(makeCallback(callback));
     }
 
 

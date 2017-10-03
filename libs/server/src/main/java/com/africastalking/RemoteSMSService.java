@@ -6,12 +6,20 @@ import com.africastalking.proto.sms.RemoteSMSOuterClass.*;
 import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
+
 public class RemoteSMSService extends RemoteSMSImplBase implements IAuthenticator {
 
     private static SMSService service;
+    private static TokenService tokenService;
 
     RemoteSMSService() {
         service = AfricasTalking.getService(SMSService.class);
+        tokenService = AfricasTalking.getService(TokenService.class);
     }
 
 
@@ -72,7 +80,20 @@ public class RemoteSMSService extends RemoteSMSImplBase implements IAuthenticato
     public void createSubscription(SubscriptionRequest request, final StreamObserver<Base.Response> responseObserver) {
         if (!isValidToken(request.getToken(), responseObserver)) { return; }
 
-        service.createSubscription(request.getShortCode(), request.getKeyword(), request.getPhoneNumber(), new Callback<String>() {
+
+        String phone = request.getPhoneNumber();
+        String token = null;
+
+        try {
+            Type type = new TypeToken<HashMap<String,String>>(){}.getType();
+            HashMap<String,String> checkoutToken = new Gson().fromJson(tokenService.createCheckoutToken(phone), type);
+            token = checkoutToken.get("token");
+        } catch (IOException ioe) {
+            responseObserver.onError(ioe);
+            return;
+        }
+
+        service.createSubscription(request.getShortCode(), request.getKeyword(), phone, token, new Callback<String>() {
             @Override
             public void onSuccess(String data) {
                 Base.Response resp = Base.Response.newBuilder().setResponse(data).build();
