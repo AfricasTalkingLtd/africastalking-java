@@ -58,6 +58,7 @@ dependencies{
 }
 ```
 
+
 ## Initialization
 
 The following static methods are available on the `AfricasTalking` class to initialize the library:
@@ -144,3 +145,33 @@ For more information, please read [http://docs.africastalking.com/voice](http://
 
 For more information, please read [http://docs.africastalking.com/ussd](http://docs.africastalking.com/ussd)
 
+
+
+## Development
+```shell
+$ git clone 
+$ cd africastalking-java
+$ touch local.properties
+$ ./gradlew build
+```
+
+Make sure your `local.properties` file has the following content
+
+```
+# Android
+sdk.dir=/path/to/android/sdk
+
+# AT API
+username=sandbox
+apiKey=some_key
+
+# Bintray
+bintray.user=fake
+bintray.key=fake
+bintray.repo=fake
+bintray.organization=fake
+bintray.package=fake
+bintray.groupId=fake
+bintray.version=fake
+bintray.vscUrl=fake
+```

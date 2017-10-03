@@ -1,8 +1,12 @@
 group 'com.africastalking.example'
 version '1.0.0'
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: 'de.fuerstenau.buildconfig'
 mainClassName = "com.africastalking.example.App"
 
 sourceCompatibility = 1.8
@@ -15,12 +19,25 @@ repositories {
     }
 }
 
+buildConfig {
+    appName = project.name       // sets value of NAME field
+    version = project.version   // sets value of VERSION field,
+                                    // 'unspecified' if project.version is not set
+    buildConfigField 'String', 'USERNAME', properties.getProperty("username")
+    buildConfigField 'String', 'API_KEY', properties.getProperty("apiKey")
+        
+    clsName = 'BuildConfig'      // sets the name of the BuildConfig class
+    packageName = project.group  // sets the package of the BuildConfig class,
+                                    // 'de.fuerstenau.buildconfig' if project.group is not set
+    charset = 'UTF-8'            // sets charset of the generated class,
+                                    // 'UTF-8' if not set otherwise
+}
+
 dependencies {
     compile 'org.slf4j:slf4j-simple:1.7.21'
     compile 'com.sparkjava:spark-core:2.5.4'
     compile 'com.sparkjava:spark-template-handlebars:2.3'
     compile 'com.google.code.gson:gson:2.8.0'
-//    compile 'com.africastalking:server:1.1.2-rc4'
     compile project(":server")
     testCompile 'junit:junit:4.11'
 }
