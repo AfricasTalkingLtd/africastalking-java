@@ -146,5 +146,45 @@ public final class VoiceService extends Service {
         });
     }
 
+    /**
+     * 
+     * @param phoneNumber
+     * @param url
+     */
+    public String uploadMediaFile(String phoneNumber, String url) throws IOException {
+        Call<String> call = voice.mediaUpload(mUsername, url, phoneNumber);
+        Response<String> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            return resp.message();
+        }
+        return resp.body();
+    }
+
+    /**
+     * 
+     * @param phoneNumber
+     * @param url
+     * @param callback
+     */
+    public void uploadMediaFile(String phoneNumber, String url, final Callback<String> callback) {
+        Call<String> call = voice.mediaUpload(mUsername, url, phoneNumber);
+        call.enqueue(new retrofit2.Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                boolean success = response.code() == 201;
+                if (success) {
+                    callback.onSuccess(response.body());
+                } else {
+                    String body = response.body();
+                    callback.onFailure(new Exception(body != null ? body : response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
+    }
 
 }
