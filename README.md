@@ -124,6 +124,8 @@ For more information, please read [http://docs.africastalking.com/payments](http
 
 - `fetchQueuedCalls(String phone)`: Get queued calls
 
+- `uploadMediaFile(String phone, String url)`: Upload voice media file
+
 - `VoiceMessage.Builder`: Build voice xml when callback URL receives a `POST` from Africa's Talking
 
     - `say()`:
