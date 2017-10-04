@@ -10,8 +10,9 @@ interface IVoice {
     Call<String> call(@Field("username") String username, @Field("to") String to,
                       @Field("from") String from);
 
-    @GET("/queueStatus")
-    Call<String> queueStatus(@Query("username") String username, @Query("phoneNumbers") String phoneNumbers);
+    @FormUrlEncoded
+    @POST("/queueStatus")
+    Call<String> queueStatus(@Field("username") String username, @Field("phoneNumbers") String phoneNumbers);
 
     @FormUrlEncoded
     @POST("/mediaUpload")
