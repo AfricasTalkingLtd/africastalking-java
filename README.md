@@ -128,17 +128,29 @@ For more information, please read [http://docs.africastalking.com/payments](http
 
 - `VoiceMessage.Builder`: Build voice xml when callback URL receives a `POST` from Africa's Talking
 
-    - `say()`:
-    - `play()`:
-    - `getDigits()`:
-    - `dial()`:
-    - `conference()`:
-    - `record()`:
-    - `enqueue()`:
-    - `dequeue()`:
-    - `reject()`:
-    - `redirect()`:
-    - `build()`: Build xml
+    - `say(String text)`
+    
+    - `play(URL url)`
+    
+    - `getDigits(String text, URL url, int numDigits, long timeout, String finishOnKey, URL callback)`
+    
+    - `dial(String phoneNumbers, String ringbackTone, boolean record, boolean sequential, String callerId, long maxDuration)`
+    
+    - `conference()`
+    
+    - `record()`
+      
+      - `record(String text, URL url, int maxLength, long timeout, String finishOnKey, boolean trimSilence, boolean playBeep, URL callbackUrl)`
+      
+    - `enqueue()`
+    
+    - `dequeue()`
+    
+    - `reject()`
+    
+    - `redirect()`
+    
+    - `build()`: Finally build the xml
 
 
 For more information, please read [http://docs.africastalking.com/voice](http://docs.africastalking.com/voice)
