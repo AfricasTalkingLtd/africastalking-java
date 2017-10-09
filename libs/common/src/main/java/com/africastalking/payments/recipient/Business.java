@@ -23,10 +23,10 @@ public class Business {
 
     public enum TransferType {
 
-        BUYGOODS("BusinessBuyGoods"),
-        PAYBILL("BusinessPayBill"),
-        DISBURSE("DisburseFundsToBusiness"),
-        TRANSFER("BusinessToBusinessTransfer");
+        BusinessBuyGoods("BusinessBuyGoods"),
+        BusinessPayBill("BusinessPayBill"),
+        DisburseFundsToBusiness("DisburseFundsToBusiness"),
+        BusinessToBusinessTransfer("BusinessToBusinessTransfer");
 
         private final String text;
 
@@ -38,6 +38,18 @@ public class Business {
         public String toString() {
             return this.text;
         }
+
+        /**
+         * 
+         */
+        public static TransferType fromString(String text) {
+            for (TransferType type : TransferType.values()) {
+              if (type.text.contentEquals(text)) {
+                return type;
+              }
+            }
+            return null;
+          }
 
     }
 
