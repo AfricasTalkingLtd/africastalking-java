@@ -5,11 +5,11 @@ import java.util.HashMap;
 public class Consumer {
 
     public enum Reason {
-        SALARY("SalaryPayment"),
-        SALARY_WITH_CHARGE("SalaryPaymentWithWithdrawalChargePaid"),
-        BUSINESS("BusinessPayment"),
-        BUSINESS_WITH_CHARGE("BusinessPaymentWithWithdrawalChargePaid"),
-        PROMOTION("PromotionPayment");
+        SalaryPayment("SalaryPayment"),
+        SalaryPaymentWithWithdrawalChargePaid("SalaryPaymentWithWithdrawalChargePaid"),
+        BusinessPayment("BusinessPayment"),
+        BusinessPaymentWithWithdrawalChargePaid("BusinessPaymentWithWithdrawalChargePaid"),
+        PromotionPayment("PromotionPayment");
 
         private final String text;
 
