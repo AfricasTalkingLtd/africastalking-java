@@ -18,21 +18,22 @@ abstract class Service {
     Retrofit.Builder mRetrofitBuilder;
 
     String mUsername;
-    Currency mCurrency;
 
-    Service(final String username, final String apiKey, final Format format, Currency currency) {
+    static boolean isSandbox = false;
+    static Logger LOGGER = null;
+
+
+    Service(final String username, final String apiKey) {
 
         mUsername = username;
-        mCurrency = currency;
-
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
-        if (AfricasTalking.LOGGING) {
+        if (LOGGER != null) {
             HttpLoggingInterceptor logger = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                 @Override
                 public void log(String message) {
-                    AfricasTalking.LOGGER.log(message);
+                    LOGGER.log(message);
                 }
             });
             logger.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -45,7 +46,7 @@ abstract class Service {
                 Request original = chain.request();
                 Request request = original.newBuilder()
                         .addHeader("apiKey", apiKey)
-                        .addHeader("Accept", format.toString())
+                        .addHeader("Accept", "application/json")
                         .build();
 
                 return chain.proceed(request);
@@ -90,12 +91,10 @@ abstract class Service {
      * Get an instance of a service.
      * @param username
      * @param apiKey
-     * @param format
-     * @param currency
      * @param <T>
      * @return
      */
-    protected abstract <T extends Service> T getInstance(String username, String apiKey, Format format, Currency currency);
+    protected abstract <T extends Service> T getInstance(String username, String apiKey);
 
     /**
      * Check if a service is initialized

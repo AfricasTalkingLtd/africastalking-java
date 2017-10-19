@@ -29,7 +29,7 @@ public class RemoteAirtimeService extends RemoteAirtimeImplBase implements IAuth
     public void send(AirtimeRequest request, final StreamObserver<Base.Response> responseObserver) {
         if (!isValidToken(request.getToken(), responseObserver)) { return; }
 
-        HashMap<String, Float> recipients = new HashMap<>(request.getRecipientsMap());
+        HashMap<String, String> recipients = new HashMap<>(request.getRecipientsMap());
         service.send(recipients, new Callback<String>() {
             @Override
             public void onSuccess(String data) {

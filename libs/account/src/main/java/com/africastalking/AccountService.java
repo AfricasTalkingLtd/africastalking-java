@@ -14,8 +14,8 @@ public class AccountService extends Service {
     private static AccountService sInstance;
     private IAccount service;
 
-    private AccountService(String username, String apiKey, Format format, Currency currency) {
-        super(username, apiKey, format, currency);
+    private AccountService(String username, String apiKey) {
+        super(username, apiKey);
     }
 
     AccountService() {
@@ -23,10 +23,10 @@ public class AccountService extends Service {
     }
 
     @Override
-    protected AccountService getInstance(String username, String apiKey, Format format, Currency currency) {
+    protected AccountService getInstance(String username, String apiKey) {
 
         if (sInstance == null) {
-            sInstance = new AccountService(username, apiKey, format, currency);
+            sInstance = new AccountService(username, apiKey);
         }
 
         return sInstance;
@@ -34,7 +34,7 @@ public class AccountService extends Service {
 
     @Override
     protected void initService() {
-        String url = "https://api."+ (AfricasTalking.ENV == Environment.SANDBOX ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN);
+        String url = "https://api."+ (isSandbox ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN);
         url += "/version1/";
         Retrofit retrofit = mRetrofitBuilder
                 .baseUrl(url)

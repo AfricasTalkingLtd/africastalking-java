@@ -10,8 +10,8 @@ public final class VoiceService extends Service {
     private VoiceService sInstance;
     private IVoice voice;
 
-    private VoiceService(String username, String apiKey, Format format) {
-        super(username, apiKey, format, Currency.KES);
+    private VoiceService(String username, String apiKey) {
+        super(username, apiKey);
     }
 
 
@@ -20,9 +20,9 @@ public final class VoiceService extends Service {
     }
 
     @Override
-    protected VoiceService getInstance(String username, String apiKey, Format format, Currency currency) {
+    protected VoiceService getInstance(String username, String apiKey) {
         if (sInstance == null) {
-            sInstance = new VoiceService(username, apiKey, format);
+            sInstance = new VoiceService(username, apiKey);
         }
         return sInstance;
     }
@@ -34,7 +34,7 @@ public final class VoiceService extends Service {
 
     @Override
     protected void initService() {
-        String baseUrl = "https://voice."+ (AfricasTalking.ENV == Environment.SANDBOX ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN) + "/";
+        String baseUrl = "https://voice."+ (isSandbox ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN) + "/";
         voice = mRetrofitBuilder.baseUrl(baseUrl).build().create(IVoice.class);
     }
 
@@ -52,10 +52,10 @@ public final class VoiceService extends Service {
      * @return
      * @throws IOException
      */
-    public boolean call(String to, String from) throws IOException {
+    public String call(String to, String from) throws IOException {
         Call<String> call = voice.call(mUsername, to, from);
         Response<String> resp = call.execute();
-        return resp.code() == 201;
+        return resp.body();
     }
 
     /**
@@ -64,7 +64,7 @@ public final class VoiceService extends Service {
      * @return
      * @throws IOException
      */
-    public boolean call(String to) throws IOException {
+    public String call(String to) throws IOException {
         return call(to, "");
     }
 
@@ -75,14 +75,14 @@ public final class VoiceService extends Service {
      * @param from
      * @param callback
      */
-    public void call(String to, String from, final Callback<Boolean> callback) {
+    public void call(String to, String from, final Callback<String> callback) {
         Call<String> call = voice.call(mUsername, to, from);
         call.enqueue(new retrofit2.Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 boolean success = response.code() == 201;
                 if (success) {
-                    callback.onSuccess(true);
+                    callback.onSuccess(response.body());
                 }else {
                     callback.onFailure(new Exception(response.body()));
                 }
@@ -100,7 +100,7 @@ public final class VoiceService extends Service {
      * @param to
      * @param callback
      */
-    public void call(String to, Callback<Boolean> callback) {
+    public void call(String to, Callback<String> callback) {
         call(to, "", callback);
     }
 
@@ -146,5 +146,45 @@ public final class VoiceService extends Service {
         });
     }
 
+    /**
+     * 
+     * @param phoneNumber
+     * @param url
+     */
+    public String uploadMediaFile(String phoneNumber, String url) throws IOException {
+        Call<String> call = voice.mediaUpload(mUsername, url, phoneNumber);
+        Response<String> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            return resp.message();
+        }
+        return resp.body();
+    }
+
+    /**
+     * 
+     * @param phoneNumber
+     * @param url
+     * @param callback
+     */
+    public void uploadMediaFile(String phoneNumber, String url, final Callback<String> callback) {
+        Call<String> call = voice.mediaUpload(mUsername, url, phoneNumber);
+        call.enqueue(new retrofit2.Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                boolean success = response.code() == 201;
+                if (success) {
+                    callback.onSuccess(response.body());
+                } else {
+                    String body = response.body();
+                    callback.onFailure(new Exception(body != null ? body : response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
+    }
 
 }

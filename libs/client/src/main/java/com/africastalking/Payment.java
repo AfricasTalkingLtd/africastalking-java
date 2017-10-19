@@ -28,7 +28,7 @@ public final class Payment {
     }
 
 
-    public String checkout(String productName, String phoneNumber, float amount, Currency currency, Map metadata) throws IOException {
+    public String checkout(String productName, String phoneNumber, String amount, Map metadata) throws IOException {
 
         if (metadata == null) {
             metadata = new HashMap();
@@ -39,7 +39,6 @@ public final class Payment {
                 .setProductName(productName)
                 .setPhoneNumber(phoneNumber)
                 .setAmount(amount)
-                .setCurrency(Base.Currency.newBuilder().setText(currency.toString()).build())
                 .putAllMeta(metadata)
                 .build();
 
@@ -47,7 +46,7 @@ public final class Payment {
         return response.getResponse();
     }
 
-    public void checkout(String productName, String phoneNumber, float amount, Currency currency, Map metadata, final Callback<String> callback) {
+    public void checkout(String productName, String phoneNumber, String amount, Map metadata, final Callback<String> callback) {
 
         if (metadata == null) {
             metadata = new HashMap();
@@ -58,7 +57,6 @@ public final class Payment {
                 .setProductName(productName)
                 .setPhoneNumber(phoneNumber)
                 .setAmount(amount)
-                .setCurrency(Base.Currency.newBuilder().setText(currency.toString()).build())
                 .putAllMeta(metadata)
                 .build();
 
@@ -85,10 +83,10 @@ public final class Payment {
             Base.Consumer consumer = Base.Consumer.newBuilder()
                     .setName(recipient.name)
                     .setAmount(recipient.amount)
+                    .setCurrencyCode(recipient.currencyCode)
                     .setPhoneNumber(recipient.phoneNumber)
                     .setReason(recipient.reason.toString())
                     .putAllMetadata(recipient.metadata)
-                    .setCurrency(Base.Currency.newBuilder().setText(recipient.currencyCode.toString()).build())
                     .setProviderChannel(recipient.providerChannel)
                     .build();
             consumers.add(consumer);
@@ -109,10 +107,10 @@ public final class Payment {
         for (Consumer recipient:recipients) {
             Base.Consumer consumer = Base.Consumer.newBuilder()
                     .setAmount(recipient.amount)
+                    .setCurrencyCode(recipient.currencyCode)
                     .setPhoneNumber(recipient.phoneNumber)
                     .setReason(recipient.reason.toString())
                     .putAllMetadata(recipient.metadata)
-                    .setCurrency(Base.Currency.newBuilder().setText(recipient.currencyCode.toString()).build())
                     .build();
             consumers.add(consumer);
         }
@@ -146,7 +144,7 @@ public final class Payment {
                 .setDestinationChannel(recipient.destinationChannel)
                 .setTransferType(recipient.transferType)
                 .setAmount(recipient.amount)
-                .setCurrency(Base.Currency.newBuilder().setText(recipient.currencyCode.toString()).build())
+                .setCurrencyCode(recipient.currencyCode)
                 .build();
 
         B2BRequest request = B2BRequest.newBuilder()
@@ -166,7 +164,7 @@ public final class Payment {
                 .setDestinationChannel(recipient.destinationChannel)
                 .setTransferType(recipient.transferType)
                 .setAmount(recipient.amount)
-                .setCurrency(Base.Currency.newBuilder().setText(recipient.currencyCode.toString()).build())
+                .setCurrencyCode(recipient.currencyCode)
                 .build();
 
         B2BRequest request = B2BRequest.newBuilder()

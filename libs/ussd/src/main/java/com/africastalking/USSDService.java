@@ -14,8 +14,8 @@ public final class USSDService extends Service {
 
     private static USSDService sInstance;
 
-    private USSDService(String username, String apiKey, Format format, Currency currency) {
-        super(username, apiKey, format, currency);
+    private USSDService(String username, String apiKey) {
+        super(username, apiKey);
     }
 
     USSDService() {
@@ -23,10 +23,10 @@ public final class USSDService extends Service {
     }
 
     @Override
-    protected USSDService getInstance(String username, String apiKey, Format format, Currency currency) {
+    protected USSDService getInstance(String username, String apiKey) {
 
         if (sInstance == null) {
-            sInstance = new USSDService(username, apiKey, format, currency);
+            sInstance = new USSDService(username, apiKey);
         }
 
         return sInstance;

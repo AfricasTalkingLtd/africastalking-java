@@ -16,8 +16,8 @@ public final class SMSService extends Service {
     private static SMSService sInstance;
     private ISMS sms;
 
-    private SMSService(String username, String apiKey, Format format, Currency currency) {
-        super(username, apiKey, format, currency);
+    private SMSService(String username, String apiKey) {
+        super(username, apiKey);
     }
 
     SMSService() {
@@ -25,10 +25,10 @@ public final class SMSService extends Service {
     }
 
     @Override
-    protected SMSService getInstance(String username, String apiKey, Format format, Currency currency) {
+    protected SMSService getInstance(String username, String apiKey) {
 
         if (sInstance == null) {
-            sInstance = new SMSService(username, apiKey, format, currency);
+            sInstance = new SMSService(username, apiKey);
         }
 
         return sInstance;
@@ -36,7 +36,7 @@ public final class SMSService extends Service {
 
     @Override
     protected void initService() {
-        String baseUrl = "https://api."+ (AfricasTalking.ENV == Environment.SANDBOX ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN) + "/version1/";
+        String baseUrl = "https://api."+ (isSandbox ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN) + "/version1/";
         sms = mRetrofitBuilder.baseUrl(baseUrl).build().create(ISMS.class);
     }
 
@@ -545,11 +545,12 @@ public final class SMSService extends Service {
      * @param shortCode
      * @param keyword
      * @param phoneNumber
+     * @param checkoutToken
      * @return
      * @throws IOException
      */
-    public String createSubscription(String shortCode, String keyword, String phoneNumber) throws IOException {
-        Response<String> resp = sms.createSubscription(mUsername, shortCode, keyword, phoneNumber).execute();
+    public String createSubscription(String shortCode, String keyword, String phoneNumber, String checkoutToken) throws IOException {
+        Response<String> resp = sms.createSubscription(mUsername, shortCode, keyword, phoneNumber, checkoutToken).execute();
         if (!resp.isSuccessful()) {
             return resp.message();
         }
@@ -565,10 +566,11 @@ public final class SMSService extends Service {
      * @param shortCode
      * @param keyword
      * @param phoneNumber
+     * @param checkoutToken
      * @param callback
      */
-    public void createSubscription(String shortCode, String keyword, String phoneNumber, Callback<String> callback) {
-        sms.createSubscription(mUsername, shortCode, keyword, phoneNumber).enqueue(makeCallback(callback));
+    public void createSubscription(String shortCode, String keyword, String phoneNumber, String checkoutToken, Callback<String> callback) {
+        sms.createSubscription(mUsername, shortCode, keyword, phoneNumber, checkoutToken).enqueue(makeCallback(callback));
     }
 
 

@@ -1,6 +1,5 @@
 package com.africastalking;
 
-
 public final class AfricasTalking {
 
     private static final String BASE_PACKAGE = AfricasTalking.class.getPackage().getName();
@@ -10,68 +9,27 @@ public final class AfricasTalking {
     public static final String SERVICE_VOICE = BASE_PACKAGE + ".VoiceService";
     public static final String SERVICE_USSD = BASE_PACKAGE + ".USSDService";
     public static final String SERVICE_AIRTIME = BASE_PACKAGE + ".AirtimeService";
-    public static final String SERVICE_PAYMENTS = BASE_PACKAGE + ".PaymentsService";
+    public static final String SERVICE_PAYMENT = BASE_PACKAGE + ".PaymentService";
+    public static final String SERVICE_TOKEN = BASE_PACKAGE + ".TokenService";
 
 
     private static String sUsername, sApiKey;
-    private static Format sFormat;
-    private static Currency sCurrency;
 
-    static Environment ENV = Environment.SANDBOX;
-    static Boolean LOGGING = false;
-    static Logger LOGGER = new BaseLogger();
-
+    
     /**
      * Initialize the SDK
      * @param username
      * @param apiKey
      * @param format
      */
-    public static void initialize(String username, String apiKey, Format format, Currency currency) {
+    public static void initialize(String username, String apiKey){
 
         destroyAllServices();
 
         // Init
         sUsername = username;
         sApiKey = apiKey;
-        sFormat = format;
-        sCurrency = currency;
-    }
-
-    /**
-     *
-     * @param username
-     * @param apiKey
-     * @param format
-     */
-    public static void initialize(String username, String apiKey, Format format) {
-        initialize(username, apiKey, format, Currency.KES);
-    }
-
-    /**
-     *
-     * @param username
-     * @param apiKey
-     */
-    public static void initialize(String username, String apiKey) {
-        initialize(username, apiKey, Format.XML, Currency.KES);
-    }
-
-
-    /**
-     * Define environment
-     * @param env
-     */
-    public static void setEnvironment(Environment env) {
-        ENV = env;
-    }
-
-    /**
-     * Enable/Disable logging
-     * @param enable
-     */
-    public static void enableLogging(boolean enable) {
-        LOGGING = enable;
+        Service.isSandbox = username.toLowerCase().contentEquals("sandbox");
     }
 
     /**
@@ -79,10 +37,7 @@ public final class AfricasTalking {
      * @param logger
      */
     public static void setLogger(Logger logger) {
-        if (logger != null) {
-            enableLogging(true);
-        }
-        LOGGER = logger;
+        Service.LOGGER = logger;
     }
 
     /**
@@ -98,7 +53,7 @@ public final class AfricasTalking {
             if (sApiKey == null || sUsername == null) {
                 return raw;
             }
-            return (T)raw.getInstance(sUsername, sApiKey, sFormat, sCurrency);
+            return (T)raw.getInstance(sUsername, sApiKey);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -135,7 +90,8 @@ public final class AfricasTalking {
                 getService(SERVICE_SMS),
                 getService(SERVICE_USSD),
                 getService(SERVICE_AIRTIME),
-                getService(SERVICE_PAYMENTS)
+                getService(SERVICE_PAYMENT),
+                getService(SERVICE_TOKEN)
         };
         for (Service service:services) {
             if (service != null && service.isInitialized()) {

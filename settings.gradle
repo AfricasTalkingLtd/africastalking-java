@@ -6,6 +6,7 @@
 Set<String> libs = new HashSet<String>()
 libs << 'sms'
 libs << 'payments'
+libs << 'token'
 libs << 'airtime'
 libs << 'voice'
 libs << 'ussd'

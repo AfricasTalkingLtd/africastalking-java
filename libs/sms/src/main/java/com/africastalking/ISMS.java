@@ -37,7 +37,8 @@ interface ISMS {
     @FormUrlEncoded
     @POST("subscription/create")
     Call<String> createSubscription(@Field("username") String username, @Field("shortCode") String shortCode,
-                                    @Field("keyword") String keyword, @Field("phoneNumber") String phoneNumber);
+                                    @Field("keyword") String keyword, @Field("phoneNumber") String phoneNumber,
+                                    @Field("checkoutToken") String checkoutToken);
 
 
 }

@@ -1,25 +1,24 @@
 package com.africastalking.test.sms;
 
 import com.africastalking.AfricasTalking;
-import com.africastalking.Environment;
-import com.africastalking.Format;
 import com.africastalking.SMSService;
+import com.africastalking.TokenService;
 import com.africastalking.test.Fixtures;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
 public class SMSTest {
 
-    static {
-        AfricasTalking.setEnvironment(Environment.SANDBOX);
-    }
-
     @Before
     public void setup() {
-        AfricasTalking.initialize(Fixtures.USERNAME, Fixtures.API_KEY, Format.JSON, Fixtures.CURRENCY);
+        AfricasTalking.initialize(Fixtures.USERNAME, Fixtures.API_KEY);
     }
 
     @Test
@@ -66,8 +65,13 @@ public class SMSTest {
 
     @Test
     public void testCreateSubscription() throws IOException {
+        String phone = "0731034588";
         SMSService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
-        String resp = sms.createSubscription("AT2FA", "KiKi", "0731034588");
+        TokenService tokenService = AfricasTalking.getService(AfricasTalking.SERVICE_TOKEN);
+        Type type = new TypeToken<HashMap<String,String>>(){}.getType();
+        HashMap<String,String> checkoutToken = new Gson().fromJson(tokenService.createCheckoutToken(phone), type);
+        
+        String resp = sms.createSubscription("AT2FA", "KiKi", phone, checkoutToken.get("token"));
         System.out.print("\n" + resp + "\n");
         Assert.assertNotNull(resp);
     }

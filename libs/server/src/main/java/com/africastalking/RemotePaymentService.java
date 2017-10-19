@@ -15,11 +15,11 @@ import java.util.Map;
 
 class RemotePaymentService extends RemotePaymentImplBase implements IAuthenticator {
 
-    private static PaymentsService service;
+    private static PaymentService service;
 
 
     RemotePaymentService() {
-        service = AfricasTalking.getService(PaymentsService.class);
+        service = AfricasTalking.getService(PaymentService.class);
     }
 
     @Override
@@ -37,10 +37,9 @@ class RemotePaymentService extends RemotePaymentImplBase implements IAuthenticat
 
         String productName = request.getProductName();
         String phoneNumber = request.getPhoneNumber();
-        float amount = request.getAmount();
-        Currency currency = Currency.valueOf(request.getCurrency().getText());
+        String amount = request.getAmount();
         Map<String, String> meta = request.getMetaMap();
-        service.checkout(productName, phoneNumber, amount, currency, meta, new Callback<String>() {
+        service.checkout(productName, phoneNumber, amount, meta, new Callback<String>() {
             @Override
             public void onSuccess(String data) {
                 Base.Response resp = Base.Response.newBuilder().setResponse(data).build();
@@ -66,8 +65,7 @@ class RemotePaymentService extends RemotePaymentImplBase implements IAuthenticat
                 recipient.getDestinationChannel(),
                 recipient.getDestinationAccount(),
                 Business.TransferType.valueOf(recipient.getTransferType()),
-                Currency.valueOf(recipient.getCurrency().getText()),
-                recipient.getAmount()
+                recipient.getCurrencyCode() + " " + recipient.getAmount()
         );
         service.payBusiness(product, business, new Callback<String>() {
             @Override
@@ -95,8 +93,7 @@ class RemotePaymentService extends RemotePaymentImplBase implements IAuthenticat
             Consumer consumer = new Consumer(
                     recipient.getName(),
                     recipient.getPhoneNumber(),
-                    Currency.valueOf(recipient.getCurrency().getText()),
-                    recipient.getAmount()
+                    recipient.getCurrencyCode() + " " + recipient.getAmount()
             );
             consumer.providerChannel = recipient.getProviderChannel();
             consumer.reason = Consumer.Reason.valueOf(recipient.getReason());

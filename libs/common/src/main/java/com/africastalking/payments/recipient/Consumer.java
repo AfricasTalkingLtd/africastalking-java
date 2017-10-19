@@ -1,17 +1,15 @@
 package com.africastalking.payments.recipient;
 
-import com.africastalking.Currency;
-
 import java.util.HashMap;
 
 public class Consumer {
 
     public enum Reason {
-        SALARY("SalaryPayment"),
-        SALARY_WITH_CHARGE("SalaryPaymentWithWithdrawalChargePaid"),
-        BUSINESS("BusinessPayment"),
-        BUSINESS_WITH_CHARGE("BusinessPaymentWithWithdrawalChargePaid"),
-        PROMOTION("PromotionPayment");
+        SalaryPayment("SalaryPayment"),
+        SalaryPaymentWithWithdrawalChargePaid("SalaryPaymentWithWithdrawalChargePaid"),
+        BusinessPayment("BusinessPayment"),
+        BusinessPaymentWithWithdrawalChargePaid("BusinessPaymentWithWithdrawalChargePaid"),
+        PromotionPayment("PromotionPayment");
 
         private final String text;
 
@@ -27,18 +25,19 @@ public class Consumer {
 
     public String name;
     public String phoneNumber;
-    public Currency currencyCode;
+    public String currencyCode;
     public float amount;
     public String providerChannel;
 
     public Reason reason = null;
     public HashMap<String, String> metadata = new HashMap<>();
 
-    public Consumer(String name, String phoneNumber, Currency currency, float amount) {
+    public Consumer(String name, String phoneNumber, String amount) {
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.currencyCode = currency;
-        this.amount = amount;
+        String[] amountParts = amount.trim().split(" ");
+        this.currencyCode = amountParts[0];
+        this.amount = Float.parseFloat(amountParts[1]);
     }
 
 }

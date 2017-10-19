@@ -113,5 +113,18 @@ public class VoiceMessage {
             return this;
         }
 
+        public Builder record(String text, URL url, int maxLength, long timeout, String finishOnKey, boolean trimSilence, boolean playBeep, URL callbackUrl) {
+            xml.append("<Record finishOnKey=\""+finishOnKey+"\" maxLength=\""+ maxLength +"\" timeout=\""+timeout+"\" trimSilence=\""+ String.valueOf(trimSilence) + "\"" +
+            "playBeep=\"" + String.valueOf(playBeep) + "\" callbackUrl=\""+ callbackUrl +"\">");
+            this.say(text);
+            xml.append("</Record>");
+            return this;
+        }
+
+        public Builder record() {
+            xml.append("<Record />");
+            return this;
+        }
+
     }
 }

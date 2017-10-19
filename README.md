@@ -8,14 +8,12 @@
 
 // Initialize
 AfricasTalking.initialize(USERNAME, API_KEY);
-AfricasTalking.setEnvironment(Environment.PRODUCTION); // Environment.SANDBOX by default
 
 // Initialize a service e.g. SMS
 SMSService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
 
 // Use the service
 boolean sent = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
-
 ```
 
 See [example](example/) for more usage examples.
@@ -52,6 +50,7 @@ dependencies{
   // or get individual services
   compile 'com.africastalking:account:VERSION'
   compile 'com.africastalking:payments:VERSION'
+  compile 'com.africastalking:token:VERSION'
   compile 'com.africastalking:airtime:VERSION'
   compile 'com.africastalking:voice:VERSION'
   compile 'com.africastalking:sms:VERSION'
@@ -59,15 +58,12 @@ dependencies{
 }
 ```
 
+
 ## Initialization
 
 The following static methods are available on the `AfricasTalking` class to initialize the library:
 
-- `initialize(USERNAME, API_KEY, Format = XML, Currency = KES)`: Initialize the library.
-
-- `setEnvironment(Environment = PRODUCTION)`: Define environment. Can either be `Environment.SANDBOX` or `Environment.PRODUCTION` (by default)
-
-- `enableLogging(bool)`: Enable or disable request logging.
+- `initialize(string username, String apiKey)`: Initialize the library.
 
 - `setLogger(Logger)`: Set logging object.
 
@@ -75,7 +71,7 @@ The following static methods are available on the `AfricasTalking` class to init
 
 ## Services
 
-All methods return a `String` of `xml` or `json` data based on the specified format. All methods are synchronous (i.e. will block current thread) but provide asynchronous variants that take a `Callback<String>` as the last argument.
+All methods return a `String` of `json` data. All methods are synchronous (i.e. will block current thread) but provide asynchronous variants that take a `Callback<String>` as the last argument.
 
 ### `AccountService`
 
@@ -83,9 +79,9 @@ All methods return a `String` of `xml` or `json` data based on the specified for
 
 ### `AirtimeService`
 
-- `send(String phone, float amount)`: Send airtime to a phone number.
+- `send(String phone, String amount)`: Send airtime to a phone number. Example amount would be `KES 150`.
 
-- `send(HashMap<String,Float> recipients)`: Send airtime to a bunch of phone numbers. The keys in the `recipients` map are phone numbers while the values are aitrime amounts.
+- `send(HashMap<String,String> recipients)`: Send airtime to a bunch of phone numbers. The keys in the `recipients` map are phone numbers while the values are aitrime amounts. The amounts need to have currency info e.g. `UXG 4265`.
 
 For more information about status notification, please read [http://docs.africastalking.com/airtime/callback](http://docs.africastalking.com/airtime/callback)
 
@@ -101,7 +97,7 @@ For more information about status notification, please read [http://docs.africas
 
 - `fetchSubscription(String shortCode, String keyword)`: Fetch your premium subscription data
 
-- `createSubscription(String shortCode, String keyword, String phoneNumber)`: Create a premium subscription
+- `createSubscription(String shortCode, String keyword, String phoneNumber, String checkoutToken)`: Create a premium subscription
 
 For more information on: 
 
@@ -110,9 +106,9 @@ For more information on:
 - How to listen for subscription notifications: [http://docs.africastalking.com/subscriptions/callback](http://docs.africastalking.com/subscriptions/callback)
 
 
-### `PaymentsService`
+### `PaymentService`
 
-- `checkout(String productName, String phoneNumber, float amount, Currency currency)`: Initiate mobile checkout.
+- `checkout(String productName, String phoneNumber, String amount)`: Initiate mobile checkout.
 
 - `payCustomer(String productName, Consumer recipient)`: Send money to consumer. 
 
@@ -128,19 +124,33 @@ For more information, please read [http://docs.africastalking.com/payments](http
 
 - `fetchQueuedCalls(String phone)`: Get queued calls
 
+- `uploadMediaFile(String phone, String url)`: Upload voice media file
+
 - `VoiceMessage.Builder`: Build voice xml when callback URL receives a `POST` from Africa's Talking
 
-    - `say()`:
-    - `play()`:
-    - `getDigits()`:
-    - `dial()`:
-    - `conference()`:
-    - `record()`:
-    - `enqueue()`:
-    - `dequeue()`:
-    - `reject()`:
-    - `redirect()`:
-    - `build()`: Build xml
+    - `say(String text)`
+    
+    - `play(URL url)`
+    
+    - `getDigits(String text, URL url, int numDigits, long timeout, String finishOnKey, URL callback)`
+    
+    - `dial(String phoneNumbers, String ringbackTone, boolean record, boolean sequential, String callerId, long maxDuration)`
+    
+    - `conference()`
+    
+    - `record()`
+      
+      - `record(String text, URL url, int maxLength, long timeout, String finishOnKey, boolean trimSilence, boolean playBeep, URL callbackUrl)`
+      
+    - `enqueue()`
+    
+    - `dequeue()`
+    
+    - `reject()`
+    
+    - `redirect()`
+    
+    - `build()`: Finally build the xml
 
 
 For more information, please read [http://docs.africastalking.com/voice](http://docs.africastalking.com/voice)
@@ -149,3 +159,32 @@ For more information, please read [http://docs.africastalking.com/voice](http://
 
 For more information, please read [http://docs.africastalking.com/ussd](http://docs.africastalking.com/ussd)
 
+
+
+## Development
+```shell
+$ git clone https://github.com/aksalj/africastalking-java.git
+$ cd africastalking-java
+$ touch local.properties
+```
+
+Make sure your `local.properties` file has the following content then run `./gradlew build`
+
+```ini
+# Android
+sdk.dir=/path/to/android/sdk
+
+# AT API
+username=sandbox
+apiKey=some_key
+
+# Bintray
+bintray.user=fake
+bintray.key=fake
+bintray.repo=fake
+bintray.organization=fake
+bintray.package=fake
+bintray.groupId=fake
+bintray.version=fake
+bintray.vscUrl=fake
+```
