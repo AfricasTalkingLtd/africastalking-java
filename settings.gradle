@@ -13,8 +13,6 @@ libs << 'ussd'
 libs << 'account'
 libs << 'common'
 libs << 'core'
-libs << 'server'
-libs << 'client'
 
 libs.each { lib ->
     include lib
@@ -22,8 +20,5 @@ libs.each { lib ->
 }
 
 /* Examples */
-Set<String> examples = new HashSet<String>()
-examples << 'example:web'
-examples << 'example:android'
-examples.each { eg -> include eg }
+include 'example'
 

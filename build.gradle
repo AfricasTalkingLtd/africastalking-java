@@ -26,14 +26,13 @@ allprojects {
 
 Set<String> publishedLibs = new HashSet<String>()
 publishedLibs << 'sms'
-publishedLibs << 'payments'
+publishedLibs << 'payment'
 publishedLibs << 'token'
 publishedLibs << 'airtime'
 publishedLibs << 'voice'
 publishedLibs << 'ussd'
 publishedLibs << 'account'
 publishedLibs << 'core'
-publishedLibs << 'server'
 configure(subprojects.findAll {publishedLibs.contains(it.name)}){
     group properties.getProperty("bintray.groupId")
     version properties.getProperty("bintray.version")

@@ -20,7 +20,6 @@ public final class AfricasTalking {
      * Initialize the SDK
      * @param username
      * @param apiKey
-     * @param format
      */
     public static void initialize(String username, String apiKey){
 
