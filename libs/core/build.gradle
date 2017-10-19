@@ -6,6 +6,15 @@ mainClassName = "com.africastalking.AT"
 targetCompatibility = 1.7
 sourceCompatibility = 1.7
 
+test {
+    testLogging {
+        // Make sure output from
+        // standard out or error is shown
+        // in Gradle output.
+        showStandardStreams = false
+    }
+}
+
 dependencies {
 
     compile project(":account")
