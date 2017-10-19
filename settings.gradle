@@ -5,7 +5,7 @@
 /* Libs */
 Set<String> libs = new HashSet<String>()
 libs << 'sms'
-libs << 'payments'
+libs << 'payment'
 libs << 'token'
 libs << 'airtime'
 libs << 'voice'
@@ -19,6 +19,5 @@ libs.each { lib ->
     project(":${lib}").projectDir = file("libs/${lib}")
 }
 
-/* Examples */
+/* Example */
 include 'example'
-

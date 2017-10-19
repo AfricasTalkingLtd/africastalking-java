@@ -10,7 +10,7 @@ dependencies {
 
     compile project(":account")
     compile project(":airtime")
-    compile project(":payments")
+    compile project(":payment")
     compile project(":sms")
     compile project(":ussd")
     compile project(":voice")

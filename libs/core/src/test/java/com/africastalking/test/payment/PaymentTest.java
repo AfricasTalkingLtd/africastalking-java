@@ -1,4 +1,4 @@
-package com.africastalking.test.payments;
+package com.africastalking.test.payment;
 
 import com.africastalking.*;
 import com.africastalking.payments.recipient.Business;
