@@ -45,7 +45,6 @@ final class SdkServerService extends SdkServerServiceImplBase {
             response.onCompleted();
 
         } catch (Exception ex) {
-            ex.printStackTrace();
             response.onError(ex);
         }
     }
