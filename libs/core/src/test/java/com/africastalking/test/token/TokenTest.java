@@ -32,4 +32,15 @@ public class TokenTest {
 
     }
 
+    @Test
+    public void testGenerateAuthToken() {
+        TokenService service = AfricasTalking.getService(TokenService.class);
+        try {
+            final String response = service.generateAuthToken();
+            Assert.assertNotNull(response);
+        } catch (IOException e) {
+            Assert.fail(e.getMessage());
+        }
+    }
+
 }

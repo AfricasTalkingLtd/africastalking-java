@@ -10,7 +10,7 @@
 AfricasTalking.initialize(USERNAME, API_KEY);
 
 // Initialize a service e.g. SMS
-SMSService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
+SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
 
 // Use the service
 boolean sent = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
@@ -49,12 +49,13 @@ dependencies{
   
   // or get individual services
   compile 'com.africastalking:account:VERSION'
-  compile 'com.africastalking:payments:VERSION'
+  compile 'com.africastalking:payment:VERSION'
   compile 'com.africastalking:token:VERSION'
   compile 'com.africastalking:airtime:VERSION'
   compile 'com.africastalking:voice:VERSION'
   compile 'com.africastalking:sms:VERSION'
   compile 'com.africastalking:ussd:VERSION'
+  compile 'com.africastalking:server:VERSION'
 }
 ```
 
@@ -85,7 +86,7 @@ All methods return a `String` of `json` data. All methods are synchronous (i.e. 
 
 For more information about status notification, please read [http://docs.africastalking.com/airtime/callback](http://docs.africastalking.com/airtime/callback)
 
-### `SMSService`
+### `SmsService`
 
 - `send(String message, String[] recipients)`: Send a message
 
@@ -154,7 +155,13 @@ For more information, please read [http://docs.africastalking.com/payments](http
 
 
 For more information, please read [http://docs.africastalking.com/voice](http://docs.africastalking.com/voice)
-​    
+
+###​ `TokenService`
+
+- `createCheckoutToken(String phoneNumber)`: Create a new checkout token for `phoneNumber`.
+
+- `generateAuthToken()`: Generate an auth token to use for authentication instead of an API key.
+
 ### `USSDService` *TODO?*
 
 For more information, please read [http://docs.africastalking.com/ussd](http://docs.africastalking.com/ussd)

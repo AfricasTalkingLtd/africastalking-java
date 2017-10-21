@@ -32,6 +32,7 @@ publishedLibs << 'voice'
 publishedLibs << 'ussd'
 publishedLibs << 'account'
 publishedLibs << 'core'
+publishedLibs << 'server'
 configure(subprojects.findAll {publishedLibs.contains(it.name)}){
     group properties.getProperty("bintray.groupId")
     version properties.getProperty("bintray.version")

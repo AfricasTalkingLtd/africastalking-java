@@ -1,17 +1,9 @@
 package com.africastalking;
 
-import com.africastalking.payments.recipient.Business;
-import com.africastalking.payments.recipient.Consumer;
-import com.google.gson.Gson;
-import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class TokenService extends Service {
 
@@ -66,5 +58,18 @@ public class TokenService extends Service {
 
     public void createCheckoutToken(String phoneNumber, Callback<String> callback) {
         service.createCheckoutToken(phoneNumber).enqueue(makeCallback(callback));
+    }
+
+    public String generateAuthToken() throws IOException {
+        Response<String> resp = service.generateAuthToken(_makeAuthToknRequestBody()).execute();
+        return resp.body();
+    }
+
+    public void generateAuthToken(Callback<String> callback) {
+        service.generateAuthToken(_makeAuthToknRequestBody()).enqueue(makeCallback(callback));
+    }
+
+    private String _makeAuthToknRequestBody() {
+        return "{\"username\": \""+ mUsername + "\"}";
     }
 }

@@ -25,8 +25,8 @@ public class App {
     private static Gson gson = new Gson();
 
     private static HandlebarsTemplateEngine hbs = new HandlebarsTemplateEngine("/views");
-    private static ATServer server;
-    private static SMSService sms;
+    private static Server server;
+    private static SmsService sms;
 
     private static void log(String message) {
         System.out.println(message);
@@ -34,44 +34,32 @@ public class App {
 
     private static void setupAfricastalking() throws IOException {
         // SDK Server
-        server = new ATServer(USERNAME, API_KEY);
-        server.start(RPC_PORT, null, null);
+        AfricasTalking.initialize(USERNAME, API_KEY);
         sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
-
+        server = new Server();
+        server.startInsecure(RPC_PORT);
     }
 
     public static void main(String[] args) throws IOException {
 
         InetAddress host = Inet4Address.getLocalHost();
-        log(String.format("Server: %s:%d", host.getHostAddress(), HTTP_PORT));
+        log("\n");
+        log(String.format("SDK Server: %s:%d", host.getHostAddress(), RPC_PORT));
+        log(String.format("HTTP Server: %s:%d", host.getHostAddress(), HTTP_PORT));
+        log("\n");
 
         setupAfricastalking();
 
-        exception(Exception.class, (e, req, res) -> e.printStackTrace()); // print all exceptions
+        port(HTTP_PORT);
 
         staticFiles.location("/public");
-
-        port(HTTP_PORT);
+        exception(Exception.class, (e, req, res) -> e.printStackTrace()); // print all exceptions
 
         get("/", (req, res) -> {
             Map<String, Object> data = new HashMap<>();
             data.put("req", req.pathInfo());
             return render("index", data);
         });
-
-        post("/auth/login", (req, res) -> {
-            // Check username and password....
-            HashMap<String, Object> data = new HashMap<>();
-            data.put("host", host.getHostAddress());
-            data.put("port", RPC_PORT);
-            data.put("token", server.generateToken());
-            return data;
-        }, gson::toJson);
-
-        get("/auth/logout/:token", (req, res) -> {
-            server.revokeToken(req.params("token"));
-            return "{}";
-        }, gson::toJson);
 
         // Send SMS on server, or let client send from their end
         post("/auth/register/:phone", (req, res) -> sms.send("Welcome to Awesome Company", "AT2FA", new String[] {req.params("phone")}));

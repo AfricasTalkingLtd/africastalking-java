@@ -20,9 +20,10 @@ public class SomeJavaApplication {
     public static void main(String[] args) {
     
         // Initialize the server
-        Server server = AfricasTalking.initialize(USERNAME, API_KEY);
+        Africastalking.initialize(USERNAME, API_KEY);
+        Server server = new Server();
         
-        // Add SIP credentials (Voice Only)
+        // (optional) Add SIP credentials (Voice Only)
         server.addSipCredentials(SIP_USERNAME, SIP_PASSWORD, SIP_HOST);
         
         // Start the server
@@ -75,7 +76,7 @@ npm install --save africastalking
 ```groovy
 repositories {
   maven {
-    url  "http://dl.bintray.com/africastalking/android"
+    url  "http://dl.bintray.com/africastalking/java"
   }
 }
 dependencies{
@@ -83,7 +84,7 @@ dependencies{
 }
 ```
 
-Or Maven (from `http://dl.bintray.com/africastalking/android`)
+Or Maven (from `http://dl.bintray.com/africastalking/java`)
 
 ```xml
 <dependency>
@@ -102,7 +103,7 @@ repositories {
   }
 }
 dependencies{
-  compile 'com.africastalking:client:VERSION'
+  compile 'com.africastalking:android:VERSION'
 }
 ```
 

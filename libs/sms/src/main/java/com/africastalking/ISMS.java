@@ -24,7 +24,8 @@ interface ISMS {
     Call<String> sendPremium(@Field("username") String username, @Field("to") String to,
                              @Field("from") String from, @Field("message") String message,
                              @Field("keyword") String keyword, @Field("linkId") String linkId,
-                             @Field("retryDurationInHours") String retryDurationInHours);
+                             @Field("retryDurationInHours") String retryDurationInHours,
+                             @Field("bulkSMSMode") int bulkMode);
 
     @GET("messaging")
     Call<String> fetchMessage(@Query("username") String username, @Query("lastReceivedId") String lastReceivedId);

@@ -13,6 +13,7 @@ libs << 'ussd'
 libs << 'account'
 libs << 'common'
 libs << 'core'
+libs << 'server'
 
 libs.each { lib ->
     include lib

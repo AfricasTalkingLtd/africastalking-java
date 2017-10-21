@@ -10,25 +10,25 @@ import java.util.StringJoiner;
 /**
  * SMS Service; Send and fetch SMSs
  */
-public final class SMSService extends Service {
+public final class SmsService extends Service {
 
 
-    private static SMSService sInstance;
+    private static SmsService sInstance;
     private ISMS sms;
 
-    private SMSService(String username, String apiKey) {
+    private SmsService(String username, String apiKey) {
         super(username, apiKey);
     }
 
-    SMSService() {
+    SmsService() {
         super();
     }
 
     @Override
-    protected SMSService getInstance(String username, String apiKey) {
+    protected SmsService getInstance(String username, String apiKey) {
 
         if (sInstance == null) {
-            sInstance = new SMSService(username, apiKey);
+            sInstance = new SmsService(username, apiKey);
         }
 
         return sInstance;
@@ -285,7 +285,7 @@ public final class SMSService extends Service {
      */
     public String sendPremium(String message, String from, String keyword, String linkId, long retryDurationInHours, String[] recipients) throws IOException {
         String retryDuration = retryDurationInHours <= 0 ? null : String.valueOf(retryDurationInHours);
-        Response<String> resp = sms.sendPremium(mUsername, formatRecipients(recipients), from, message, keyword, linkId, retryDuration).execute();
+        Response<String> resp = sms.sendPremium(mUsername, formatRecipients(recipients), from, message, keyword, linkId, retryDuration, 0).execute();
         if (!resp.isSuccessful()) {
             return resp.message();
         }
@@ -309,7 +309,7 @@ public final class SMSService extends Service {
     public void sendPremium(String message, String from, String keyword, String linkId, long retryDurationInHours, String[] recipients, Callback<String> callback) {
         String retryDuration = retryDurationInHours <= 0 ? null : String.valueOf(retryDurationInHours);
         sms.sendPremium(mUsername, formatRecipients(recipients),
-                from, message, keyword, linkId, retryDuration)
+                from, message, keyword, linkId, retryDuration, 0)
                 .enqueue(makeCallback(callback));
     }
 
