@@ -28,17 +28,6 @@ abstract class Service {
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
-        if (LOGGER != null) {
-            HttpLoggingInterceptor logger = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-                @Override
-                public void log(String message) {
-                    LOGGER.log(message);
-                }
-            });
-            logger.setLevel(HttpLoggingInterceptor.Level.BODY);
-            httpClient.addInterceptor(logger);
-        }
-
         httpClient.addInterceptor(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
@@ -58,6 +47,17 @@ abstract class Service {
                 return chain.proceed(request);
             }
         });
+
+        if (LOGGER != null) {
+            HttpLoggingInterceptor logger = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+                @Override
+                public void log(String message) {
+                    LOGGER.log(message);
+                }
+            });
+            logger.setLevel(HttpLoggingInterceptor.Level.BODY);
+            httpClient.addInterceptor(logger);
+        }
 
         mRetrofitBuilder = new Retrofit.Builder()
                 .addConverterFactory(ScalarsConverterFactory.create())

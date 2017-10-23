@@ -34,7 +34,6 @@ final class SdkServerService extends SdkServerServiceImplBase {
             TokenService service = AfricasTalking.getService(AfricasTalking.SERVICE_TOKEN);
             String tokenJson = service.generateAuthToken();
             TokenResponse tk = gson.fromJson(tokenJson, TokenResponse.class);
-            
             ClientTokenResponse tokenResponse = ClientTokenResponse.newBuilder()
                     .setToken(tk.token)
                     .setExpiration(System.currentTimeMillis() + (tk.lifetimeInSeconds * 1000))
