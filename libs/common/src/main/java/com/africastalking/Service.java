@@ -22,7 +22,6 @@ abstract class Service {
     static boolean isSandbox = false;
     static Logger LOGGER = null;
 
-
     Service(final String username, final String apiKey) {
 
         mUsername = username;
@@ -44,7 +43,14 @@ abstract class Service {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request original = chain.request();
+                HttpUrl url = original.url();
+                if (AfricasTalking.hostOverride != null) {
+                    url = url.newBuilder()
+                        .host(AfricasTalking.hostOverride)
+                        .build();
+                }
                 Request request = original.newBuilder()
+                        .url(url)
                         .addHeader("apiKey", apiKey)
                         .addHeader("Accept", "application/json")
                         .build();

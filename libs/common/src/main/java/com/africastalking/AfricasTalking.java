@@ -13,6 +13,9 @@ public final class AfricasTalking {
     public static final String SERVICE_TOKEN = BASE_PACKAGE + ".TokenService";
 
 
+    @Deprecated
+    public static String hostOverride = null;
+
     static String sUsername, sApiKey;
 
     
