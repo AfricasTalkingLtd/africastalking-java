@@ -14,7 +14,7 @@ interface IToken {
     @POST("checkout/token/create")
     Call<String> createCheckoutToken(@Field("phoneNumber") String phoneNumber);
 
-    @Headers("Content-Type: application-json")
+    @Headers("Content-Type: application/json")
     @POST("auth-token/generate")
     Call<String> generateAuthToken(@Body String body);
 }
