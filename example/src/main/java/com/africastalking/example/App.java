@@ -18,7 +18,7 @@ import static spark.Spark.*;
 public class App {
 
     private static final int HTTP_PORT = 3000;
-    private static final int RPC_PORT = 3001;
+    private static final int RPC_PORT = 35897;
     private static final String USERNAME = BuildConfig.USERNAME;
     private static final String API_KEY = BuildConfig.API_KEY;
 
@@ -35,6 +35,12 @@ public class App {
     private static void setupAfricastalking() throws IOException {
         // SDK Server
         AfricasTalking.initialize(USERNAME, API_KEY);
+        AfricasTalking.setLogger(new Logger(){
+            @Override
+            public void log(String message, Object... args) {
+                System.out.println(String.format(message, args));
+            }
+        });
         sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
         server = new Server();
         server.startInsecure(RPC_PORT);

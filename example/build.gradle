@@ -1,7 +1,6 @@
 group 'com.africastalking.example'
 version '1.0.0'
 
-apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'de.fuerstenau.buildconfig'
 mainClassName = "com.africastalking.example.App"
@@ -38,8 +37,7 @@ dependencies {
     compile 'com.sparkjava:spark-core:2.5.4'
     compile 'com.sparkjava:spark-template-handlebars:2.3'
     compile 'com.google.code.gson:gson:2.8.0'
-    // compile 'com.africastalking:core:2.1.0'
-   compile project(":core")
+    compile project(":core")
     testCompile 'junit:junit:4.11'
 }
 
