@@ -1,5 +1,7 @@
 package com.africastalking;
 
+import com.africastalking.payments.BankAccount;
+import com.africastalking.payments.PaymentCard;
 import com.africastalking.payments.recipient.Business;
 import com.africastalking.payments.recipient.Consumer;
 import com.google.gson.Gson;
@@ -8,7 +10,6 @@ import retrofit2.Response;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,6 @@ public class PaymentService extends Service {
 
     private PaymentService(String username, String apiKey) {
         super(username, apiKey);
-
     }
 
     PaymentService() {
@@ -71,6 +71,14 @@ public class PaymentService extends Service {
         return body;
     }
 
+    private HashMap<String, Object> makeCheckoutValidationRequest(String transactionId, String token) {
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("username", mUsername);
+        body.put("transactionId", transactionId);
+        body.put("token", token);
+        return body;
+    }
+
     private HashMap<String, Object> makeB2CRequest(String product, List<Consumer> recipients) {
         HashMap<String, Object> body = new HashMap<>();
         body.put("username", mUsername);
@@ -103,29 +111,14 @@ public class PaymentService extends Service {
      * @return
      * @throws IOException
      */
-    public String checkout(String productName, String phoneNumber, String amount, Map metadata) throws IOException {
-
+    public String mobileCheckout(String productName, String phoneNumber, String amount, Map metadata) throws IOException {
         HashMap<String, Object> body = makeCheckoutRequest(productName, phoneNumber, amount, metadata);
-
-        Call<String> call = payment.checkout(body);
+        Call<String> call = payment.mobileCheckout(body);
         Response<String> resp = call.execute();
         if (!resp.isSuccessful()) {
             return resp.message();
         }
         return resp.body();
-
-    }
-
-    /**
-     *
-     * @param productName
-     * @param phoneNumber
-     * @param amount String e.g. KES 6952
-     * @return
-     * @throws IOException
-     */
-    public String checkout(String productName, String phoneNumber, String amount) throws IOException {
-        return this.checkout(productName, phoneNumber, amount, new HashMap());
     }
 
     /**
@@ -136,16 +129,86 @@ public class PaymentService extends Service {
      * @param metadata
      * @param callback
      */
-    public void checkout(String productName, String phoneNumber, String amount, Map metadata, Callback<String> callback) {
+    public void mobileCheckout(String productName, String phoneNumber, String amount, Map metadata, Callback<String> callback) {
         HashMap<String, Object> body = makeCheckoutRequest(productName, phoneNumber, amount, metadata);
-        Call<String> call = payment.checkout(body);
+        Call<String> call = payment.mobileCheckout(body);
         call.enqueue(makeCallback(callback));
     }
 
-    public void checkout(String productName, String phoneNumber, String amount, Callback<String> callback) {
-        this.checkout(productName, phoneNumber, amount, new HashMap(), callback);
+    /**
+     * @param productName
+     */
+    public String cardCheckout(String productName, String amount, PaymentCard cardDetails, Map metadata) throws IOException {
+        HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
+        body.remove("phoneNumber");
+        body.put("paymentCard", cardDetails);
+        Call<String> call = payment.cardCheckoutCharge(body);
+        Response<String> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            return resp.message();
+        }
+        return resp.body();
     }
 
+    public void cardCheckout(String productName, String amount, PaymentCard cardDetails, Map metadata, Callback<String> callback) {
+        HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
+        body.remove("phoneNumber");
+        body.put("paymentCard", cardDetails);
+        Call<String> call = payment.cardCheckoutCharge(body);
+        call.enqueue(makeCallback(callback));
+    }
+
+    public String bankCheckout(String productName, String amount, BankAccount bankAccount, Map metadata) throws IOException {
+        HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
+        body.remove("phoneNumber");
+        body.put("bankAccount", bankAccount);
+        Call<String> call = payment.bankCheckoutCharge(body);
+        Response<String> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            return resp.message();
+        }
+        return resp.body();
+    }
+
+    public void bankCheckout(String productName, String amount, BankAccount bankAccount, Map metadata, Callback<String> callback) {
+        HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
+        body.remove("phoneNumber");
+        body.put("bankAccount", bankAccount);
+        Call<String> call = payment.bankCheckoutCharge(body);
+        call.enqueue(makeCallback(callback));
+    }
+
+    public String validateCardCheckout(String transactionId, String token) throws IOException {
+        HashMap<String, Object> body = makeCheckoutValidationRequest(transactionId, token);
+        Call<String> call = payment.cardCheckoutValidate(body);
+        Response<String> res = call.execute();
+        if (!res.isSuccessful()) {
+            return res.message();
+        }
+        return res.body();
+    }
+
+    public void validateCardCheckout(String transactionId, String token, Callback<String> callback) {
+        HashMap<String, Object> body = makeCheckoutValidationRequest(transactionId, token);
+        Call<String> call = payment.cardCheckoutValidate(body);
+        call.enqueue(makeCallback(callback));
+    }
+
+    public String validateBankCheckout(String transactionId, String token) throws IOException {
+        HashMap<String, Object> body = makeCheckoutValidationRequest(transactionId, token);
+        Call<String> call = payment.bankCheckoutValidate(body);
+        Response<String> res = call.execute();
+        if (!res.isSuccessful()) {
+            return res.message();
+        }
+        return res.body();
+    }
+
+    public void validateBankCheckout(String transactionId, String token, Callback<String> callback) {
+        HashMap<String, Object> body = makeCheckoutValidationRequest(transactionId, token);
+        Call<String> call = payment.bankCheckoutValidate(body);
+        call.enqueue(makeCallback(callback));
+    }
 
     /**
      *
@@ -163,12 +226,6 @@ public class PaymentService extends Service {
         return resp.body();
     }
 
-    public String payConsumer(String product, Consumer recipient) throws IOException {
-        List<Consumer> recipients = new ArrayList<>();
-        recipients.add(recipient);
-        return this.payConsumers(product, recipients);
-    }
-
     /**
      *
      * @param product
@@ -179,12 +236,6 @@ public class PaymentService extends Service {
         HashMap<String, Object> body = makeB2CRequest(product, recipients);
         Call<String> call = payment.requestB2C(body);
         call.enqueue(makeCallback(callback));
-    }
-
-    public void payConsumer(String product, Consumer recipient, Callback<String> callback) {
-        List<Consumer> recipients = new ArrayList<>();
-        recipients.add(recipient);
-        this.payConsumers(product, recipients, callback);
     }
 
     public String payBusiness(String product, Business recipient) throws IOException {
