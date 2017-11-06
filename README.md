@@ -5,7 +5,6 @@
 ## Usage
 
 ```java
-
 // Initialize
 AfricasTalking.initialize(USERNAME, API_KEY);
 
@@ -13,7 +12,7 @@ AfricasTalking.initialize(USERNAME, API_KEY);
 SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
 
 // Use the service
-boolean sent = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
+String response = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
 ```
 
 See [example](example/) for more usage examples.
@@ -107,9 +106,17 @@ For more information on:
 
 ### `PaymentService`
 
-- `checkout(String productName, String phoneNumber, String amount)`: Initiate mobile checkout.
+- `mobileCheckout(String productName, String phoneNumber, String amount)`: Initiate mobile checkout.
 
-- `payCustomer(String productName, Consumer recipient)`: Send money to consumer. 
+- `cardCheckout(String productName, String amount, PaymentCard paymentCard)`: Initiate card checkout.
+
+- `validateCardCheckout(String transactionId, String token)`: Validate a card checkout
+
+- `bankCheckout(String productName, String amount, BankAccount bankAccount)`: Initiate bank checkout.
+
+- `validateBankCheckout(String transactionId, String token)`: Validate a bank checkout
+
+- `payCustomers(String productName, List<Consumer> consumers)`: Send money to consumer. 
 
 - `payBusiness(String productName, Business recipient)`: Send money to business.
 
@@ -176,9 +183,6 @@ $ touch local.properties
 Make sure your `local.properties` file has the following content then run `./gradlew build`
 
 ```ini
-# Android
-sdk.dir=/path/to/android/sdk
-
 # AT API
 username=sandbox
 apiKey=some_key

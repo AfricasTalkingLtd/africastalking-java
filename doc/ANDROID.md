@@ -2,11 +2,13 @@
 
 [ ![Download](https://api.bintray.com/packages/africastalking/android/com.africastalking/images/download.svg) ](https://bintray.com/africastalking/android/com.africastalking/_latestVersion)
 
+**Important**: Checkout the [android repo](https://github.com/AfricasTalkingLtd/africastalking-android) for more information on how to use Africa's Talking APIs in your Android project. [https://github.com/AfricasTalkingLtd/africastalking-android](https://github.com/AfricasTalkingLtd/africastalking-android)
+
 The Android SDK simplifies the integration of Africa's Talking APIs into your Android apps. For better security,
 the SDK is split into two components: A **server** module that stores API keys, SIP credentials and other secrets.
 And a **client** module that runs in your app. This client module gets secrets from the server component (via RPC), and uses them to interact with the various APIs.
 
-For instance, to send an SMS, the client with request a token from the server; The server will use it's API key to request a token from Africa's Talking on behalf of the client. It will then forward the token to the client which will use it to request the SMS API to send a text. All in a split second!
+For instance, to send an SMS, the client with request a token from the server; The server will use its API key to request a token from Africa's Talking on behalf of the client. It will then forward the token to the client which will use it to request the SMS API to send a text. All in a split second!
 
 
 ### Usage
@@ -51,7 +53,17 @@ public class SomeActivity extends Activity {
             AirtimeService airtime = AfricasTalking.getAirtimeService();
 
             // Use Service
-            AirtimeResponses responses = airtime.send("+25467675655", "KES", 100);
+            airtime.send("+25467675655", "KES", 100, new Callback<AirtimeResponses>() {
+              @Override
+              void onSuccess(AirtimeResponses responses) {
+                //...
+              }
+
+              @Override
+              void onError(Throwable throwable) {
+                //...
+              }
+            });
         
         } catch (IOException ex) {
             // grrr
@@ -103,10 +115,11 @@ repositories {
   }
 }
 dependencies{
-  compile 'com.africastalking:android:VERSION'
+  compile 'com.africastalking:client:VERSION'
+  // or
+  compile 'com.africastalking:client-ui:VERSION' // with checkout UI for payment
 }
 ```
-
 
 
 ## Initialization
@@ -118,48 +131,30 @@ The following static methods are available on the `AfricasTalking` class to init
 
 ## Services
 
-All methods are synchronous (i.e. will block current thread) but provide asynchronous variants that take a `Callback<T>` as the last argument.
+Methods on all services are synchronous (i.e. will block current thread) but provide asynchronous variants that take a `Callback<T>` as the last argument.
 
-### `Account`
-- `getUser()`: Get user information.
+- Account
+- Airtime
+- SMS
+- Token
+- Voice
+- Payment
 
-### `Airtime`
+**Note on Voice**: Unlike other services, the `VoiceService` is initialized as follows:
 
-- `send(String phone, String currencyCode, float amount)`: Send airtime to a phone number.
+```java
+AfricasTalking.initializeVoiceService(Context cxt, RegistrationListener listener, new Callback<VoiceService>() {
+    @Override
+    public void onSuccess(VoiceService service) {
+      // keep a reference to the 'service'
+    }
 
-- `send(HashMap<String, String> recipients)`: Send airtime to a bunch of phone numbers. The keys in the `recipients` map are phone numbers while the values are airtime amounts ( e.g. `KES 678`).
-
-For more information about status notification, please read [http://docs.africastalking.com/airtime/callback](http://docs.africastalking.com/airtime/callback)
-
-### `SMS`
-
-- `send(String message, String[] recipients)`: Send a message
-
-- `sendBulk(String message, String[] recipients)`: Send a message in bulk
-
-- `sendPremium(String message, String keyword, String linkId, String[] recipients)`: Send a premium SMS
-
-- `fetchMessage()`: Fetch your messages
-
-- `fetchSubscription(String shortCode, String keyword)`: Fetch your premium subscription data
-
-- `createSubscription(String shortCode, String keyword, String phoneNumber)`: Create a premium subscription
-
-For more information on: 
-
-- How to receive SMS: [http://docs.africastalking.com/sms/callback](http://docs.africastalking.com/sms/callback)
-
-- How to get notified of delivery reports: [http://docs.africastalking.com/sms/deliveryreports](http://docs.africastalking.com/sms/deliveryreports)
-
-- How to listen for subscription notifications: [http://docs.africastalking.com/subscriptions/callback](http://docs.africastalking.com/subscriptions/callback)
-
-### `Payment`
-
-- `checkout(String productName, String phoneNumber, String currencyCode, float amount)`: Initiate mobile checkout.
-
-- `payConsumers(String productName, List<Consumer> recipients)`: Send money to consumer. 
-
-- `payBusiness(String productName, Business recipient)`: Send money to business.
+    @Override
+    public void onFailure(Throwable throwable) {
+      // something blew up
+    }
+});
+```
 
 
 ## Requirements
