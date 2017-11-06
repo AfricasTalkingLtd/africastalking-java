@@ -23,8 +23,6 @@ See [example](example/) for more usage examples.
 
 - Remember your API key has to be kept secret, so hard-coding it into an apk or a jar you publish is a security risk. For usage on Android, [read this](doc/ANDROID.md).
 
-- The old `AfricasTalkingGateway` class is still available, but is being phased out! :)
-
 ## Download
 
 You can depend on the .jar through Maven (from `http://dl.bintray.com/africastalking/java`):
