@@ -1,13 +1,16 @@
 package com.africastalking.test.payment;
 
 import com.africastalking.*;
-import com.africastalking.payments.CardCheckoutResponse;
-import com.africastalking.payments.CheckoutResponse;
+import com.africastalking.payments.response.B2BResponse;
+import com.africastalking.payments.response.B2CResponse;
+import com.africastalking.payments.response.CheckoutResponse;
+import com.africastalking.payments.response.CheckoutValidateResponse;
 import com.africastalking.payments.recipient.Business;
 import com.africastalking.payments.recipient.Consumer;
 import com.africastalking.payments.PaymentCard;
 import com.africastalking.payments.BankAccount;
 import com.africastalking.test.Fixtures;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,34 +45,30 @@ public class PaymentTest {
     public void testCardCheckout() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
         PaymentCard card = new PaymentCard(9223372036854775807L, 232, 10, 23, "NG","1222");
-        card.number = 9223372036854775807L;
-        CardCheckoutResponse resp = service.cardCheckout("TestProduct", "NGN 877", card, new HashMap());
+        CheckoutResponse resp = service.cardCheckout("TestProduct", "NGN 877", card, new HashMap());
         Assert.assertEquals(CheckoutResponse.STATUS_PENDING, resp.status);
     }
 
     @Test
     public void testCardCheckoutValidation() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        String resp = service.validateCardCheckout("sometxId", "someToken");
-        System.out.print("\n" + resp + "\n");
-        Assert.assertNotNull(resp);
+        CheckoutValidateResponse resp = service.validateCardCheckout("sometxId", "someToken");
+        Assert.assertEquals(CheckoutResponse.STATUS_FAILED, resp.status);
     }
 
     @Test
     public void testBankCheckout() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        BankAccount account = new BankAccount("salama", "084802842", "Zenith Bank", "NG");
-        String resp = service.bankCheckout("TestProduct", "NGN 877", account, new HashMap());
-        System.out.print("\n" + resp + "\n");
-        Assert.assertNotNull(resp);
+        BankAccount account = new BankAccount("salama", "084802842", "NG", 90, "Zenith Bank");
+        CheckoutResponse resp = service.bankCheckout("TestProduct", "NGN 877", account, new HashMap());
+        Assert.assertEquals(CheckoutResponse.STATUS_PENDING, resp.status);
     }
 
     @Test
     public void testBankCheckoutValidation() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        String resp = service.validateBankCheckout("sometxId", "someToken");
-        System.out.print("\n" + resp + "\n");
-        Assert.assertNotNull(resp);
+        CheckoutValidateResponse resp = service.validateBankCheckout("sometxId", "someToken");
+        Assert.assertEquals(CheckoutResponse.STATUS_FAILED, resp.status);
     }
 
     @Test
@@ -77,18 +76,16 @@ public class PaymentTest {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
         Consumer recip = new Consumer("Salama", "0711082302", "KES 432", null);
         List<Consumer> consumers = Arrays.asList(recip);
-        String resp = service.payConsumers("TestProduct", consumers);
-        System.out.print("\n" + resp + "\n");
-        Assert.assertNotNull(resp);
+        B2CResponse resp = service.payConsumers("TestProduct", consumers);
+        Assert.assertEquals(resp.totalValue, "KES 432");
     }
 
     @Test
     public void testPayBusiness() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        Business recip = new Business("SBDev", "AccDest", Business.TRANSFER_TYPE_B2B, Business.PROVIDER_ATHENA, "KES 24512");
-        String resp = service.payBusiness("TestProduct", recip);
-        System.out.print("\n" + resp + "\n");
-        Assert.assertNotNull(resp);
+        Business recip = new Business("SBDev", "AccDest", Business.TRANSFER_TYPE_B2B, Business.PROVIDER_ATHENA, "KES 2512");
+        B2BResponse resp = service.payBusiness("TestProduct", recip);
+        Assert.assertEquals(resp.status, "Queued");
     }
 
 

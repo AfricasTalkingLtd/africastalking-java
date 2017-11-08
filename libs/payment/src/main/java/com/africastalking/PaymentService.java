@@ -1,8 +1,10 @@
 package com.africastalking;
 
+import com.africastalking.payments.response.B2BResponse;
+import com.africastalking.payments.response.B2CResponse;
 import com.africastalking.payments.BankAccount;
-import com.africastalking.payments.CardCheckoutResponse;
-import com.africastalking.payments.CheckoutResponse;
+import com.africastalking.payments.response.CheckoutValidateResponse;
+import com.africastalking.payments.response.CheckoutResponse;
 import com.africastalking.payments.PaymentCard;
 import com.africastalking.payments.recipient.Business;
 import com.africastalking.payments.recipient.Consumer;
@@ -18,8 +20,8 @@ import java.util.Map;
 
 public class PaymentService extends Service {
 
-    PaymentService sInstance;
-    IPayment payment;
+    private PaymentService sInstance;
+    private IPayment payment;
 
 
     private PaymentService(String username, String apiKey) {
@@ -73,11 +75,11 @@ public class PaymentService extends Service {
         return body;
     }
 
-    private HashMap<String, Object> makeCheckoutValidationRequest(String transactionId, String token) {
+    private HashMap<String, Object> makeCheckoutValidationRequest(String transactionId, String otp) {
         HashMap<String, Object> body = new HashMap<>();
         body.put("username", mUsername);
         body.put("transactionId", transactionId);
-        body.put("token", token);
+        body.put("otp", otp);
         return body;
     }
 
@@ -111,7 +113,7 @@ public class PaymentService extends Service {
      * @param amount Amount to transact, along with the currency code. e.g. KES 345
      * @param metadata Optional map of any metadata that you may want to associate with this transaction.
      *                 This map will be included in the payment notification callback
-     * @return {@link CheckoutResponse CheckoutResponse}
+     * @return {@link com.africastalking.payments.response.CheckoutResponse CheckoutResponse}
      * @throws IOException
      */
     public CheckoutResponse mobileCheckout(String productName, String phoneNumber, String amount, Map metadata) throws IOException {
@@ -124,15 +126,6 @@ public class PaymentService extends Service {
         return resp.body();
     }
 
-
-    /**
-     * Asynchronous version of {@link com.africastalking.PaymentService mobileCheckout()}
-     * @param productName
-     * @param phoneNumber
-     * @param amount
-     * @param metadata
-     * @param callback
-     */
     public void mobileCheckout(String productName, String phoneNumber, String amount, Map metadata, Callback<CheckoutResponse> callback) {
         HashMap<String, Object> body = makeCheckoutRequest(productName, phoneNumber, amount, metadata);
         Call<CheckoutResponse> call = payment.mobileCheckout(body);
@@ -147,28 +140,28 @@ public class PaymentService extends Service {
      * @param paymentCard Payment card details. @see {@link com.africastalking.payments.PaymentCard PaymentCard}
      * @param metadata Optional map of any metadata that you may want to associate with this transaction.
      *                 This map will be included in the payment notification callback
-     * @return
+     * @return {@link com.africastalking.payments.response.CheckoutResponse CheckoutResponse}
      * @throws IOException
      */
-    public CardCheckoutResponse cardCheckout(String productName, String amount, PaymentCard paymentCard, Map metadata) throws IOException {
+    public CheckoutResponse cardCheckout(String productName, String amount, PaymentCard paymentCard, Map metadata) throws IOException {
         HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
         body.remove("phoneNumber");
         body.put("paymentCard", paymentCard);
         body.put("narration", null); // FIXME: Narration?
-        Call<CardCheckoutResponse> call = payment.cardCheckoutCharge(body);
-        Response<CardCheckoutResponse> resp = call.execute();
+        Call<CheckoutResponse> call = payment.cardCheckoutCharge(body);
+        Response<CheckoutResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
             throw new IOException(resp.message());
         }
         return resp.body();
     }
 
-    public void cardCheckout(String productName, String amount, PaymentCard cardDetails, Map metadata, Callback<CardCheckoutResponse> callback) {
+    public void cardCheckout(String productName, String amount, PaymentCard cardDetails, Map metadata, Callback<CheckoutResponse> callback) {
         HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
         body.remove("phoneNumber");
         body.put("paymentCard", cardDetails);
         body.put("narration", null); // FIXME: Narration?
-        Call<CardCheckoutResponse> call = payment.cardCheckoutCharge(body);
+        Call<CheckoutResponse> call = payment.cardCheckoutCharge(body);
         call.enqueue(makeCallback(callback));
     }
 
@@ -179,123 +172,152 @@ public class PaymentService extends Service {
      * @param checkoutToken A checkout token
      * @param metadata Optional map of any metadata that you may want to associate with this transaction.
      *                 This map will be included in the payment notification callback
-     * @return
+     * @return {@link com.africastalking.payments.response.CheckoutResponse CheckoutResponse}
      * @throws IOException
      */
-    public CardCheckoutResponse cardCheckout(String productName, String amount, String checkoutToken, Map metadata) throws IOException {
+    public CheckoutResponse cardCheckout(String productName, String amount, String checkoutToken, Map metadata) throws IOException {
         HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
         body.remove("phoneNumber");
         body.put("checkoutToken", checkoutToken);
         body.put("narration", null); // FIXME: Narration?
-        Call<CardCheckoutResponse> call = payment.cardCheckoutCharge(body);
-        Response<CardCheckoutResponse> resp = call.execute();
+        Call<CheckoutResponse> call = payment.cardCheckoutCharge(body);
+        Response<CheckoutResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
             throw new IOException(resp.message());
         }
         return resp.body();
     }
 
-    public void cardCheckout(String productName, String amount, String checkoutToken, Map metadata, Callback<CardCheckoutResponse> callback) {
+    public void cardCheckout(String productName, String amount, String checkoutToken, Map metadata, Callback<CheckoutResponse> callback) {
         HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
         body.remove("phoneNumber");
         body.put("checkoutToken", checkoutToken);
         body.put("narration", null); // FIXME: Narration?
-        Call<CardCheckoutResponse> call = payment.cardCheckoutCharge(body);
-        call.enqueue(makeCallback(callback));
-    }
-
-
-
-    public String bankCheckout(String productName, String amount, BankAccount bankAccount, Map metadata) throws IOException {
-        HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
-        body.remove("phoneNumber");
-        body.put("bankAccount", bankAccount);
-        Call<String> call = payment.bankCheckoutCharge(body);
-        Response<String> resp = call.execute();
-        if (!resp.isSuccessful()) {
-            return resp.message();
-        }
-        return resp.body();
-    }
-
-    public void bankCheckout(String productName, String amount, BankAccount bankAccount, Map metadata, Callback<String> callback) {
-        HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
-        body.remove("phoneNumber");
-        body.put("bankAccount", bankAccount);
-        Call<String> call = payment.bankCheckoutCharge(body);
-        call.enqueue(makeCallback(callback));
-    }
-
-    public String validateCardCheckout(String transactionId, String token) throws IOException {
-        HashMap<String, Object> body = makeCheckoutValidationRequest(transactionId, token);
-        Call<String> call = payment.cardCheckoutValidate(body);
-        Response<String> res = call.execute();
-        if (!res.isSuccessful()) {
-            return res.message();
-        }
-        return res.body();
-    }
-
-    public void validateCardCheckout(String transactionId, String token, Callback<String> callback) {
-        HashMap<String, Object> body = makeCheckoutValidationRequest(transactionId, token);
-        Call<String> call = payment.cardCheckoutValidate(body);
-        call.enqueue(makeCallback(callback));
-    }
-
-    public String validateBankCheckout(String transactionId, String token) throws IOException {
-        HashMap<String, Object> body = makeCheckoutValidationRequest(transactionId, token);
-        Call<String> call = payment.bankCheckoutValidate(body);
-        Response<String> res = call.execute();
-        if (!res.isSuccessful()) {
-            return res.message();
-        }
-        return res.body();
-    }
-
-    public void validateBankCheckout(String transactionId, String token, Callback<String> callback) {
-        HashMap<String, Object> body = makeCheckoutValidationRequest(transactionId, token);
-        Call<String> call = payment.bankCheckoutValidate(body);
+        Call<CheckoutResponse> call = payment.cardCheckoutCharge(body);
         call.enqueue(makeCallback(callback));
     }
 
     /**
-     *
-     * @param product
-     * @param recipients
-     * @return
+     * Validate a card checkout
+     * @param transactionId Transaction ID
+     * @param otp One-time-password from financial institution
+     * @return {@link com.africastalking.payments.response.CheckoutValidateResponse CheckoutValidateResponse}
+     * @throws IOException
      */
-    public String payConsumers(String product, List<Consumer> recipients) throws IOException {
-        HashMap<String, Object> body = makeB2CRequest(product, recipients);
-        Call<String> call = payment.requestB2C(body);
-        Response<String> resp = call.execute();
+    public CheckoutValidateResponse validateCardCheckout(String transactionId, String otp) throws IOException {
+        HashMap<String, Object> body = makeCheckoutValidationRequest(transactionId, otp);
+        Call<CheckoutValidateResponse> call = payment.cardCheckoutValidate(body);
+        Response<CheckoutValidateResponse> res = call.execute();
+        if (!res.isSuccessful()) {
+            throw new IOException(res.message());
+        }
+        return res.body();
+    }
+
+    public void validateCardCheckout(String transactionId, String otp, Callback<CheckoutValidateResponse> callback) {
+        HashMap<String, Object> body = makeCheckoutValidationRequest(transactionId, otp);
+        Call<CheckoutValidateResponse> call = payment.cardCheckoutValidate(body);
+        call.enqueue(makeCallback(callback));
+    }
+
+
+    /**
+     * Initiate a bank checkout
+     * @param productName Payment product used to initiate transaction
+     * @param amount Amount to transact, along with the currency code. e.g. NGN 5903
+     * @param bankAccount A checkout token
+     * @param metadata Optional map of any metadata that you may want to associate with this transaction.
+     *                 This map will be included in the payment notification callback
+     * @return {@link com.africastalking.payments.response.CheckoutResponse CheckoutResponse}
+     * @throws IOException
+     */
+    public CheckoutResponse bankCheckout(String productName, String amount, BankAccount bankAccount, Map metadata) throws IOException {
+        HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
+        body.remove("phoneNumber");
+        body.put("bankAccount", bankAccount);
+        Call<CheckoutResponse> call = payment.bankCheckoutCharge(body);
+        Response<CheckoutResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
-            return resp.message();
+            throw new IOException(resp.message());
         }
         return resp.body();
     }
 
-    /**
-     *
-     * @param product
-     * @param recipients
-     * @param callback
-     */
-    public void payConsumers(String product, List<Consumer> recipients, Callback<String> callback) {
-        HashMap<String, Object> body = makeB2CRequest(product, recipients);
-        Call<String> call = payment.requestB2C(body);
+    public void bankCheckout(String productName, String amount, BankAccount bankAccount, Map metadata, Callback<CheckoutResponse> callback) {
+        HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
+        body.remove("phoneNumber");
+        body.put("bankAccount", bankAccount);
+        Call<CheckoutResponse> call = payment.bankCheckoutCharge(body);
         call.enqueue(makeCallback(callback));
     }
 
-    public String payBusiness(String product, Business recipient) throws IOException {
-        HashMap<String, Object> body = makeB2BRequest(product, recipient);
-        Call<String> call = payment.requestB2B(body);
-        Response<String> res = call.execute();
+
+    /**
+     * Validate a bank checkout
+     * @param transactionId Transaction ID
+     * @param otp One-time-password from financial institution
+     * @return {@link com.africastalking.payments.response.CheckoutValidateResponse CheckoutValidateResponse}
+     * @throws IOException
+     */
+    public CheckoutValidateResponse validateBankCheckout(String transactionId, String otp) throws IOException {
+        HashMap<String, Object> body = makeCheckoutValidationRequest(transactionId, otp);
+        Call<CheckoutValidateResponse> call = payment.bankCheckoutValidate(body);
+        Response<CheckoutValidateResponse> res = call.execute();
+        if (!res.isSuccessful()) {
+            throw new IOException(res.message());
+        }
         return res.body();
     }
 
-    public void payBusiness(String product, Business recipient, Callback<String> callback) {
+    public void validateBankCheckout(String transactionId, String otp, Callback<CheckoutValidateResponse> callback) {
+        HashMap<String, Object> body = makeCheckoutValidationRequest(transactionId, otp);
+        Call<CheckoutValidateResponse> call = payment.bankCheckoutValidate(body);
+        call.enqueue(makeCallback(callback));
+    }
+
+    /**
+     * Make a B2C request
+     * @param product Payment product used to initiate transaction
+     * @param recipients {@link com.africastalking.payments.recipient.Consumer Consumers} recipients of the transaction
+     * @return {@com}
+     */
+    public B2CResponse payConsumers(String product, List<Consumer> recipients) throws IOException {
+        HashMap<String, Object> body = makeB2CRequest(product, recipients);
+        Call<B2CResponse> call = payment.requestB2C(body);
+        Response<B2CResponse> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            throw new IOException(resp.message());
+        }
+        return resp.body();
+    }
+
+    public void payConsumers(String product, List<Consumer> recipients, Callback<B2CResponse> callback) {
+        HashMap<String, Object> body = makeB2CRequest(product, recipients);
+        Call<B2CResponse> call = payment.requestB2C(body);
+        call.enqueue(makeCallback(callback));
+    }
+
+
+    /**
+     * Make a B2B request
+     * @param product Payment product used to initiate transaction
+     * @param recipient {@link com.africastalking.payments.recipient.Business Business} recipient of the transaction
+     * @return {@link com.africastalking.payments.response.B2BResponse B2BResponse}
+     * @throws IOException
+     */
+    public B2BResponse payBusiness(String product, Business recipient) throws IOException {
         HashMap<String, Object> body = makeB2BRequest(product, recipient);
-        Call<String> call = payment.requestB2B(body);
+        Call<B2BResponse> call = payment.requestB2B(body);
+        Response<B2BResponse> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            throw new IOException(resp.message());
+        }
+        return resp.body();
+    }
+
+    public void payBusiness(String product, Business recipient, Callback<B2BResponse> callback) {
+        HashMap<String, Object> body = makeB2BRequest(product, recipient);
+        Call<B2BResponse> call = payment.requestB2B(body);
         call.enqueue(makeCallback(callback));
     }
 
