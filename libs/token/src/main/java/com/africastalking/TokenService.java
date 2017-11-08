@@ -1,14 +1,17 @@
 package com.africastalking;
 
+import com.africastalking.token.AuthTokenResponse;
+import com.africastalking.token.CheckoutTokenResponse;
+
 import retrofit2.Response;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
 
-public class TokenService extends Service {
+public final class TokenService extends Service {
 
-    TokenService sInstance;
-    IToken service;
+    private TokenService sInstance;
+    private IToken service;
 
 
     private TokenService(String username, String apiKey) {
@@ -37,7 +40,6 @@ public class TokenService extends Service {
     protected void initService() {
         String baseUrl = "https://api."+ (isSandbox ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN) + "/";
         service = mRetrofitBuilder
-                .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(baseUrl)
                 .build()
                 .create(IToken.class);
@@ -51,27 +53,27 @@ public class TokenService extends Service {
     }
 
 
-    public String createCheckoutToken(String phoneNumber) throws IOException {
-        Response<String> resp = service.createCheckoutToken(phoneNumber).execute();
+    public CheckoutTokenResponse createCheckoutToken(String phoneNumber) throws IOException {
+        Response<CheckoutTokenResponse> resp = service.createCheckoutToken(phoneNumber).execute();
         if (resp.isSuccessful()) {
             return resp.body();
         }
         throw new IOException(resp.message());
     }
 
-    public void createCheckoutToken(String phoneNumber, Callback<String> callback) {
+    public void createCheckoutToken(String phoneNumber, Callback<CheckoutTokenResponse> callback) {
         service.createCheckoutToken(phoneNumber).enqueue(makeCallback(callback));
     }
 
-    public String generateAuthToken() throws IOException {
-        Response<String> resp = service.generateAuthToken(_makeAuthToknRequestBody()).execute();
+    public AuthTokenResponse generateAuthToken() throws IOException {
+        Response<AuthTokenResponse> resp = service.generateAuthToken(_makeAuthToknRequestBody()).execute();
         if (resp.isSuccessful()) {
             return resp.body();
         }
         throw new IOException(resp.message());
     }
 
-    public void generateAuthToken(Callback<String> callback) {
+    public void generateAuthToken(Callback<AuthTokenResponse> callback) {
         service.generateAuthToken(_makeAuthToknRequestBody()).enqueue(makeCallback(callback));
     }
 

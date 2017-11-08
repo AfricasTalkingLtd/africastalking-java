@@ -1,6 +1,8 @@
 package com.africastalking;
 
 
+import com.africastalking.airtime.AirtimeResponse;
+
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -64,12 +66,12 @@ public final class AirtimeService extends Service {
      * <p>
      *     Synchronously send the request and return its response.
      * </p>
-     * @param phone
-     * @param amount String amount to send with currency e.g. KES 854
-     * @return
+     * @param phone Phone number (international format) to receive the airtime
+     * @param amount Amount to send with currency e.g. KES 854
+     * @return {@link com.africastalking.airtime.AirtimeResponse AirtimeResponse}
      * @throws IOException
      */
-    public String send(String phone, String amount) throws IOException {
+    public AirtimeResponse send(String phone, String amount) throws IOException {
         HashMap<String, String> map = new HashMap<>();
         map.put(phone, amount);
         return send(map);
@@ -81,11 +83,11 @@ public final class AirtimeService extends Service {
      *     Asynchronously send the request and notify {@code callback} of its response or if an error
      * occurred
      * </p>
-     * @param phone
-     * @param amount String amount to send with currency e.g. UGX 854
-     * @param callback
+     * @param phone Phone number (international format) to receive the airtime
+     * @param amount Amount to send with currency e.g. UGX 854
+     * @param callback {@link com.africastalking.Callback Callback} to be called once a response is received
      */
-    public void send(String phone, String amount, Callback<String> callback) {
+    public void send(String phone, String amount, Callback<AirtimeResponse> callback) {
         HashMap<String, String> map = new HashMap<>();
         map.put(phone, amount);
         send(map, callback);
@@ -96,15 +98,15 @@ public final class AirtimeService extends Service {
      * <p>
      *     Synchronously send the request and return its response.
      * </p>
-     * @param recipients Map<Phone,Amount> phone numbers with amounts to send e.g. UGX 854
-     * @return
+     * @param recipients Phone numbers with amounts to send e.g. UGX 854
+     * @return {@link com.africastalking.airtime.AirtimeResponse AirtimeResponse}
      * @throws IOException
      */
-    public String send(HashMap<String, String> recipients) throws IOException {
+    public AirtimeResponse send(HashMap<String, String> recipients) throws IOException {
         String json = _makeRecipientsJSON(recipients);
-        Response<String> resp = service.send(mUsername, json).execute();
+        Response<AirtimeResponse> resp = service.send(mUsername, json).execute();
         if (!resp.isSuccessful()) {
-            return resp.message();
+            throw new IOException(resp.message());
         }
         return resp.body();
     }
@@ -115,10 +117,10 @@ public final class AirtimeService extends Service {
      *     Asynchronously send the request and notify {@code callback} of its response or if an error
      * occurred
      * </p>
-     * @param recipients Map<Phone,Amount> phone numbers with amounts to send e.g. UGX 854
-     * @param callback
+     * @param recipients Phone numbers with amounts to send e.g. UGX 854
+     * @param callback {@link com.africastalking.Callback Callback} to be called once a response is received
      */
-    public void send(HashMap<String, String> recipients, Callback<String> callback) {
+    public void send(HashMap<String, String> recipients, Callback<AirtimeResponse> callback) {
         try{
             String json = _makeRecipientsJSON(recipients);
             service.send(mUsername, json).enqueue(makeCallback(callback));
@@ -128,12 +130,6 @@ public final class AirtimeService extends Service {
     }
 
 
-    /**
-     * Create required json for recipients
-     * @param recipients
-     * @return
-     * @throws IOException
-     */
     private String _makeRecipientsJSON(HashMap<String, String> recipients) throws IOException {
 
         if (recipients == null || recipients.size() == 0) {

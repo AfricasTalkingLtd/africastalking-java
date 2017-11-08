@@ -6,6 +6,7 @@ import com.africastalking.AfricasTalking;
 import com.africastalking.proto.SdkServerServiceGrpc.*;
 import com.africastalking.proto.SdkServerServiceOuterClass;
 import com.africastalking.proto.SdkServerServiceOuterClass.*;
+import com.africastalking.token.AuthTokenResponse;
 import com.google.gson.Gson;
 
 import io.grpc.stub.StreamObserver;
@@ -32,8 +33,7 @@ final class SdkServerService extends SdkServerServiceImplBase {
 
         try {
             TokenService service = AfricasTalking.getService(AfricasTalking.SERVICE_TOKEN);
-            String tokenJson = service.generateAuthToken();
-            TokenResponse tk = gson.fromJson(tokenJson, TokenResponse.class);
+            AuthTokenResponse tk = service.generateAuthToken();
             ClientTokenResponse tokenResponse = ClientTokenResponse.newBuilder()
                     .setToken(tk.token)
                     .setExpiration(System.currentTimeMillis() + (tk.lifetimeInSeconds * 1000))
@@ -81,17 +81,5 @@ final class SdkServerService extends SdkServerServiceImplBase {
             this.port = port;
             this.transport = transport;
         }
-    }
-
-    class TokenRequest {
-        String username;
-        TokenRequest(String username) {
-            this.username = username;
-        }
-    }
-
-    class TokenResponse {
-        String token;
-        long lifetimeInSeconds;
     }
 }

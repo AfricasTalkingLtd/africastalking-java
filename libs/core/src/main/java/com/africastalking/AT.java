@@ -1,5 +1,7 @@
 package com.africastalking;
 
+import com.africastalking.account.AccountResponse;
+
 import java.io.IOException;
 
 class AT {
@@ -13,8 +15,8 @@ class AT {
         AfricasTalking.initialize(argv[0], argv[1]);
         try {
             log("\tgetting user account...\n");
-            String user = AfricasTalking.getService(AccountService.class).getUser();
-            log("\t" + user);
+            AccountResponse resp = AfricasTalking.getService(AccountService.class).getUser();
+            log("\tBalance: " + resp.userData.balance);
         } catch (IOException e) {
             System.out.println("Failed to get AT account!");
         }

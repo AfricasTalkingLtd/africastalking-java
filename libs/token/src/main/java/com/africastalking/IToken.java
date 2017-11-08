@@ -1,5 +1,7 @@
 package com.africastalking;
 
+import com.africastalking.token.AuthTokenResponse;
+import com.africastalking.token.CheckoutTokenResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -12,9 +14,9 @@ interface IToken {
 
     @FormUrlEncoded
     @POST("checkout/token/create")
-    Call<String> createCheckoutToken(@Field("phoneNumber") String phoneNumber);
+    Call<CheckoutTokenResponse> createCheckoutToken(@Field("phoneNumber") String phoneNumber);
 
     @Headers("Content-Type: application/json")
     @POST("auth-token/generate")
-    Call<String> generateAuthToken(@Body String body);
+    Call<AuthTokenResponse> generateAuthToken(@Body String body);
 }

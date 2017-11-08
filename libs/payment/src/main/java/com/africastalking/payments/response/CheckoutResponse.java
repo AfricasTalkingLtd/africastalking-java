@@ -4,12 +4,7 @@ package com.africastalking.payments.response;
 /**
  * Response received checkout
  */
-public class CheckoutResponse {
-
-    public static final String STATUS_PENDING = "PendingConfirmation";
-    public static final String STATUS_INVALID_REQUEST = "InvalidRequest";
-    public static final String STATUS_NOT_SUPPORTED = "NotSupported";
-    public static final String STATUS_FAILED = "Failed";
+public final class CheckoutResponse {
 
     /**
      * Unique transaction ID

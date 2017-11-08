@@ -3,7 +3,10 @@ package com.africastalking;
 
 import java.net.URL;
 
-public class VoiceMessage {
+/**
+ * An xml voice response
+ */
+public final class VoiceMessage {
 
 
     private String xml;
@@ -17,6 +20,10 @@ public class VoiceMessage {
         return this.xml;
     }
 
+
+    /**
+     * Voice Message builder
+     */
     public static class Builder{
 
         private StringBuilder xml;

@@ -116,6 +116,8 @@ For more information on:
 
 - `validateBankCheckout(String transactionId, String token)`: Validate a bank checkout
 
+- `bankTransfer(String productName, List<Bank> recipients)`: Move money form payment wallet to bank account
+
 - `payCustomers(String productName, List<Consumer> consumers)`: Send money to consumer. 
 
 - `payBusiness(String productName, Business recipient)`: Send money to business.

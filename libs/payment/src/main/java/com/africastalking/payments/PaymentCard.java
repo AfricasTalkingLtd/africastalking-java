@@ -3,7 +3,7 @@ package com.africastalking.payments;
 /**
  * A payment card
  */
-public class PaymentCard {
+public final class PaymentCard {
 
     public long number;
     public int cvvNumber;

@@ -1,6 +1,11 @@
 package com.africastalking;
 
 
+import com.africastalking.sms.FetchMessageResponse;
+import com.africastalking.sms.FetchSubscriptionResponse;
+import com.africastalking.sms.SendMessageResponse;
+import com.africastalking.sms.SubscriptionResponse;
+
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -9,37 +14,37 @@ interface ISMS {
 
     @FormUrlEncoded
     @POST("messaging")
-    Call<String> send(@Field("username") String username, @Field("to") String to,
-                      @Field("from") String from, @Field("message") String message);
+    Call<SendMessageResponse> send(@Field("username") String username, @Field("to") String to,
+                                   @Field("from") String from, @Field("message") String message);
 
 
     @FormUrlEncoded
     @POST("messaging")
-    Call<String> sendBulk(@Field("username") String username, @Field("to") String to,
-                          @Field("from") String from, @Field("message") String message,
-                          @Field("bulkSMSMode") int bulkMode, @Field("enqueue") String enqueue);
+    Call<SendMessageResponse> sendBulk(@Field("username") String username, @Field("to") String to,
+                                       @Field("from") String from, @Field("message") String message,
+                                       @Field("bulkSMSMode") int bulkMode, @Field("enqueue") String enqueue);
 
     @FormUrlEncoded
     @POST("messaging")
-    Call<String> sendPremium(@Field("username") String username, @Field("to") String to,
-                             @Field("from") String from, @Field("message") String message,
-                             @Field("keyword") String keyword, @Field("linkId") String linkId,
-                             @Field("retryDurationInHours") String retryDurationInHours,
-                             @Field("bulkSMSMode") int bulkMode);
+    Call<SendMessageResponse> sendPremium(@Field("username") String username, @Field("to") String to,
+                                          @Field("from") String from, @Field("message") String message,
+                                          @Field("keyword") String keyword, @Field("linkId") String linkId,
+                                          @Field("retryDurationInHours") String retryDurationInHours,
+                                          @Field("bulkSMSMode") int bulkMode);
 
     @GET("messaging")
-    Call<String> fetchMessage(@Query("username") String username, @Query("lastReceivedId") String lastReceivedId);
+    Call<FetchMessageResponse> fetchMessage(@Query("username") String username, @Query("lastReceivedId") String lastReceivedId);
 
 
     @GET("subscription")
-    Call<String> fetchSubsciption(@Query("username") String username, @Query("shortCode") String shortCode,
-                                  @Query("keyword") String keyword, @Query("lastReceivedId") String lastReceivedId);
+    Call<FetchSubscriptionResponse> fetchSubscription(@Query("username") String username, @Query("shortCode") String shortCode,
+                                                      @Query("keyword") String keyword, @Query("lastReceivedId") String lastReceivedId);
 
     @FormUrlEncoded
     @POST("subscription/create")
-    Call<String> createSubscription(@Field("username") String username, @Field("shortCode") String shortCode,
-                                    @Field("keyword") String keyword, @Field("phoneNumber") String phoneNumber,
-                                    @Field("checkoutToken") String checkoutToken);
+    Call<SubscriptionResponse> createSubscription(@Field("username") String username, @Field("shortCode") String shortCode,
+                                                  @Field("keyword") String keyword, @Field("phoneNumber") String phoneNumber,
+                                                  @Field("checkoutToken") String checkoutToken);
 
 
 }

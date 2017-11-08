@@ -3,7 +3,7 @@ package com.africastalking.payments;
 /**
  * A bank account
  */
-public class BankAccount {
+public final class BankAccount {
 
     public String accountName;
     public String accountNumber;

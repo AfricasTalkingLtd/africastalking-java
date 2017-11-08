@@ -6,7 +6,7 @@ import java.util.HashMap;
 /**
  * Business-type payment recipient, used in B2B transactions.
  */
-public class Business {
+public final class Business {
 
     /*
      * Payment Providers

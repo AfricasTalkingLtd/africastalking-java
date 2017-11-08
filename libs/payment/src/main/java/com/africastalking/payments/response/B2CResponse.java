@@ -2,7 +2,7 @@ package com.africastalking.payments.response;
 
 import java.util.List;
 
-public class B2CResponse {
+public final class B2CResponse {
 
     public int numQueued;
     public String totalValue;

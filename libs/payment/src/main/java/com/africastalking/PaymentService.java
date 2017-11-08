@@ -1,8 +1,10 @@
 package com.africastalking;
 
+import com.africastalking.payments.recipient.Bank;
 import com.africastalking.payments.response.B2BResponse;
 import com.africastalking.payments.response.B2CResponse;
 import com.africastalking.payments.BankAccount;
+import com.africastalking.payments.response.BankTransferResponse;
 import com.africastalking.payments.response.CheckoutValidateResponse;
 import com.africastalking.payments.response.CheckoutResponse;
 import com.africastalking.payments.PaymentCard;
@@ -18,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PaymentService extends Service {
+public final class PaymentService extends Service {
 
     private PaymentService sInstance;
     private IPayment payment;
@@ -49,7 +51,6 @@ public class PaymentService extends Service {
     protected void initService() {
         String baseUrl = "https://payments."+ (isSandbox ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN) + "/";
         payment = mRetrofitBuilder
-                .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(baseUrl)
                 .build()
                 .create(IPayment.class);
@@ -138,16 +139,17 @@ public class PaymentService extends Service {
      * @param productName Payment product used to initiate transaction
      * @param amount Amount to transact, along with the currency code. e.g. NGN 5903
      * @param paymentCard Payment card details. @see {@link com.africastalking.payments.PaymentCard PaymentCard}
+     * @param narration A short description of the transaction that can be displayed on the client's statement
      * @param metadata Optional map of any metadata that you may want to associate with this transaction.
      *                 This map will be included in the payment notification callback
      * @return {@link com.africastalking.payments.response.CheckoutResponse CheckoutResponse}
      * @throws IOException
      */
-    public CheckoutResponse cardCheckout(String productName, String amount, PaymentCard paymentCard, Map metadata) throws IOException {
+    public CheckoutResponse cardCheckout(String productName, String amount, PaymentCard paymentCard, String narration, Map metadata) throws IOException {
         HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
         body.remove("phoneNumber");
         body.put("paymentCard", paymentCard);
-        body.put("narration", null); // FIXME: Narration?
+        body.put("narration", narration);
         Call<CheckoutResponse> call = payment.cardCheckoutCharge(body);
         Response<CheckoutResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
@@ -156,11 +158,11 @@ public class PaymentService extends Service {
         return resp.body();
     }
 
-    public void cardCheckout(String productName, String amount, PaymentCard cardDetails, Map metadata, Callback<CheckoutResponse> callback) {
+    public void cardCheckout(String productName, String amount, PaymentCard cardDetails, String narration, Map metadata, Callback<CheckoutResponse> callback) {
         HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
         body.remove("phoneNumber");
         body.put("paymentCard", cardDetails);
-        body.put("narration", null); // FIXME: Narration?
+        body.put("narration", narration);
         Call<CheckoutResponse> call = payment.cardCheckoutCharge(body);
         call.enqueue(makeCallback(callback));
     }
@@ -170,16 +172,17 @@ public class PaymentService extends Service {
      * @param productName Payment product used to initiate transaction
      * @param amount Amount to transact, along with the currency code. e.g. NGN 5903
      * @param checkoutToken A checkout token
+     * @param narration A short description of the transaction that can be displayed on the client's statement
      * @param metadata Optional map of any metadata that you may want to associate with this transaction.
      *                 This map will be included in the payment notification callback
      * @return {@link com.africastalking.payments.response.CheckoutResponse CheckoutResponse}
      * @throws IOException
      */
-    public CheckoutResponse cardCheckout(String productName, String amount, String checkoutToken, Map metadata) throws IOException {
+    public CheckoutResponse cardCheckout(String productName, String amount, String checkoutToken, String narration, Map metadata) throws IOException {
         HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
         body.remove("phoneNumber");
         body.put("checkoutToken", checkoutToken);
-        body.put("narration", null); // FIXME: Narration?
+        body.put("narration", narration);
         Call<CheckoutResponse> call = payment.cardCheckoutCharge(body);
         Response<CheckoutResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
@@ -188,11 +191,11 @@ public class PaymentService extends Service {
         return resp.body();
     }
 
-    public void cardCheckout(String productName, String amount, String checkoutToken, Map metadata, Callback<CheckoutResponse> callback) {
+    public void cardCheckout(String productName, String amount, String checkoutToken, String narration, Map metadata, Callback<CheckoutResponse> callback) {
         HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
         body.remove("phoneNumber");
         body.put("checkoutToken", checkoutToken);
-        body.put("narration", null); // FIXME: Narration?
+        body.put("narration", narration);
         Call<CheckoutResponse> call = payment.cardCheckoutCharge(body);
         call.enqueue(makeCallback(callback));
     }
@@ -272,6 +275,36 @@ public class PaymentService extends Service {
     public void validateBankCheckout(String transactionId, String otp, Callback<CheckoutValidateResponse> callback) {
         HashMap<String, Object> body = makeCheckoutValidationRequest(transactionId, otp);
         Call<CheckoutValidateResponse> call = payment.bankCheckoutValidate(body);
+        call.enqueue(makeCallback(callback));
+    }
+
+
+    /**
+     * Initiate bank transfer
+     * @param productName
+     * @param recipients
+     * @return
+     * @throws IOException
+     */
+    public BankTransferResponse bankTransfer(String productName, List<Bank> recipients) throws IOException {
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("username", mUsername);
+        body.put("productName", productName);
+        body.put("recipients", recipients);
+        Call<BankTransferResponse> call = payment.bankTransfer(body);
+        Response<BankTransferResponse> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            throw new IOException(resp.message());
+        }
+        return resp.body();
+    }
+
+    public void bankTransfer(String productName, List<Bank> recipients, Callback<BankTransferResponse> callback) {
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("username", mUsername);
+        body.put("productName", productName);
+        body.put("recipients", recipients);
+        Call<BankTransferResponse> call = payment.bankTransfer(body);
         call.enqueue(makeCallback(callback));
     }
 

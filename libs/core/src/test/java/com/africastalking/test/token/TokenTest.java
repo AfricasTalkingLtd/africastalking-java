@@ -1,17 +1,18 @@
 package com.africastalking.test.token;
 
-import com.africastalking.*;
+import com.africastalking.AfricasTalking;
+import com.africastalking.TokenService;
 import com.africastalking.test.Fixtures;
+import com.africastalking.token.AuthTokenResponse;
+import com.africastalking.token.CheckoutTokenResponse;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-
 public class TokenTest {
-
 
     @Before
     public void setup() {
@@ -23,8 +24,8 @@ public class TokenTest {
 
         TokenService service = AfricasTalking.getService(TokenService.class);
         try {
-            final String response = service.createCheckoutToken("0718769882");
-            Assert.assertNotNull(response);
+            final CheckoutTokenResponse response = service.createCheckoutToken("0718769882");
+            Assert.assertNotEquals("None", response.token);
 
         } catch (IOException e) {
             Assert.fail(e.getMessage());
@@ -36,8 +37,8 @@ public class TokenTest {
     public void testGenerateAuthToken() {
         TokenService service = AfricasTalking.getService(TokenService.class);
         try {
-            final String response = service.generateAuthToken();
-            Assert.assertNotNull(response);
+            final AuthTokenResponse response = service.generateAuthToken();
+            Assert.assertEquals(3600, response.lifetimeInSeconds);
         } catch (IOException e) {
             Assert.fail(e.getMessage());
         }

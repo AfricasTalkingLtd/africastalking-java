@@ -1,6 +1,6 @@
 package com.africastalking.payments.response;
 
-public class CheckoutValidateResponse {
+public final class CheckoutValidateResponse {
 
     /**
      * Status

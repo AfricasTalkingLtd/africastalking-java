@@ -1,7 +1,7 @@
 package com.africastalking;
 
 
-public final class USSDService extends Service {
+public final class UssdService extends Service {
 
     public static final String SESSION_CONTINUE = "CON";
     public static final String SESSION_END = "END";
@@ -12,21 +12,21 @@ public final class USSDService extends Service {
     public static final String FLAG_TEXT = "text";
 
 
-    private static USSDService sInstance;
+    private static UssdService sInstance;
 
-    private USSDService(String username, String apiKey) {
+    private UssdService(String username, String apiKey) {
         super(username, apiKey);
     }
 
-    USSDService() {
+    UssdService() {
         super();
     }
 
     @Override
-    protected USSDService getInstance(String username, String apiKey) {
+    protected UssdService getInstance(String username, String apiKey) {
 
         if (sInstance == null) {
-            sInstance = new USSDService(username, apiKey);
+            sInstance = new UssdService(username, apiKey);
         }
 
         return sInstance;

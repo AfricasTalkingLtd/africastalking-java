@@ -1,6 +1,7 @@
 package com.africastalking.test.account;
 
 import com.africastalking.*;
+import com.africastalking.account.AccountResponse;
 import com.africastalking.test.Fixtures;
 import org.junit.Assert;
 import org.junit.Before;
@@ -27,13 +28,14 @@ public class AccountTest {
 
         AccountService service = AfricasTalking.getService(AccountService.class);
         try {
-            final String user = service.getUser();
-            Assert.assertNotNull(user);
+            final AccountResponse resp = service.getUser();
+            Assert.assertNotNull(resp);
 
-            service.getUser(new Callback<String>() {
+            service.getUser(new Callback<AccountResponse>() {
                 @Override
-                public void onSuccess(String data) {
-                    assertEquals(user, data);
+                public void onSuccess(AccountResponse response) {
+                    Assert.assertNotNull(response);
+                    assertEquals(resp.userData.balance, response.userData.balance);
                     lock.countDown();
                 }
 

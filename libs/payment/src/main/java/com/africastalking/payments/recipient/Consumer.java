@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Consumer-type payment recipient, used in B2C transactions
  */
-public class Consumer {
+public final class Consumer {
 
     /*
      * Payment Reasons

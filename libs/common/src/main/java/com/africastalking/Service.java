@@ -5,6 +5,7 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.*;
 import retrofit2.Call;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.io.IOException;
@@ -61,6 +62,7 @@ abstract class Service {
 
         mRetrofitBuilder = new Retrofit.Builder()
                 .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build());
 
         initService();

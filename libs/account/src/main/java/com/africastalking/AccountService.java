@@ -1,8 +1,11 @@
 package com.africastalking;
 
 
+import com.africastalking.account.AccountResponse;
+
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
 
@@ -66,8 +69,8 @@ public class AccountService extends Service {
      * @return String in specified format, xml or json
      * @throws IOException
      */
-    public String getUser() throws IOException {
-        Response<String> resp = service.getUser(mUsername).execute();
+    public AccountResponse getUser() throws IOException {
+        Response<AccountResponse> resp = service.getUser(mUsername).execute();
         return resp.body();
     }
 
@@ -77,9 +80,9 @@ public class AccountService extends Service {
      *     Asynchronously send the request and notify {@code callback} of its response or if an error
      * occurred
      * </p>
-     * @param callback
+     * @param callback {@link com.africastalking.Callback Callback}
      */
-    public void getUser(final Callback<String> callback) {
+    public void getUser(final Callback<AccountResponse> callback) {
         service.getUser(mUsername).enqueue(makeCallback(callback));
     }
 }

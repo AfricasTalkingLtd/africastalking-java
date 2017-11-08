@@ -1,5 +1,8 @@
 package com.africastalking;
 
+import com.africastalking.voice.CallResponse;
+import com.africastalking.voice.QueuedCallsResponse;
+
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -35,7 +38,10 @@ public final class VoiceService extends Service {
     @Override
     protected void initService() {
         String baseUrl = "https://voice."+ (isSandbox ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN) + "/";
-        voice = mRetrofitBuilder.baseUrl(baseUrl).build().create(IVoice.class);
+        voice = mRetrofitBuilder
+                .baseUrl(baseUrl)
+                .build()
+                .create(IVoice.class);
     }
 
     @Override
@@ -47,109 +53,66 @@ public final class VoiceService extends Service {
 
     /**
      * Initiate phone call
-     * @param to
-     * @param from
-     * @return
+     * @param to Phone number to call
+     * @param from Number from which to initiate the call
+     * @return {@link com.africastalking.voice.CallResponse CallResponse}
      * @throws IOException
      */
-    public String call(String to, String from) throws IOException {
-        Call<String> call = voice.call(mUsername, to, from);
-        Response<String> resp = call.execute();
+    public CallResponse call(String to, String from) throws IOException {
+        Call<CallResponse> call = voice.call(mUsername, to, from);
+        Response<CallResponse> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            throw new IOException(resp.message());
+        }
         return resp.body();
     }
 
-    /**
-     *
-     * @param to
-     * @return
-     * @throws IOException
-     */
-    public String call(String to) throws IOException {
+    public CallResponse call(String to) throws IOException {
         return call(to, "");
     }
 
 
     /**
-     *
-     * @param to
-     * @param from
-     * @param callback
+     * Initiate phone call
+     * @param to Phone number to call
+     * @param from Number from which to initiate the call
+     * @param callback {@link com.africastalking.Callback Callback}
      */
-    public void call(String to, String from, final Callback<String> callback) {
-        Call<String> call = voice.call(mUsername, to, from);
-        call.enqueue(new retrofit2.Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                boolean success = response.code() == 201;
-                if (success) {
-                    callback.onSuccess(response.body());
-                }else {
-                    callback.onFailure(new Exception(response.body()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                callback.onFailure(t);
-            }
-        });
+    public void call(String to, String from, final Callback<CallResponse> callback) {
+        Call<CallResponse> call = voice.call(mUsername, to, from);
+        call.enqueue(makeCallback(callback));
     }
 
-    /**
-     *
-     * @param to
-     * @param callback
-     */
-    public void call(String to, Callback<String> callback) {
+    public void call(String to, Callback<CallResponse> callback) {
         call(to, "", callback);
     }
 
 
     /**
-     *
-     * @param phoneNumber
-     * @return
+     * Fetch queued calls
+     * @param phoneNumber Your virtual phone number
+     * @return {@link com.africastalking.voice.QueuedCallsResponse QueuedCallsResponse}
      * @throws IOException
      */
-    public String fetchQueuedCalls(String phoneNumber) throws IOException {
-        Call<String> call = voice.queueStatus(mUsername, phoneNumber);
-        Response<String> resp = call.execute();
+    public QueuedCallsResponse fetchQueuedCalls(String phoneNumber) throws IOException {
+        Call<QueuedCallsResponse> call = voice.queueStatus(mUsername, phoneNumber);
+        Response<QueuedCallsResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
-            return resp.message();
+            throw new IOException(resp.message());
         }
         return resp.body();
     }
 
-    /**
-     *
-     * @param phoneNumber
-     * @param callback
-     */
-    public void fetchQueuedCalls(String phoneNumber, final Callback<String> callback) {
-        Call<String> call = voice.queueStatus(mUsername, phoneNumber);
-        call.enqueue(new retrofit2.Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                boolean success = response.code() == 201;
-                if (success) {
-                    callback.onSuccess(response.body());
-                } else {
-                    String body = response.body();
-                    callback.onFailure(new Exception(body != null ? body : response.message()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                callback.onFailure(t);
-            }
-        });
+    public void fetchQueuedCalls(String phoneNumber, final Callback<QueuedCallsResponse> callback) {
+        Call<QueuedCallsResponse> call = voice.queueStatus(mUsername, phoneNumber);
+        call.enqueue(makeCallback(callback));
     }
 
     /**
-     * 
-     * @param phoneNumber
-     * @param url
+     * Upload media file
+     * @param phoneNumber Your virtual phone number
+     * @param url URL to your media file
+     * @throws IOException
      */
     public String uploadMediaFile(String phoneNumber, String url) throws IOException {
         Call<String> call = voice.mediaUpload(mUsername, url, phoneNumber);
@@ -160,31 +123,9 @@ public final class VoiceService extends Service {
         return resp.body();
     }
 
-    /**
-     * 
-     * @param phoneNumber
-     * @param url
-     * @param callback
-     */
     public void uploadMediaFile(String phoneNumber, String url, final Callback<String> callback) {
         Call<String> call = voice.mediaUpload(mUsername, url, phoneNumber);
-        call.enqueue(new retrofit2.Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                boolean success = response.code() == 201;
-                if (success) {
-                    callback.onSuccess(response.body());
-                } else {
-                    String body = response.body();
-                    callback.onFailure(new Exception(body != null ? body : response.message()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                callback.onFailure(t);
-            }
-        });
+        call.enqueue(makeCallback(callback));
     }
 
 }
