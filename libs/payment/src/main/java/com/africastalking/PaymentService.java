@@ -1,5 +1,6 @@
 package com.africastalking;
 
+import com.africastalking.model.MobileCheckoutResponse;
 import com.africastalking.payments.BankAccount;
 import com.africastalking.payments.PaymentCard;
 import com.africastalking.payments.recipient.Business;
@@ -103,35 +104,37 @@ public class PaymentService extends Service {
     }
 
     /**
-     *
-     * @param productName
-     * @param phoneNumber
-     * @param amount String e.g. UXG 745
-     * @param metadata
-     * @return
+     * Initiate a mobile checkout.
+     * @param productName Payment product used to initiate transaction
+     * @param phoneNumber Phone number (in international format) of the mobile subscriber that will complete this transaction.
+     * @param amount Amount to transact, along with the currency code. e.g. KES 345
+     * @param metadata Optional map of any metadata that you may want to associate with this transaction.
+     *                 This map will be included in the payment notification callback
+     * @return MobileCheckoutResponse
      * @throws IOException
      */
-    public String mobileCheckout(String productName, String phoneNumber, String amount, Map metadata) throws IOException {
+    public MobileCheckoutResponse mobileCheckout(String productName, String phoneNumber, String amount, Map metadata) throws IOException {
         HashMap<String, Object> body = makeCheckoutRequest(productName, phoneNumber, amount, metadata);
-        Call<String> call = payment.mobileCheckout(body);
-        Response<String> resp = call.execute();
+        Call<MobileCheckoutResponse> call = payment.mobileCheckout(body);
+        Response<MobileCheckoutResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
-            return resp.message();
+            throw new IOException(resp.message());
         }
         return resp.body();
     }
 
+
     /**
-     *
+     * Asynchronous version of {@link com.africastalking.PaymentService mobileCheckout()}
      * @param productName
      * @param phoneNumber
-     * @param amount String e.g. KES 785
+     * @param amount
      * @param metadata
      * @param callback
      */
-    public void mobileCheckout(String productName, String phoneNumber, String amount, Map metadata, Callback<String> callback) {
+    public void mobileCheckout(String productName, String phoneNumber, String amount, Map metadata, Callback<MobileCheckoutResponse> callback) {
         HashMap<String, Object> body = makeCheckoutRequest(productName, phoneNumber, amount, metadata);
-        Call<String> call = payment.mobileCheckout(body);
+        Call<MobileCheckoutResponse> call = payment.mobileCheckout(body);
         call.enqueue(makeCallback(callback));
     }
 
@@ -142,6 +145,7 @@ public class PaymentService extends Service {
         HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
         body.remove("phoneNumber");
         body.put("paymentCard", cardDetails);
+        body.put("narration", null); // FIXME: Narration?
         Call<String> call = payment.cardCheckoutCharge(body);
         Response<String> resp = call.execute();
         if (!resp.isSuccessful()) {
@@ -154,9 +158,34 @@ public class PaymentService extends Service {
         HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
         body.remove("phoneNumber");
         body.put("paymentCard", cardDetails);
+        body.put("narration", null); // FIXME: Narration?
         Call<String> call = payment.cardCheckoutCharge(body);
         call.enqueue(makeCallback(callback));
     }
+
+    public String cardCheckout(String productName, String amount, String checkoutToken, Map metadata) throws IOException {
+        HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
+        body.remove("phoneNumber");
+        body.put("checkoutToken", checkoutToken);
+        body.put("narration", null); // FIXME: Narration?
+        Call<String> call = payment.cardCheckoutCharge(body);
+        Response<String> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            return resp.message();
+        }
+        return resp.body();
+    }
+
+    public void cardCheckout(String productName, String amount, String checkoutToken, Map metadata, Callback<String> callback) {
+        HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
+        body.remove("phoneNumber");
+        body.put("checkoutToken", checkoutToken);
+        body.put("narration", null); // FIXME: Narration?
+        Call<String> call = payment.cardCheckoutCharge(body);
+        call.enqueue(makeCallback(callback));
+    }
+
+
 
     public String bankCheckout(String productName, String amount, BankAccount bankAccount, Map metadata) throws IOException {
         HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);

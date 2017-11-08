@@ -1,6 +1,7 @@
 package com.africastalking.test.payment;
 
 import com.africastalking.*;
+import com.africastalking.model.MobileCheckoutResponse;
 import com.africastalking.payments.recipient.Business;
 import com.africastalking.payments.recipient.Consumer;
 import com.africastalking.payments.PaymentCard;
@@ -11,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
@@ -32,15 +34,14 @@ public class PaymentTest {
     @Test
     public void testMobileCheckout() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        String resp = service.mobileCheckout("TestProduct", "0711082302", "KES 877", new HashMap());
-        System.out.print("\n" + resp + "\n");
-        Assert.assertNotNull(resp);
+        MobileCheckoutResponse resp = service.mobileCheckout("TestProduct", "0711082302", "KES 877", new HashMap());
+        Assert.assertEquals(MobileCheckoutResponse.STATUS_PENDING, resp.status);
     }
 
     @Test
     public void testCardCheckout() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        PaymentCard card = new PaymentCard();
+        PaymentCard card = new PaymentCard(9223372036854775807L, 232, 10, 23, "NG","1222");
         card.number = 9223372036854775807L;
         String resp = service.cardCheckout("TestProduct", "NGN 877", card, new HashMap());
         System.out.print("\n" + resp + "\n");
@@ -58,8 +59,7 @@ public class PaymentTest {
     @Test
     public void testBankCheckout() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        BankAccount account = new BankAccount();
-        account.accountName = "salama";
+        BankAccount account = new BankAccount("salama", "084802842", "Zenith Bank", "NG");
         String resp = service.bankCheckout("TestProduct", "NGN 877", account, new HashMap());
         System.out.print("\n" + resp + "\n");
         Assert.assertNotNull(resp);
@@ -76,9 +76,8 @@ public class PaymentTest {
     @Test
     public void testPayConsumer() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        Consumer recip = new Consumer("Salama", "0711082302", "KES 432");
-        List<Consumer> consumers = new ArrayList();
-        consumers.add(recip);
+        Consumer recip = new Consumer("Salama", "0711082302", "KES 432", null);
+        List<Consumer> consumers = Arrays.asList(recip);
         String resp = service.payConsumers("TestProduct", consumers);
         System.out.print("\n" + resp + "\n");
         Assert.assertNotNull(resp);
@@ -87,7 +86,7 @@ public class PaymentTest {
     @Test
     public void testPayBusiness() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        Business recip = new Business("SBDev", "AccDest", Business.TransferType.BusinessToBusinessTransfer, "KES 24512");
+        Business recip = new Business("SBDev", "AccDest", Business.TRANSFER_TYPE_B2B, Business.PROVIDER_ATHENA, "KES 24512");
         String resp = service.payBusiness("TestProduct", recip);
         System.out.print("\n" + resp + "\n");
         Assert.assertNotNull(resp);

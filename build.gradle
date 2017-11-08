@@ -53,6 +53,11 @@ configure(subprojects.findAll {publishedLibs.contains(it.name)}){
         }
     }
 
+    javadoc {
+        source = sourceSets.main.allJava
+        classpath = configurations.compile
+    }
+
     shadowJar {
         classifier = null // Avoid classifiers for now...
     }

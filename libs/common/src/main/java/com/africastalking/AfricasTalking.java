@@ -21,8 +21,8 @@ public final class AfricasTalking {
     
     /**
      * Initialize the SDK
-     * @param username
-     * @param apiKey
+     * @param username app username
+     * @param apiKey app API key
      */
     public static void initialize(String username, String apiKey){
 
@@ -35,18 +35,18 @@ public final class AfricasTalking {
     }
 
     /**
-     * Set logger
-     * @param logger
+     * Set request logger
+     * @param logger logger object
      */
     public static void setLogger(Logger logger) {
         Service.LOGGER = logger;
     }
 
     /**
-     * Get a service by class. e.g. SMService.class
-     * @param classInfo
-     * @param <T>
-     * @return
+     * Get a service by class. e.g. AirtimeService.class
+     * @param classInfo service class
+     * @param <T> service type
+     * @return An instance of the requested service
      */
     public static <T extends Service> T getService(Class<T> classInfo) {
         try {
@@ -68,8 +68,8 @@ public final class AfricasTalking {
     /**
      * Get a service by name
      * @param serviceName see AfricasTalking.SERVICES_*
-     * @param <T>
-     * @return
+     * @param <T> service type
+     * @return An instance of the requested service
      */
     public static <T extends Service> T getService(String serviceName) {
 
