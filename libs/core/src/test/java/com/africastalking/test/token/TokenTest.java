@@ -21,7 +21,6 @@ public class TokenTest {
 
     @Test
     public void testCreateCheckoutToken() {
-
         TokenService service = AfricasTalking.getService(TokenService.class);
         try {
             final CheckoutTokenResponse response = service.createCheckoutToken("0718769882");
@@ -30,7 +29,6 @@ public class TokenTest {
         } catch (IOException e) {
             Assert.fail(e.getMessage());
         }
-
     }
 
     @Test

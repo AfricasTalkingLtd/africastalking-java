@@ -47,39 +47,39 @@ public class PaymentTest {
     @Test
     public void testCardCheckout() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        PaymentCard card = new PaymentCard(9223372036854775807L, 232, 10, 23, "NG","1222");
-        CheckoutResponse resp = service.cardCheckout("TestProduct", "NGN 877", card, "", new HashMap());
-        Assert.assertEquals(Status.PENDING_VALIDATION, resp.status);
+        PaymentCard card = new PaymentCard(9223372036854775807L, 232, "Oct", 23, "NG","1222");
+        CheckoutResponse resp = service.cardCheckout("Ikoyi Store", "NGN 877", card, "Test card checkout", new HashMap());
+        Assert.assertEquals(Status.INVALID_REQUEST, resp.status);
     }
 
     @Test
     public void testCardCheckoutValidation() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
         CheckoutValidateResponse resp = service.validateCardCheckout("sometxId", "someToken");
-        Assert.assertEquals(Status.FAILED, resp.status);
+        Assert.assertEquals(Status.INVALID_REQUEST, resp.status);
     }
 
     @Test
     public void testBankCheckout() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
         BankAccount account = new BankAccount("salama", "084802842", "NG", 90, "Zenith Bank");
-        CheckoutResponse resp = service.bankCheckout("TestProduct", "NGN 877", account, new HashMap());
-        Assert.assertEquals(Status.PENDING_VALIDATION, resp.status);
+        CheckoutResponse resp = service.bankCheckout("Ikoyi Store", "NGN 877", account,"Some narration", new HashMap());
+        Assert.assertEquals(Status.INVALID_REQUEST, resp.status);
     }
 
     @Test
     public void testBankCheckoutValidation() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
         CheckoutValidateResponse resp = service.validateBankCheckout("sometxId", "someToken");
-        Assert.assertEquals(Status.FAILED, resp.status);
+        Assert.assertEquals(Status.INVALID_REQUEST, resp.status);
     }
 
     @Test
     public void testBankTransfer() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        List<Bank> recipients = Arrays.asList(new Bank(new BankAccount("Bob", "2323", "NG", 434,  "Zenith"), "NGN 5673", null));
-        BankTransferResponse resp = service.bankTransfer("TestProduct", recipients);
-        Assert.assertEquals(Status.FAILED, resp.entries.get(0).status);
+        List<Bank> recipients = Arrays.asList(new Bank(new BankAccount("Bob", "2323", "NG", 434,  "Zenith"), "NGN 5673", "Some narration", null));
+        BankTransferResponse resp = service.bankTransfer("Ikoyi Store", recipients);
+        Assert.assertEquals(Status.INVALID_REQUEST, resp.entries.get(0).status);
     }
 
     @Test

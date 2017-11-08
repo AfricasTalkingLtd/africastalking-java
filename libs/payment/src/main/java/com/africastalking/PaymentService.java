@@ -49,7 +49,7 @@ public final class PaymentService extends Service {
 
     @Override
     protected void initService() {
-        String baseUrl = "https://payments."+ (isSandbox ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN) + "/";
+         String baseUrl = "https://payments."+ (isSandbox ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN) + "/";
         payment = mRetrofitBuilder
                 .baseUrl(baseUrl)
                 .build()
@@ -229,15 +229,17 @@ public final class PaymentService extends Service {
      * @param productName Payment product used to initiate transaction
      * @param amount Amount to transact, along with the currency code. e.g. NGN 5903
      * @param bankAccount A checkout token
+     * @param narration A short description of the transaction that can be displayed on the client's statement
      * @param metadata Optional map of any metadata that you may want to associate with this transaction.
      *                 This map will be included in the payment notification callback
      * @return {@link com.africastalking.payments.response.CheckoutResponse CheckoutResponse}
      * @throws IOException
      */
-    public CheckoutResponse bankCheckout(String productName, String amount, BankAccount bankAccount, Map metadata) throws IOException {
+    public CheckoutResponse bankCheckout(String productName, String amount, BankAccount bankAccount, String narration, Map metadata) throws IOException {
         HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
         body.remove("phoneNumber");
         body.put("bankAccount", bankAccount);
+        body.put("narration", narration);
         Call<CheckoutResponse> call = payment.bankCheckoutCharge(body);
         Response<CheckoutResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
@@ -246,10 +248,11 @@ public final class PaymentService extends Service {
         return resp.body();
     }
 
-    public void bankCheckout(String productName, String amount, BankAccount bankAccount, Map metadata, Callback<CheckoutResponse> callback) {
+    public void bankCheckout(String productName, String amount, BankAccount bankAccount, String narration, Map metadata, Callback<CheckoutResponse> callback) {
         HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
         body.remove("phoneNumber");
         body.put("bankAccount", bankAccount);
+        body.put("narration", narration);
         Call<CheckoutResponse> call = payment.bankCheckoutCharge(body);
         call.enqueue(makeCallback(callback));
     }

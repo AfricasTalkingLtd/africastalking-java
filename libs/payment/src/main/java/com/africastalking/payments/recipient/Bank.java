@@ -2,6 +2,7 @@ package com.africastalking.payments.recipient;
 
 import com.africastalking.payments.BankAccount;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public final class Bank {
@@ -12,9 +13,10 @@ public final class Bank {
     public String narration;
     public Map<String, String> metadata;
 
-    public Bank(BankAccount bankAccount, String amount, Map<String, String> metadata) {
+    public Bank(BankAccount bankAccount, String amount, String narration, Map<String, String> metadata) {
         this.bankAccount = bankAccount;
-        this.metadata = metadata;
+        this.metadata = metadata == null ? new HashMap<String, String>() : metadata;
+        this.narration = narration;
 
         try {
             String[] currenciedAmount = amount.trim().split(" ");
