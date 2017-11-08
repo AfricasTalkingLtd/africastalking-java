@@ -1,7 +1,8 @@
 package com.africastalking;
 
-import com.africastalking.model.MobileCheckoutResponse;
 import com.africastalking.payments.BankAccount;
+import com.africastalking.payments.CardCheckoutResponse;
+import com.africastalking.payments.CheckoutResponse;
 import com.africastalking.payments.PaymentCard;
 import com.africastalking.payments.recipient.Business;
 import com.africastalking.payments.recipient.Consumer;
@@ -110,13 +111,13 @@ public class PaymentService extends Service {
      * @param amount Amount to transact, along with the currency code. e.g. KES 345
      * @param metadata Optional map of any metadata that you may want to associate with this transaction.
      *                 This map will be included in the payment notification callback
-     * @return MobileCheckoutResponse
+     * @return {@link CheckoutResponse CheckoutResponse}
      * @throws IOException
      */
-    public MobileCheckoutResponse mobileCheckout(String productName, String phoneNumber, String amount, Map metadata) throws IOException {
+    public CheckoutResponse mobileCheckout(String productName, String phoneNumber, String amount, Map metadata) throws IOException {
         HashMap<String, Object> body = makeCheckoutRequest(productName, phoneNumber, amount, metadata);
-        Call<MobileCheckoutResponse> call = payment.mobileCheckout(body);
-        Response<MobileCheckoutResponse> resp = call.execute();
+        Call<CheckoutResponse> call = payment.mobileCheckout(body);
+        Response<CheckoutResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
             throw new IOException(resp.message());
         }
@@ -132,56 +133,74 @@ public class PaymentService extends Service {
      * @param metadata
      * @param callback
      */
-    public void mobileCheckout(String productName, String phoneNumber, String amount, Map metadata, Callback<MobileCheckoutResponse> callback) {
+    public void mobileCheckout(String productName, String phoneNumber, String amount, Map metadata, Callback<CheckoutResponse> callback) {
         HashMap<String, Object> body = makeCheckoutRequest(productName, phoneNumber, amount, metadata);
-        Call<MobileCheckoutResponse> call = payment.mobileCheckout(body);
+        Call<CheckoutResponse> call = payment.mobileCheckout(body);
+        call.enqueue(makeCallback(callback));
+    }
+
+
+    /**
+     * Initiate card checkout
+     * @param productName Payment product used to initiate transaction
+     * @param amount Amount to transact, along with the currency code. e.g. NGN 5903
+     * @param paymentCard Payment card details. @see {@link com.africastalking.payments.PaymentCard PaymentCard}
+     * @param metadata Optional map of any metadata that you may want to associate with this transaction.
+     *                 This map will be included in the payment notification callback
+     * @return
+     * @throws IOException
+     */
+    public CardCheckoutResponse cardCheckout(String productName, String amount, PaymentCard paymentCard, Map metadata) throws IOException {
+        HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
+        body.remove("phoneNumber");
+        body.put("paymentCard", paymentCard);
+        body.put("narration", null); // FIXME: Narration?
+        Call<CardCheckoutResponse> call = payment.cardCheckoutCharge(body);
+        Response<CardCheckoutResponse> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            throw new IOException(resp.message());
+        }
+        return resp.body();
+    }
+
+    public void cardCheckout(String productName, String amount, PaymentCard cardDetails, Map metadata, Callback<CardCheckoutResponse> callback) {
+        HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
+        body.remove("phoneNumber");
+        body.put("paymentCard", cardDetails);
+        body.put("narration", null); // FIXME: Narration?
+        Call<CardCheckoutResponse> call = payment.cardCheckoutCharge(body);
         call.enqueue(makeCallback(callback));
     }
 
     /**
-     * @param productName
+     * Initiate card checkout with a checkout token
+     * @param productName Payment product used to initiate transaction
+     * @param amount Amount to transact, along with the currency code. e.g. NGN 5903
+     * @param checkoutToken A checkout token
+     * @param metadata Optional map of any metadata that you may want to associate with this transaction.
+     *                 This map will be included in the payment notification callback
+     * @return
+     * @throws IOException
      */
-    public String cardCheckout(String productName, String amount, PaymentCard cardDetails, Map metadata) throws IOException {
-        HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
-        body.remove("phoneNumber");
-        body.put("paymentCard", cardDetails);
-        body.put("narration", null); // FIXME: Narration?
-        Call<String> call = payment.cardCheckoutCharge(body);
-        Response<String> resp = call.execute();
-        if (!resp.isSuccessful()) {
-            return resp.message();
-        }
-        return resp.body();
-    }
-
-    public void cardCheckout(String productName, String amount, PaymentCard cardDetails, Map metadata, Callback<String> callback) {
-        HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
-        body.remove("phoneNumber");
-        body.put("paymentCard", cardDetails);
-        body.put("narration", null); // FIXME: Narration?
-        Call<String> call = payment.cardCheckoutCharge(body);
-        call.enqueue(makeCallback(callback));
-    }
-
-    public String cardCheckout(String productName, String amount, String checkoutToken, Map metadata) throws IOException {
+    public CardCheckoutResponse cardCheckout(String productName, String amount, String checkoutToken, Map metadata) throws IOException {
         HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
         body.remove("phoneNumber");
         body.put("checkoutToken", checkoutToken);
         body.put("narration", null); // FIXME: Narration?
-        Call<String> call = payment.cardCheckoutCharge(body);
-        Response<String> resp = call.execute();
+        Call<CardCheckoutResponse> call = payment.cardCheckoutCharge(body);
+        Response<CardCheckoutResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
-            return resp.message();
+            throw new IOException(resp.message());
         }
         return resp.body();
     }
 
-    public void cardCheckout(String productName, String amount, String checkoutToken, Map metadata, Callback<String> callback) {
+    public void cardCheckout(String productName, String amount, String checkoutToken, Map metadata, Callback<CardCheckoutResponse> callback) {
         HashMap<String, Object> body = makeCheckoutRequest(productName, null, amount, metadata);
         body.remove("phoneNumber");
         body.put("checkoutToken", checkoutToken);
         body.put("narration", null); // FIXME: Narration?
-        Call<String> call = payment.cardCheckoutCharge(body);
+        Call<CardCheckoutResponse> call = payment.cardCheckoutCharge(body);
         call.enqueue(makeCallback(callback));
     }
 

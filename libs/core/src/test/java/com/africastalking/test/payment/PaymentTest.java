@@ -1,7 +1,8 @@
 package com.africastalking.test.payment;
 
 import com.africastalking.*;
-import com.africastalking.model.MobileCheckoutResponse;
+import com.africastalking.payments.CardCheckoutResponse;
+import com.africastalking.payments.CheckoutResponse;
 import com.africastalking.payments.recipient.Business;
 import com.africastalking.payments.recipient.Consumer;
 import com.africastalking.payments.PaymentCard;
@@ -15,7 +16,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 
 
 public class PaymentTest {
@@ -34,8 +34,8 @@ public class PaymentTest {
     @Test
     public void testMobileCheckout() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        MobileCheckoutResponse resp = service.mobileCheckout("TestProduct", "0711082302", "KES 877", new HashMap());
-        Assert.assertEquals(MobileCheckoutResponse.STATUS_PENDING, resp.status);
+        CheckoutResponse resp = service.mobileCheckout("TestProduct", "0711082302", "KES 877", new HashMap());
+        Assert.assertEquals(CheckoutResponse.STATUS_PENDING, resp.status);
     }
 
     @Test
@@ -43,9 +43,8 @@ public class PaymentTest {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
         PaymentCard card = new PaymentCard(9223372036854775807L, 232, 10, 23, "NG","1222");
         card.number = 9223372036854775807L;
-        String resp = service.cardCheckout("TestProduct", "NGN 877", card, new HashMap());
-        System.out.print("\n" + resp + "\n");
-        Assert.assertNotNull(resp);
+        CardCheckoutResponse resp = service.cardCheckout("TestProduct", "NGN 877", card, new HashMap());
+        Assert.assertEquals(CheckoutResponse.STATUS_PENDING, resp.status);
     }
 
     @Test

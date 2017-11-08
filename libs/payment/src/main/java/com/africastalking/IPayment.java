@@ -1,7 +1,8 @@
 package com.africastalking;
 
 
-import com.africastalking.model.MobileCheckoutResponse;
+import com.africastalking.payments.CardCheckoutResponse;
+import com.africastalking.payments.CheckoutResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -17,10 +18,10 @@ interface IPayment {
     Call<String> requestB2B(@Body HashMap<String, Object> body);
 
     @POST("mobile/checkout/request")
-    Call<MobileCheckoutResponse> mobileCheckout(@Body HashMap<String, Object> body);
+    Call<CheckoutResponse> mobileCheckout(@Body HashMap<String, Object> body);
 
     @POST("card/checkout/charge")
-    Call<String> cardCheckoutCharge(@Body HashMap<String, Object> body);
+    Call<CardCheckoutResponse> cardCheckoutCharge(@Body HashMap<String, Object> body);
 
     @POST("card/checkout/validate")
     Call<String> cardCheckoutValidate(@Body HashMap<String, Object> body);

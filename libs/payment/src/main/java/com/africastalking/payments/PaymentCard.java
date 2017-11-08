@@ -1,5 +1,8 @@
 package com.africastalking.payments;
 
+/**
+ * A payment card
+ */
 public class PaymentCard {
 
     public long number;

@@ -1,7 +1,7 @@
-package com.africastalking.model;
+package com.africastalking.payments;
 
 
-public class MobileCheckoutResponse {
+public class CheckoutResponse {
 
     public static final String STATUS_PENDING = "PendingConfirmation";
     public static final String STATUS_INVALID_REQUEST = "InvalidRequest";
@@ -15,10 +15,10 @@ public class MobileCheckoutResponse {
     /**
      * Response received on mobile checkout
      * @param transactionId Transaction unique ID
-     * @param status Transaction status e.g. {@link com.africastalking.model.MobileCheckoutResponse.STATUS_PENDING MobileCheckoutResponse.STATUS_PENDING}
+     * @param status Transaction status e.g. CheckoutResponse.STATUS_PENDING
      * @param description Description of the request
      */
-    public MobileCheckoutResponse(String transactionId, String status, String description) {
+    public CheckoutResponse(String transactionId, String status, String description) {
         this.transactionId = transactionId;
         this.status = status;
         this.description = description;
