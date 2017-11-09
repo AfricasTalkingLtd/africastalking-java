@@ -47,7 +47,7 @@ public class PaymentTest {
     @Test
     public void testCardCheckout() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        PaymentCard card = new PaymentCard(9223372036854775807L, 232, "Oct", 23, "NG","1222");
+        PaymentCard card = new PaymentCard(9223372036854775807L, 232, 10, 2023, "NG","1222");
         CheckoutResponse resp = service.cardCheckout("Ikoyi Store", "NGN 877", card, "Test card checkout", new HashMap());
         Assert.assertEquals(Status.INVALID_REQUEST, resp.status);
     }
