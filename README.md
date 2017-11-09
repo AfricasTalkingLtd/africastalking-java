@@ -18,9 +18,8 @@ String response = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
 See [example](example/) for more usage examples.
 
 
-**Important**:
-
-- Remember your API key has to be kept secret, so hard-coding it into an apk or a jar you publish is a security risk. For usage on Android, [read this](doc/ANDROID.md).
+**Android Usage**:
+> Remember your API key has to be kept secret; hard-coding it into an apk or a jar you publish is a security risk. So on Android, use the SDK built for Android. See [https://github.com/aksalj/africastalking-android](https://github.com/aksalj/africastalking-android)
 
 ## Download
 
