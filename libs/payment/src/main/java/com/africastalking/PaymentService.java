@@ -1,19 +1,18 @@
 package com.africastalking;
 
-import com.africastalking.payments.recipient.Bank;
-import com.africastalking.payments.response.B2BResponse;
-import com.africastalking.payments.response.B2CResponse;
-import com.africastalking.payments.BankAccount;
-import com.africastalking.payments.response.BankTransferResponse;
-import com.africastalking.payments.response.CheckoutValidateResponse;
-import com.africastalking.payments.response.CheckoutResponse;
-import com.africastalking.payments.PaymentCard;
-import com.africastalking.payments.recipient.Business;
-import com.africastalking.payments.recipient.Consumer;
+import com.africastalking.payment.recipient.Bank;
+import com.africastalking.payment.response.B2BResponse;
+import com.africastalking.payment.response.B2CResponse;
+import com.africastalking.payment.BankAccount;
+import com.africastalking.payment.response.BankTransferResponse;
+import com.africastalking.payment.response.CheckoutValidateResponse;
+import com.africastalking.payment.response.CheckoutResponse;
+import com.africastalking.payment.PaymentCard;
+import com.africastalking.payment.recipient.Business;
+import com.africastalking.payment.recipient.Consumer;
 import com.google.gson.Gson;
 import retrofit2.Call;
 import retrofit2.Response;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -114,7 +113,7 @@ public final class PaymentService extends Service {
      * @param amount Amount to transact, along with the currency code. e.g. KES 345
      * @param metadata Optional map of any metadata that you may want to associate with this transaction.
      *                 This map will be included in the payment notification callback
-     * @return {@link com.africastalking.payments.response.CheckoutResponse CheckoutResponse}
+     * @return {@link com.africastalking.payment.response.CheckoutResponse CheckoutResponse}
      * @throws IOException
      */
     public CheckoutResponse mobileCheckout(String productName, String phoneNumber, String amount, Map metadata) throws IOException {
@@ -138,11 +137,11 @@ public final class PaymentService extends Service {
      * Initiate card checkout
      * @param productName Payment product used to initiate transaction
      * @param amount Amount to transact, along with the currency code. e.g. NGN 5903
-     * @param paymentCard Payment card details. @see {@link com.africastalking.payments.PaymentCard PaymentCard}
+     * @param paymentCard Payment card details. @see {@link com.africastalking.payment.PaymentCard PaymentCard}
      * @param narration A short description of the transaction that can be displayed on the client's statement
      * @param metadata Optional map of any metadata that you may want to associate with this transaction.
      *                 This map will be included in the payment notification callback
-     * @return {@link com.africastalking.payments.response.CheckoutResponse CheckoutResponse}
+     * @return {@link com.africastalking.payment.response.CheckoutResponse CheckoutResponse}
      * @throws IOException
      */
     public CheckoutResponse cardCheckout(String productName, String amount, PaymentCard paymentCard, String narration, Map metadata) throws IOException {
@@ -175,7 +174,7 @@ public final class PaymentService extends Service {
      * @param narration A short description of the transaction that can be displayed on the client's statement
      * @param metadata Optional map of any metadata that you may want to associate with this transaction.
      *                 This map will be included in the payment notification callback
-     * @return {@link com.africastalking.payments.response.CheckoutResponse CheckoutResponse}
+     * @return {@link com.africastalking.payment.response.CheckoutResponse CheckoutResponse}
      * @throws IOException
      */
     public CheckoutResponse cardCheckout(String productName, String amount, String checkoutToken, String narration, Map metadata) throws IOException {
@@ -204,7 +203,7 @@ public final class PaymentService extends Service {
      * Validate a card checkout
      * @param transactionId Transaction ID
      * @param otp One-time-password from financial institution
-     * @return {@link com.africastalking.payments.response.CheckoutValidateResponse CheckoutValidateResponse}
+     * @return {@link com.africastalking.payment.response.CheckoutValidateResponse CheckoutValidateResponse}
      * @throws IOException
      */
     public CheckoutValidateResponse validateCardCheckout(String transactionId, String otp) throws IOException {
@@ -232,7 +231,7 @@ public final class PaymentService extends Service {
      * @param narration A short description of the transaction that can be displayed on the client's statement
      * @param metadata Optional map of any metadata that you may want to associate with this transaction.
      *                 This map will be included in the payment notification callback
-     * @return {@link com.africastalking.payments.response.CheckoutResponse CheckoutResponse}
+     * @return {@link com.africastalking.payment.response.CheckoutResponse CheckoutResponse}
      * @throws IOException
      */
     public CheckoutResponse bankCheckout(String productName, String amount, BankAccount bankAccount, String narration, Map metadata) throws IOException {
@@ -262,7 +261,7 @@ public final class PaymentService extends Service {
      * Validate a bank checkout
      * @param transactionId Transaction ID
      * @param otp One-time-password from financial institution
-     * @return {@link com.africastalking.payments.response.CheckoutValidateResponse CheckoutValidateResponse}
+     * @return {@link com.africastalking.payment.response.CheckoutValidateResponse CheckoutValidateResponse}
      * @throws IOException
      */
     public CheckoutValidateResponse validateBankCheckout(String transactionId, String otp) throws IOException {
@@ -314,7 +313,7 @@ public final class PaymentService extends Service {
     /**
      * Make a B2C request
      * @param product Payment product used to initiate transaction
-     * @param recipients {@link com.africastalking.payments.recipient.Consumer Consumers} recipients of the transaction
+     * @param recipients {@link com.africastalking.payment.recipient.Consumer Consumers} recipients of the transaction
      * @return {@com}
      */
     public B2CResponse payConsumers(String product, List<Consumer> recipients) throws IOException {
@@ -337,8 +336,8 @@ public final class PaymentService extends Service {
     /**
      * Make a B2B request
      * @param product Payment product used to initiate transaction
-     * @param recipient {@link com.africastalking.payments.recipient.Business Business} recipient of the transaction
-     * @return {@link com.africastalking.payments.response.B2BResponse B2BResponse}
+     * @param recipient {@link com.africastalking.payment.recipient.Business Business} recipient of the transaction
+     * @return {@link com.africastalking.payment.response.B2BResponse B2BResponse}
      * @throws IOException
      */
     public B2BResponse payBusiness(String product, Business recipient) throws IOException {

@@ -1,11 +1,11 @@
 package com.africastalking;
 
 
-import com.africastalking.payments.response.B2BResponse;
-import com.africastalking.payments.response.B2CResponse;
-import com.africastalking.payments.response.BankTransferResponse;
-import com.africastalking.payments.response.CheckoutValidateResponse;
-import com.africastalking.payments.response.CheckoutResponse;
+import com.africastalking.payment.response.B2BResponse;
+import com.africastalking.payment.response.B2CResponse;
+import com.africastalking.payment.response.BankTransferResponse;
+import com.africastalking.payment.response.CheckoutValidateResponse;
+import com.africastalking.payment.response.CheckoutResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

@@ -1,4 +1,4 @@
-package com.africastalking.payments.recipient;
+package com.africastalking.payment.recipient;
 
 import java.util.HashMap;
 
@@ -30,7 +30,7 @@ public final class Consumer {
      * @param name Consumer name
      * @param phoneNumber Consumer phone number
      * @param amount Amount to transact, along with the currency code. e.g. KES 345
-     * @param reason Purpose for the payment. e.g. {@link com.africastalking.payments.recipient.Consumer Consumer.REASON_SALARY}
+     * @param reason Purpose for the payment. e.g. {@link com.africastalking.payment.recipient.Consumer Consumer.REASON_SALARY}
      */
     public Consumer(String name, String phoneNumber, String amount, String reason) {
         this.name = name;

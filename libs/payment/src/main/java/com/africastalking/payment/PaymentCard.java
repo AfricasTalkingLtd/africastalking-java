@@ -1,4 +1,4 @@
-package com.africastalking.payments;
+package com.africastalking.payment;
 
 /**
  * A payment card

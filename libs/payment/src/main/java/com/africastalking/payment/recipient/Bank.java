@@ -1,6 +1,6 @@
-package com.africastalking.payments.recipient;
+package com.africastalking.payment.recipient;
 
-import com.africastalking.payments.BankAccount;
+import com.africastalking.payment.BankAccount;
 
 import java.util.HashMap;
 import java.util.Map;

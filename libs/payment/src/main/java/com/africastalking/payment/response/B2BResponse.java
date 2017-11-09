@@ -1,4 +1,4 @@
-package com.africastalking.payments.response;
+package com.africastalking.payment.response;
 
 public final class B2BResponse {
     public String status;

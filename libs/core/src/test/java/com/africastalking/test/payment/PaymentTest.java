@@ -1,16 +1,16 @@
 package com.africastalking.test.payment;
 
 import com.africastalking.*;
-import com.africastalking.payments.recipient.Bank;
-import com.africastalking.payments.response.B2BResponse;
-import com.africastalking.payments.response.B2CResponse;
-import com.africastalking.payments.response.BankTransferResponse;
-import com.africastalking.payments.response.CheckoutResponse;
-import com.africastalking.payments.response.CheckoutValidateResponse;
-import com.africastalking.payments.recipient.Business;
-import com.africastalking.payments.recipient.Consumer;
-import com.africastalking.payments.PaymentCard;
-import com.africastalking.payments.BankAccount;
+import com.africastalking.payment.recipient.Bank;
+import com.africastalking.payment.response.B2BResponse;
+import com.africastalking.payment.response.B2CResponse;
+import com.africastalking.payment.response.BankTransferResponse;
+import com.africastalking.payment.response.CheckoutResponse;
+import com.africastalking.payment.response.CheckoutValidateResponse;
+import com.africastalking.payment.recipient.Business;
+import com.africastalking.payment.recipient.Consumer;
+import com.africastalking.payment.PaymentCard;
+import com.africastalking.payment.BankAccount;
 import com.africastalking.Status;
 import com.africastalking.test.Fixtures;
 
