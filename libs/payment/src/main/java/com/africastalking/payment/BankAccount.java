@@ -6,14 +6,26 @@ package com.africastalking.payment;
 public final class BankAccount {
 
     public enum BankCode {
-        FirstBank_NG(234001),
-        ZenithBank_NG(234002),
-        AccessBank_NG(234003),
+
         GTBank_NG(234004),
         Ecobank_NG(234005),
-        Diamond_NG(234007),
-        Providus_NG(234008),
-        FirstCityMonument_NG(234006),
+        Diamond_NG(234006),
+        Providus_NG(234007),
+        Unity_NG(234008),
+        Stanbic_NG(234009),
+        Sterling_NG(234010),
+        Parkway_NG(234011),
+        Afribank_NG(234012),
+        Enterprise_NG(234013),
+        Fidelity_NG(234014),
+        Heritage_NG(234015),
+        Keystone_NG(234016),
+        Skye_NG(234017),
+        Stanchart_NG(234018),
+        Union_NG(234019),
+        Uba_NG(234020),
+        Wema_NG(234021),
+        First_NG(234022),
         CBA_KE(254001);
 
         private final int code;
