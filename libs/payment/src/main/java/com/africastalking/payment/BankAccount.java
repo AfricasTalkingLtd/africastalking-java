@@ -6,7 +6,9 @@ package com.africastalking.payment;
 public final class BankAccount {
 
     public enum BankCode {
-
+        FCMB_NG(234001),
+        Zenith_NG(234002),
+        Access_NG(234003),
         GTBank_NG(234004),
         Ecobank_NG(234005),
         Diamond_NG(234006),
