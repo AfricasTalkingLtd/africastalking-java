@@ -37,6 +37,7 @@ public final class BankAccount {
     public String accountName;
     public String accountNumber;
     public int bankCode;
+    public String dateOfBirth;
 
     /**
      * A bank account
