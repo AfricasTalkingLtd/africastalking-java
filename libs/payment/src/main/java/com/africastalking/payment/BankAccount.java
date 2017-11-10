@@ -26,11 +26,22 @@ public final class BankAccount {
         Uba_NG(234020),
         Wema_NG(234021),
         First_NG(234022),
-        CBA_KE(254001);
+        CBA_KE(254001),
+        UNKNOWN(-1);
 
         private final int code;
         BankCode(int code) {
             this.code = code;
+        }
+
+        public static BankCode valueOf(int code) {
+            BankCode[] codes = values();
+            for(BankCode c:codes) {
+                if (c.code == code) {
+                    return c;
+                }
+            }
+            return UNKNOWN;
         }
     }
 
