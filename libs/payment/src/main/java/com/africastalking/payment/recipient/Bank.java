@@ -15,7 +15,7 @@ public final class Bank {
 
     public Bank(BankAccount bankAccount, String amount, String narration, Map<String, String> metadata) {
         this.bankAccount = bankAccount;
-        this.metadata = metadata == null ? new HashMap<String, String>() : metadata;
+        this.metadata = metadata;
         this.narration = narration;
 
         try {
