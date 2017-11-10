@@ -105,21 +105,14 @@ For more information on:
 
 ### `PaymentService`
 
-- `mobileCheckout(String productName, String phoneNumber, String amount)`: Initiate mobile checkout.
-
 - `cardCheckout(String productName, String amount, PaymentCard paymentCard)`: Initiate card checkout.
-
 - `validateCardCheckout(String transactionId, String token)`: Validate a card checkout
-
 - `bankCheckout(String productName, String amount, BankAccount bankAccount)`: Initiate bank checkout.
-
 - `validateBankCheckout(String transactionId, String token)`: Validate a bank checkout
-
 - `bankTransfer(String productName, List<Bank> recipients)`: Move money form payment wallet to bank account
-
-- `payCustomers(String productName, List<Consumer> consumers)`: Send money to consumer. 
-
-- `payBusiness(String productName, Business recipient)`: Send money to business.
+- `mobileCheckout(String productName, String phoneNumber, String amount)`: Initiate mobile checkout.
+- `mobileB2C(String productName, List<Consumer> consumers)`: Send mobile money to consumer. 
+- `mobileB2B(String productName, Business recipient)`: Send mobil money to business.
 
 
 For more information, please read [http://docs.africastalking.com/payments](http://docs.africastalking.com/payments)

@@ -317,7 +317,7 @@ public final class PaymentService extends Service {
      * @param recipients {@link com.africastalking.payment.recipient.Consumer Consumers} recipients of the transaction
      * @return {@com}
      */
-    public B2CResponse payConsumers(String product, List<Consumer> recipients) throws IOException {
+    public B2CResponse mobileB2C(String product, List<Consumer> recipients) throws IOException {
         HashMap<String, Object> body = makeB2CRequest(product, recipients);
         Call<B2CResponse> call = payment.requestB2C(body);
         Response<B2CResponse> resp = call.execute();
@@ -327,7 +327,7 @@ public final class PaymentService extends Service {
         return resp.body();
     }
 
-    public void payConsumers(String product, List<Consumer> recipients, Callback<B2CResponse> callback) {
+    public void mobileB2C(String product, List<Consumer> recipients, Callback<B2CResponse> callback) {
         HashMap<String, Object> body = makeB2CRequest(product, recipients);
         Call<B2CResponse> call = payment.requestB2C(body);
         call.enqueue(makeCallback(callback));
@@ -341,7 +341,7 @@ public final class PaymentService extends Service {
      * @return {@link com.africastalking.payment.response.B2BResponse B2BResponse}
      * @throws IOException
      */
-    public B2BResponse payBusiness(String product, Business recipient) throws IOException {
+    public B2BResponse mobileB2B(String product, Business recipient) throws IOException {
         HashMap<String, Object> body = makeB2BRequest(product, recipient);
         Call<B2BResponse> call = payment.requestB2B(body);
         Response<B2BResponse> resp = call.execute();
@@ -351,7 +351,7 @@ public final class PaymentService extends Service {
         return resp.body();
     }
 
-    public void payBusiness(String product, Business recipient, Callback<B2BResponse> callback) {
+    public void mobileB2B(String product, Business recipient, Callback<B2BResponse> callback) {
         HashMap<String, Object> body = makeB2BRequest(product, recipient);
         Call<B2BResponse> call = payment.requestB2B(body);
         call.enqueue(makeCallback(callback));

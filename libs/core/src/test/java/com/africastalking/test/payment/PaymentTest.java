@@ -83,19 +83,19 @@ public class PaymentTest {
     }
 
     @Test
-    public void testPayConsumer() throws IOException {
+    public void testMobileB2C() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
         Consumer recip = new Consumer("Salama", "0711082302", "KES 432", null);
         List<Consumer> consumers = Arrays.asList(recip);
-        B2CResponse resp = service.payConsumers("TestProduct", consumers);
+        B2CResponse resp = service.mobileB2C("TestProduct", consumers);
         Assert.assertEquals("KES 432.0000", resp.totalValue);
     }
 
     @Test
-    public void testPayBusiness() throws IOException {
+    public void testMobileB2B() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
         Business recip = new Business("SBDev", "AccDest", Business.TRANSFER_TYPE_B2B, Business.PROVIDER_ATHENA, "KES 2512");
-        B2BResponse resp = service.payBusiness("TestProduct", recip);
+        B2BResponse resp = service.mobileB2B("TestProduct", recip);
         Assert.assertEquals("Queued", resp.status);
     }
 

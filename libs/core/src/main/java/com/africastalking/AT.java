@@ -14,7 +14,7 @@ class AT {
         log("\nAfrica's Talking SDK\n");
         AfricasTalking.initialize(argv[0], argv[1]);
         try {
-            log("\tgetting user account...\n");
+            log("\tGetting user account...\n");
             AccountResponse resp = AfricasTalking.getService(AccountService.class).getUser();
             log("\tBalance: " + resp.userData.balance);
         } catch (IOException e) {

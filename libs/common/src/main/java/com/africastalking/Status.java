@@ -9,4 +9,5 @@ public final class Status {
     public static final String SUCCESS = "Success";
     public static final String FAILED = "Failed";
     public static final String QUEUED = "Queued";
+    public static final String SENT = "Sent";
 }
