@@ -118,7 +118,7 @@ For more information on:
 For more information, please read [http://docs.africastalking.com/payments](http://docs.africastalking.com/payments)
 
 
-### VoiceService
+### `VoiceService`
 
 - `call(String phone)`: Initiate a phone call
 
@@ -161,7 +161,7 @@ For more information, please read [http://docs.africastalking.com/voice](http://
 
 - `generateAuthToken()`: Generate an auth token to use for authentication instead of an API key.
 
-### `USSDService` *TODO?*
+### `UssdService` *TODO?*
 
 For more information, please read [http://docs.africastalking.com/ussd](http://docs.africastalking.com/ussd)
 

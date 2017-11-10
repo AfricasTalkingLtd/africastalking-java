@@ -79,6 +79,12 @@ public final class Server {
         startInsecure(DEFAULT_PORT);
     }
 
+    public void stop() {
+        if (mGrpc != null && !mGrpc.isShutdown()) {
+            mGrpc.shutdown();
+        }
+    }
+
     private class AuthenticationInterceptor implements ServerInterceptor {
         final Listener NOOP_LISTENER = new Listener() {};
         
