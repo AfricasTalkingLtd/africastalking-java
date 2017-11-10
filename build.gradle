@@ -80,9 +80,6 @@ configure(subprojects.findAll {publishedLibs.contains(it.name)}){
         appName = project.name       // sets value of NAME field
         version = project.version   // sets value of VERSION field,
                                     // 'unspecified' if project.version is not set
-        buildConfigField 'String', 'USERNAME', properties.getProperty("username")
-        buildConfigField 'String', 'API_KEY', properties.getProperty("apiKey")
-        
         clsName = 'BuildConfig'      // sets the name of the BuildConfig class
         packageName = project.group  // sets the package of the BuildConfig class,
                                     // 'de.fuerstenau.buildconfig' if project.group is not set
