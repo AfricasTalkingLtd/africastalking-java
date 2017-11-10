@@ -62,7 +62,7 @@ public class PaymentTest {
     @Test
     public void testBankCheckout() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        BankAccount account = new BankAccount("salama", "084802842", "NG", 90, "Zenith Bank");
+        BankAccount account = new BankAccount("salama", "084802842", BankAccount.BankCode.CBA_KE);
         CheckoutResponse resp = service.bankCheckout("Ikoyi Store", "NGN 877", account,"Some narration", new HashMap());
         Assert.assertEquals(Status.INVALID_REQUEST, resp.status);
     }
@@ -77,7 +77,7 @@ public class PaymentTest {
     @Test
     public void testBankTransfer() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        List<Bank> recipients = Arrays.asList(new Bank(new BankAccount("Bob", "2323", "NG", 434,  "Zenith"), "NGN 5673", "Some narration", null));
+        List<Bank> recipients = Arrays.asList(new Bank(new BankAccount("Bob", "2323", BankAccount.BankCode.GTBank_NG), "NGN 5673", "Some narration", null));
         BankTransferResponse resp = service.bankTransfer("Ikoyi Store", recipients);
         Assert.assertEquals(Status.INVALID_REQUEST, resp.entries.get(0).status);
     }

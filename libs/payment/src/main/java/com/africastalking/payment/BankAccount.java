@@ -5,25 +5,36 @@ package com.africastalking.payment;
  */
 public final class BankAccount {
 
+    public enum BankCode {
+        FirstBank_NG(234001),
+        ZenithBank_NG(234002),
+        AccessBank_NG(234003),
+        GTBank_NG(234004),
+        Ecobank_NG(234005),
+        Diamond_NG(234007),
+        Providus_NG(234008),
+        FirstCityMonument_NG(234006),
+        CBA_KE(254001);
+
+        private final int code;
+        BankCode(int code) {
+            this.code = code;
+        }
+    }
+
     public String accountName;
     public String accountNumber;
-    public String bankName;
     public int bankCode;
-    public String countryCode;
 
     /**
      * A bank account
      * @param accountName Bank account name e.g. Odeyola LeGrand
      * @param accountNumber Bank account number e.g. 0982627488993
-     * @param countryCode <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2ISO">3166-1 alpha-2</a> country code e.g. NG for Nigeria
-     * @param bankCode Bank code e.g. 8982
-     * @param bankName Bank name e.g. Zenith Bank
+     * @param bankCode Bank code. See supported banks {@link com.africastalking.payment.BankAccount.BankCode BankCode}
      */
-    public BankAccount(String accountName, String accountNumber, String countryCode, int bankCode, String bankName) {
+    public BankAccount(String accountName, String accountNumber, BankCode bankCode) {
         this.accountName = accountName;
         this.accountNumber = accountNumber;
-        this.bankName = bankName;
-        this.bankCode = bankCode;
-        this.countryCode = countryCode;
+        this.bankCode = bankCode.code;
     }
 }

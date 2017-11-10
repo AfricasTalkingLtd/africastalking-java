@@ -12,7 +12,7 @@ AfricasTalking.initialize(USERNAME, API_KEY);
 SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
 
 // Use the service
-String response = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
+List<recipient> response = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
 ```
 
 See [example](example/) for more usage examples.
@@ -136,27 +136,27 @@ For more information, please read [http://docs.africastalking.com/payments](http
 - `VoiceMessage.Builder`: Build voice xml when callback URL receives a `POST` from Africa's Talking
 
     - `say(String text)`
-    
+
     - `play(URL url)`
-    
+
     - `getDigits(String text, URL url, int numDigits, long timeout, String finishOnKey, URL callback)`
-    
+
     - `dial(String phoneNumbers, String ringbackTone, boolean record, boolean sequential, String callerId, long maxDuration)`
-    
+
     - `conference()`
-    
+
     - `record()`
-      
+
       - `record(String text, URL url, int maxLength, long timeout, String finishOnKey, boolean trimSilence, boolean playBeep, URL callbackUrl)`
-      
+
     - `enqueue()`
-    
+
     - `dequeue()`
-    
+
     - `reject()`
-    
+
     - `redirect()`
-    
+
     - `build()`: Finally build the xml
 
 
