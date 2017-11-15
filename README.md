@@ -19,7 +19,7 @@ See [example](example/) for more usage examples.
 
 
 **Android Usage**:
-> Remember your API key has to be kept secret; hard-coding it into an apk or a jar you publish is a security risk. So on Android, use the SDK built for Android. See [https://github.com/aksalj/africastalking-android](https://github.com/aksalj/africastalking-android)
+> Remember your API key has to be kept secret; hard-coding it into an apk or a jar you publish is a security risk. So on Android, use the SDK built for Android. See [https://github.com/AfricasTalkingLtd/africastalking-android](https://github.com/AfricasTalkingLtd/africastalking-android)
 
 ## Download
 
