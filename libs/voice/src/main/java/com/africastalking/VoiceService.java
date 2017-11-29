@@ -62,7 +62,7 @@ public final class VoiceService extends Service {
         Call<CallResponse> call = voice.call(mUsername, to, from);
         Response<CallResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
-            throw new IOException(resp.message());
+            throw new IOException(resp.errorBody().string());
         }
         return resp.body();
     }
@@ -98,7 +98,7 @@ public final class VoiceService extends Service {
         Call<QueuedCallsResponse> call = voice.queueStatus(mUsername, phoneNumber);
         Response<QueuedCallsResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
-            throw new IOException(resp.message());
+            throw new IOException(resp.errorBody().string());
         }
         return resp.body();
     }
@@ -118,7 +118,7 @@ public final class VoiceService extends Service {
         Call<String> call = voice.mediaUpload(mUsername, url, phoneNumber);
         Response<String> resp = call.execute();
         if (!resp.isSuccessful()) {
-            return resp.message();
+            throw new IOException(resp.errorBody().string());
         }
         return resp.body();
     }

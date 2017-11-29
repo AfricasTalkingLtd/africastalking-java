@@ -41,7 +41,6 @@ configure(subprojects.findAll {publishedLibs.contains(it.name)}){
     apply plugin: "maven-publish"
     apply plugin: 'com.jfrog.bintray'
     apply plugin: 'com.github.johnrengelman.shadow'
-    apply plugin: 'de.fuerstenau.buildconfig'
 
     targetCompatibility = 1.7
     sourceCompatibility = 1.7
@@ -61,6 +60,16 @@ configure(subprojects.findAll {publishedLibs.contains(it.name)}){
         }
     }
 
+    task sourcesJar(type: Jar) {
+        from sourceSets.main.allJava
+        classifier = 'sources'
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
     shadowJar {
         classifier = null // Avoid classifiers for now...
     }
@@ -76,17 +85,6 @@ configure(subprojects.findAll {publishedLibs.contains(it.name)}){
         }
     }
 
-    buildConfig {
-        appName = project.name       // sets value of NAME field
-        version = project.version   // sets value of VERSION field,
-                                    // 'unspecified' if project.version is not set
-        clsName = 'BuildConfig'      // sets the name of the BuildConfig class
-        packageName = project.group  // sets the package of the BuildConfig class,
-                                    // 'de.fuerstenau.buildconfig' if project.group is not set
-        charset = 'UTF-8'            // sets charset of the generated class,
-                                    // 'UTF-8' if not set otherwise
-    }
-
     bintray {
         dryRun = false
         publish = true
@@ -98,7 +96,7 @@ configure(subprojects.findAll {publishedLibs.contains(it.name)}){
             name = properties.getProperty("bintray.package")
             userOrg = properties.getProperty("bintray.organization")
             vcsUrl = properties.getProperty("bintray.vcsUrl")
-            licenses = ['Apache-2.0']
+            licenses = ['MIT']
             version {
                 name = project.version
                 desc = 'Africa\'s Talking SDK'

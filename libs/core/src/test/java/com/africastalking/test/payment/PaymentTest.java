@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class PaymentTest {
@@ -48,21 +49,21 @@ public class PaymentTest {
     public void testCardCheckout() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
         PaymentCard card = new PaymentCard("9223372036854775807", 2232, 11, 2098, "NG","1222");
-        CheckoutResponse resp = service.cardCheckout("Ikoyi Store", "NGN 877", card, "Test card checkout", new HashMap());
+        CheckoutResponse resp = service.cardCheckout("Ikoyi Store", "NGN " + ThreadLocalRandom.current().nextInt(500, 5001), card, "Test card checkout", new HashMap());
         Assert.assertEquals(Status.INVALID_REQUEST, resp.status);
     }
 
     @Test
     public void testCardCheckoutValidation() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        CheckoutValidateResponse resp = service.validateCardCheckout("sometxId", "someToken");
+        CheckoutValidateResponse resp = service.validateCardCheckout("sometxId_" + System.currentTimeMillis(), "someToken_" + System.currentTimeMillis());
         Assert.assertEquals(Status.INVALID_REQUEST, resp.status);
     }
 
     @Test
     public void testBankCheckout() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        BankAccount account = new BankAccount("salama", "084802842", BankAccount.BankCode.CBA_KE);
+        BankAccount account = new BankAccount("salama", "084802842", BankAccount.BankCode.Zenith_NG);
         CheckoutResponse resp = service.bankCheckout("Ikoyi Store", "NGN 877", account,"Some narration", new HashMap());
         Assert.assertEquals(Status.INVALID_REQUEST, resp.status);
     }
@@ -70,14 +71,14 @@ public class PaymentTest {
     @Test
     public void testBankCheckoutValidation() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        CheckoutValidateResponse resp = service.validateBankCheckout("sometxId", "someToken");
+        CheckoutValidateResponse resp = service.validateBankCheckout("sometxId_" + System.currentTimeMillis(), "someToken_" + System.currentTimeMillis());
         Assert.assertEquals(Status.INVALID_REQUEST, resp.status);
     }
 
     @Test
     public void testBankTransfer() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        List<Bank> recipients = Arrays.asList(new Bank(new BankAccount("Bob", "2323", BankAccount.BankCode.GTBank_NG), "NGN 5673", "Some narration", null));
+        List<Bank> recipients = Arrays.asList(new Bank(new BankAccount("Bob", "2323", BankAccount.BankCode.Zenith_NG), "NGN 5673", "Some narration", new HashMap<String, String>()));
         BankTransferResponse resp = service.bankTransfer("Ikoyi Store", recipients);
         Assert.assertEquals(Status.INVALID_REQUEST, resp.entries.get(0).status);
     }

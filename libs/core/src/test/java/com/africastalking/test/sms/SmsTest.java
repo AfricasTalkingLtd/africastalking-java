@@ -17,6 +17,7 @@ import com.africastalking.token.CheckoutTokenResponse;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class SmsTest {
 
@@ -67,7 +68,7 @@ public class SmsTest {
 
     @Test
     public void testCreateSubscription() throws IOException {
-        String phone = "0731034588";
+        String phone = "0731034" + ThreadLocalRandom.current().nextInt(100, 999);
         SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
         TokenService tokenService = AfricasTalking.getService(AfricasTalking.SERVICE_TOKEN);
         CheckoutTokenResponse checkoutToken = tokenService.createCheckoutToken(phone);

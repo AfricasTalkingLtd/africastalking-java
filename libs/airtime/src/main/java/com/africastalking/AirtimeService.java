@@ -106,7 +106,7 @@ public final class AirtimeService extends Service {
         String json = _makeRecipientsJSON(recipients);
         Response<AirtimeResponse> resp = service.send(mUsername, json).execute();
         if (!resp.isSuccessful()) {
-            throw new IOException(resp.message());
+            throw new IOException(resp.errorBody().string());
         }
         return resp.body();
     }

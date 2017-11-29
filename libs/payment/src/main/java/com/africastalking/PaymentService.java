@@ -133,7 +133,7 @@ public final class PaymentService extends Service {
         Call<CheckoutResponse> call = payment.mobileCheckout(body);
         Response<CheckoutResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
-            throw new IOException(resp.message());
+            throw new IOException(resp.errorBody().string());
         }
         return resp.body();
     }
@@ -163,7 +163,7 @@ public final class PaymentService extends Service {
         Call<CheckoutResponse> call = payment.cardCheckoutCharge(body);
         Response<CheckoutResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
-            throw new IOException(resp.message());
+            throw new IOException(resp.errorBody().string());
         }
         return resp.body();
     }
@@ -192,7 +192,7 @@ public final class PaymentService extends Service {
         Call<CheckoutResponse> call = payment.cardCheckoutCharge(body);
         Response<CheckoutResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
-            throw new IOException(resp.message());
+            throw new IOException(resp.errorBody().string());
         }
         return resp.body();
     }
@@ -216,7 +216,7 @@ public final class PaymentService extends Service {
         Call<CheckoutValidateResponse> call = payment.cardCheckoutValidate(body);
         Response<CheckoutValidateResponse> res = call.execute();
         if (!res.isSuccessful()) {
-            throw new IOException(res.message());
+            throw new IOException(res.errorBody().string());
         }
         return res.body();
     }
@@ -245,7 +245,7 @@ public final class PaymentService extends Service {
         Call<CheckoutResponse> call = payment.bankCheckoutCharge(body);
         Response<CheckoutResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
-            throw new IOException(resp.message());
+            throw new IOException(resp.errorBody().string());
         }
         return resp.body();
     }
@@ -270,7 +270,7 @@ public final class PaymentService extends Service {
         Call<CheckoutValidateResponse> call = payment.bankCheckoutValidate(body);
         Response<CheckoutValidateResponse> res = call.execute();
         if (!res.isSuccessful()) {
-            throw new IOException(res.message());
+            throw new IOException(res.errorBody().string());
         }
         return res.body();
     }
@@ -297,7 +297,7 @@ public final class PaymentService extends Service {
         Call<BankTransferResponse> call = payment.bankTransfer(body);
         Response<BankTransferResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
-            throw new IOException(resp.message());
+            throw new IOException(resp.errorBody().string());
         }
         return resp.body();
     }
@@ -322,7 +322,7 @@ public final class PaymentService extends Service {
         Call<B2CResponse> call = payment.requestB2C(body);
         Response<B2CResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
-            throw new IOException(resp.message());
+            throw new IOException(resp.errorBody().string());
         }
         return resp.body();
     }
@@ -346,7 +346,7 @@ public final class PaymentService extends Service {
         Call<B2BResponse> call = payment.requestB2B(body);
         Response<B2BResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
-            throw new IOException(resp.message());
+            throw new IOException(resp.errorBody().string());
         }
         return resp.body();
     }

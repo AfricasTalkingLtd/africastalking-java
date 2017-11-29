@@ -71,6 +71,9 @@ public class AccountService extends Service {
      */
     public AccountResponse getUser() throws IOException {
         Response<AccountResponse> resp = service.getUser(mUsername).execute();
+        if (!resp.isSuccessful()) {
+            throw new IOException(resp.errorBody().string());
+        }
         return resp.body();
     }
 

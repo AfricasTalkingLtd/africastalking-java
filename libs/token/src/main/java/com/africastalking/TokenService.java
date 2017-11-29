@@ -55,10 +55,10 @@ public final class TokenService extends Service {
 
     public CheckoutTokenResponse createCheckoutToken(String phoneNumber) throws IOException {
         Response<CheckoutTokenResponse> resp = service.createCheckoutToken(phoneNumber).execute();
-        if (resp.isSuccessful()) {
-            return resp.body();
+        if (!resp.isSuccessful()) {
+            throw new IOException(resp.errorBody().string());
         }
-        throw new IOException(resp.message());
+        return resp.body();
     }
 
     public void createCheckoutToken(String phoneNumber, Callback<CheckoutTokenResponse> callback) {
@@ -67,10 +67,10 @@ public final class TokenService extends Service {
 
     public AuthTokenResponse generateAuthToken() throws IOException {
         Response<AuthTokenResponse> resp = service.generateAuthToken(_makeAuthToknRequestBody()).execute();
-        if (resp.isSuccessful()) {
-            return resp.body();
+        if (!resp.isSuccessful()) {
+            throw new IOException(resp.errorBody().string());
         }
-        throw new IOException(resp.message());
+        return resp.body();
     }
 
     public void generateAuthToken(Callback<AuthTokenResponse> callback) {
