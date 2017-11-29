@@ -18,7 +18,7 @@ List<recipient> response = sms.send("Hello Message!", new String[] {"2547xxxxxx"
 See [example](example/) for more usage examples.
 
 
-**Android Usage**:
+**Android Users**:
 > Remember your API key has to be kept secret; hard-coding it into an apk or a jar you publish is a security risk. So on Android, use the SDK built for Android. See [https://github.com/AfricasTalkingLtd/africastalking-android](https://github.com/AfricasTalkingLtd/africastalking-android)
 
 ## Download
@@ -155,6 +155,7 @@ For more information, please read [http://docs.africastalking.com/payments](http
 
 For more information, please read [http://docs.africastalking.com/voice](http://docs.africastalking.com/voice)
 
+
 ###​ `TokenService`
 
 - `createCheckoutToken(String phoneNumber)`: Create a new checkout token for `phoneNumber`.
@@ -178,8 +179,8 @@ Make sure your `local.properties` file has the following content then run `./gra
 
 ```ini
 # AT API
-username=sandbox
-apiKey=some_key
+api.username=sandbox
+api.key=some_key
 
 # Bintray
 bintray.user=fake

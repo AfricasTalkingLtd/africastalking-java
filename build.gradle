@@ -74,6 +74,11 @@ configure(subprojects.findAll {publishedLibs.contains(it.name)}){
         classifier = null // Avoid classifiers for now...
     }
 
+    artifacts {
+        archives javadocJar
+        archives sourcesJar
+    }
+
     publishing {
         publications {
             SDK(MavenPublication) {

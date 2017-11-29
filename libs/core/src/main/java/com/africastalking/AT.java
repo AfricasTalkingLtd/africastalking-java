@@ -4,7 +4,7 @@ import com.africastalking.account.AccountResponse;
 
 import java.io.IOException;
 
-class AT {
+public final class AT {
 
     private static void log(String message) {
         System.out.println(message);
@@ -21,5 +21,4 @@ class AT {
             System.out.println("Failed to get AT account!");
         }
     }
-
 }

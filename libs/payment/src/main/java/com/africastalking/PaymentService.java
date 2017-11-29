@@ -315,7 +315,7 @@ public final class PaymentService extends Service {
      * Make a B2C request
      * @param product Payment product used to initiate transaction
      * @param recipients {@link com.africastalking.payment.recipient.Consumer Consumers} recipients of the transaction
-     * @return {@com}
+     * @return
      */
     public B2CResponse mobileB2C(String product, List<Consumer> recipients) throws IOException {
         HashMap<String, Object> body = makeB2CRequest(product, recipients);
