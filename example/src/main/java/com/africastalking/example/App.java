@@ -2,7 +2,6 @@ package com.africastalking.example;
 
 import com.africastalking.AfricasTalking;
 import com.africastalking.AirtimeService;
-import com.africastalking.BuildConfig;
 import com.africastalking.Logger;
 import com.africastalking.PaymentService;
 import com.africastalking.Server;
@@ -28,7 +27,7 @@ import static spark.Spark.staticFiles;
 
 public class App {
 
-    private static final int HTTP_PORT = 443;
+    private static final int HTTP_PORT = 8080;
     private static final int RPC_PORT = 35897;
     private static final String USERNAME = BuildConfig.USERNAME;
     private static final String API_KEY = BuildConfig.API_KEY;
@@ -58,7 +57,7 @@ public class App {
         airtime = AfricasTalking.getService(AirtimeService.class);
         payment = AfricasTalking.getService(AfricasTalking.SERVICE_PAYMENT);
         server = new Server();
-        server.start(new File("/etc/letsencrypt/live/genesis.aksalj.com/fullchain.pem"), new File("/etc/letsencrypt/live/genesis.aksalj.com/privkey.pem"), RPC_PORT);
+        server.startInsecure();
     }
 
     public static void main(String[] args) throws IOException {
@@ -72,8 +71,7 @@ public class App {
         setupAfricastalking();
 
         port(HTTP_PORT);
-        secure("/opt/domains/sandbox.at/java/genesis.jks", "salama", null, null);
-
+        
         staticFiles.location("/public");
         exception(Exception.class, (e, req, res) -> e.printStackTrace()); // print all exceptions
 
