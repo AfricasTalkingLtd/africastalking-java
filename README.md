@@ -156,7 +156,7 @@ For more information, please read [http://docs.africastalking.com/payments](http
 For more information, please read [http://docs.africastalking.com/voice](http://docs.africastalking.com/voice)
 
 
-###​ `TokenService`
+### `TokenService`
 
 - `createCheckoutToken(String phoneNumber)`: Create a new checkout token for `phoneNumber`.
 
