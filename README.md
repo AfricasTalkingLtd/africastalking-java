@@ -12,7 +12,7 @@ AfricasTalking.initialize(USERNAME, API_KEY);
 SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
 
 // Use the service
-List<recipient> response = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
+List<Recipient> response = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
 ```
 
 See [example](example/) for more usage examples.
