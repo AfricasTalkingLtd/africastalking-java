@@ -31,6 +31,14 @@ You can depend on the .jar through Maven (from `http://dl.bintray.com/africastal
   <version>VERSION</version>
 </dependency>
 ```
+or sbt:
+
+```
+resolvers += "africastalking maven repository" at "http://dl.bintray.com/africastalking/java"
+// Get all services
+libraryDependencies += "com.africastalking" % "core" % "3.0.8"
+```
+
 or Gradle:
 ```groovy
 repositories {
