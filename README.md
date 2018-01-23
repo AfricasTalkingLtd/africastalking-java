@@ -86,7 +86,7 @@ All methods return a `String` of `json` data. All methods are synchronous (i.e. 
 
 - `send(String phone, String amount)`: Send airtime to a phone number. Example amount would be `KES 150`.
 
-- `send(HashMap<String,String> recipients)`: Send airtime to a bunch of phone numbers. The keys in the `recipients` map are phone numbers while the values are aitrime amounts. The amounts need to have currency info e.g. `UXG 4265`.
+- `send(HashMap<String,String> recipients)`: Send airtime to a bunch of phone numbers. The keys in the `recipients` map are phone numbers while the values are airtime amounts. The amounts need to have currency info e.g. `UXG 4265`.
 
 For more information about status notification, please read [http://docs.africastalking.com/airtime/callback](http://docs.africastalking.com/airtime/callback)
 
@@ -120,7 +120,7 @@ For more information on:
 - `bankTransfer(String productName, List<Bank> recipients)`: Move money form payment wallet to bank account
 - `mobileCheckout(String productName, String phoneNumber, String amount)`: Initiate mobile checkout.
 - `mobileB2C(String productName, List<Consumer> consumers)`: Send mobile money to consumer. 
-- `mobileB2B(String productName, Business recipient)`: Send mobil money to business.
+- `mobileB2B(String productName, Business recipient)`: Send mobile money to business.
 
 
 For more information, please read [http://docs.africastalking.com/payments](http://docs.africastalking.com/payments)
