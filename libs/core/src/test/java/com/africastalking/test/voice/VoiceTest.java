@@ -49,7 +49,7 @@ public class VoiceTest {
     public void testUploadMediaFile() {
         VoiceService service = AfricasTalking.getService(VoiceService.class);
         try {
-            final String response = service.uploadMediaFile("0718769882", "http://defef.klo/wave.mp3");
+            final String response = service.uploadMediaFile("+254718769882", "http://defef.klo/wave.mp3");
             Assert.assertNotNull(response);
         } catch (IOException e) {
             Assert.fail(e.getMessage());

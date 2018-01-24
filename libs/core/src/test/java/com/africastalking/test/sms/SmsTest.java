@@ -29,15 +29,7 @@ public class SmsTest {
     @Test
     public void testSend() throws IOException {
         SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
-        List<Recipient> resp = sms.send("testSend()", "AT2FA", new String[] {"0711082302", "0731034588"});
-        Assert.assertEquals(2, resp.size());
-        Assert.assertEquals(Status.SUCCESS, resp.get(0).status);
-    }
-
-    @Test
-    public void testSendBulk() throws IOException {
-        SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
-        List<Recipient> resp = sms.sendBulk("testSendBulk()", "AT2FA", true, new String[] {"0711082302", "0731034588"});
+        List<Recipient> resp = sms.send("testSend()", "AT2FA", new String[] {"0711082302", "0731034588"}, false);
         Assert.assertEquals(2, resp.size());
         Assert.assertEquals(Status.SUCCESS, resp.get(0).status);
     }

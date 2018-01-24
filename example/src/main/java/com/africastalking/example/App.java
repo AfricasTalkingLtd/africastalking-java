@@ -82,7 +82,7 @@ public class App {
         });
 
         // Send SMS
-        post("/auth/register/:phone", (req, res) -> sms.send("Welcome to Awesome Company", "AT2FA", new String[] {req.params("phone")}), gson::toJson);
+        post("/auth/register/:phone", (req, res) -> sms.send("Welcome to Awesome Company", "AT2FA", new String[] {req.params("phone")}, false), gson::toJson);
 
         // Send Airtime
         post("/airtime/:phone", (req, res) -> airtime.send(req.params("phone"), req.queryParams("amount")), gson::toJson);

@@ -94,8 +94,6 @@ For more information about status notification, please read [http://docs.africas
 
 - `send(String message, String[] recipients)`: Send a message
 
-- `sendBulk(String message, String[] recipients)`: Send a message in bulk
-
 - `sendPremium(String message, String keyword, String linkId, String[] recipients)`: Send a premium SMS
 
 - `fetchMessage()`: Fetch your messages

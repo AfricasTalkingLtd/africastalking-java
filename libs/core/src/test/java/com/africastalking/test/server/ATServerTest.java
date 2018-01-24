@@ -40,14 +40,13 @@ public class ATServerTest {
     static Server server;
     static SdkServerServiceBlockingStub client;
 
-    static {
-        ClassLoader loader = ATServerTest.class.getClassLoader();
-        certFile = new File(loader.getResource("cert/cert.pem").getFile());
-        privateKeyFile = new File(loader.getResource("cert/key.pem").getFile());
-    }
-
     @BeforeClass
     public static void startServer() throws IOException {
+
+        ClassLoader loader = ClassLoader.getSystemClassLoader();
+        certFile = new File(loader.getResource("cert/cert.pem").getFile());
+        privateKeyFile = new File(loader.getResource("cert/key.pem").getFile());
+
         AfricasTalking.initialize(Fixtures.USERNAME, Fixtures.API_KEY);
         server = new Server(new Authenticator() {
             @Override

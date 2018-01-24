@@ -78,101 +78,22 @@ public final class SmsService extends Service {
         return joiner.toString();
     }
 
-    // -> Normal
-
-    /**
-     * Send a message
-     * <p>
-     *     Synchronously send the request and return its response.
-     * </p>
-     * @param message
-     * @param from
-     * @param recipients
-     * @return
-     * @throws IOException
-     */
-    public List<Recipient> send(String message, String from, String[] recipients) throws IOException {
-        Response<SendMessageResponse> resp = sms.send(mUsername, formatRecipients(recipients), from, message).execute();
-        if (!resp.isSuccessful()) {
-            throw new IOException(resp.errorBody().string());
-        }
-        return resp.body().data.recipients;
-    }
-
-    /**
-     * Send a message
-     * <p>
-     *     Asynchronously send the request and notify {@code callback} of its response or if an error
-     * occurred
-     * </p>
-     * @param message
-     * @param from
-     * @param recipients
-     * @param callback
-     */
-    public void send(String message, String from, String[] recipients, final Callback<List<Recipient>> callback) {
-        sms.send(mUsername, formatRecipients(recipients), from, message).enqueue(makeCallback(new Callback<SendMessageResponse>() {
-            @Override
-            public void onSuccess(SendMessageResponse data) {
-                callback.onSuccess(data.data.recipients);
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                callback.onFailure(throwable);
-            }
-        }));
-    }
-
-    /**
-     * Send a message
-     * <p>
-     *     Synchronously send the request and return its response.
-     * </p>
-     * @param message
-     * @param recipients
-     * @return
-     * @throws IOException
-     */
-    public List<Recipient> send(String message, String[] recipients) throws IOException {
-        return send(message, null, recipients);
-    }
-
-
-    /**
-     * Send a message
-     * <p>
-     *     Asynchronously send the request and notify {@code callback} of its response or if an error
-     * occurred
-     * </p>
-     * @param message
-     * @param recipients
-     * @param callback
-     */
-    public void send(String message, String[] recipients, Callback<List<Recipient>> callback) {
-        send(message, null, recipients, callback);
-    }
-
-
     // -> Bulk
 
     /**
-     * Send a message in bulk
+     * Send a message
      * <p>
      *     Synchronously send the request and return its response.
      * </p>
      * @param message
      * @param from
-     * @param enqueue
      * @param recipients
+     * @param enqueue
      * @return
      * @throws IOException
      */
-    public List<Recipient> sendBulk(String message, String from, boolean enqueue, String[] recipients) throws IOException {
-        Response<SendMessageResponse> resp = sms.sendBulk(mUsername,
-                formatRecipients(recipients), from, message,
-                1, enqueue ? "1":null).execute();
-
+    public List<Recipient> send(String message, String from, String[] recipients, boolean enqueue) throws IOException {
+        Response<SendMessageResponse> resp = sms.send(mUsername, formatRecipients(recipients), from, message, 1, enqueue ? "1" : null).execute();
         if (!resp.isSuccessful()) {
             throw new IOException(resp.errorBody().string());
         }
@@ -180,21 +101,19 @@ public final class SmsService extends Service {
     }
 
     /**
-     * Send a message in bulk
+     * Send a message
      * <p>
      *     Asynchronously send the request and notify {@code callback} of its response or if an error
      * occurred
      * </p>
      * @param message
      * @param from
-     * @param enqueue
      * @param recipients
+     * @param enqueue
      * @param callback
      */
-    public void sendBulk(String message, String from, boolean enqueue, String[] recipients, final Callback<List<Recipient>> callback) {
-        sms.sendBulk(mUsername,
-                formatRecipients(recipients), from, message,
-                1, enqueue ? "1":null).enqueue(makeCallback(new Callback<SendMessageResponse>() {
+    public void send(String message, String from, String[] recipients, boolean enqueue, final Callback<List<Recipient>> callback) {
+        sms.send(mUsername, formatRecipients(recipients), from, message, 1, enqueue ? "1" : null).enqueue(makeCallback(new Callback<SendMessageResponse>() {
             @Override
             public void onSuccess(SendMessageResponse data) {
                 callback.onSuccess(data.data.recipients);
@@ -208,67 +127,7 @@ public final class SmsService extends Service {
     }
 
     /**
-     * Send a message in bulk
-     * <p>
-     *     Synchronously send the request and return its response.
-     * </p>
-     * @param message
-     * @param from
-     * @param recipients
-     * @return
-     * @throws IOException
-     */
-    public List<Recipient> sendBulk(String message, String from, String[] recipients) throws IOException {
-        return sendBulk(message, from, false, recipients);
-    }
-
-    /**
-     * Send a message in bulk
-     * <p>
-     *     Asynchronously send the request and notify {@code callback} of its response or if an error
-     * occurred
-     * </p>
-     * @param message
-     * @param from
-     * @param recipients
-     * @param callback
-     */
-    public void sendBulk(String message, String from, String[] recipients, Callback<List<Recipient>> callback) {
-        sendBulk(message, from, false, recipients, callback);
-    }
-
-    /**
-     * Send a message in bulk
-     * <p>
-     *     Synchronously send the request and return its response.
-     * </p>
-     * @param message
-     * @param enqueue
-     * @param recipients
-     * @return
-     * @throws IOException
-     */
-    public List<Recipient> sendBulk(String message, boolean enqueue, String[] recipients) throws IOException {
-        return sendBulk(message, null, enqueue, recipients);
-    }
-
-    /**
-     * Send a message in bulk
-     * <p>
-     *     Asynchronously send the request and notify {@code callback} of its response or if an error
-     * occurred
-     * </p>
-     * @param message
-     * @param enqueue
-     * @param recipients
-     * @param callback
-     */
-    public void sendBulk(String message, boolean enqueue, String[] recipients, Callback<List<Recipient>> callback) {
-        sendBulk(message, null, enqueue, recipients, callback);
-    }
-
-    /**
-     * Send a message in bulk
+     * Send a message
      * <p>
      *     Synchronously send the request and return its response.
      * </p>
@@ -277,12 +136,13 @@ public final class SmsService extends Service {
      * @return
      * @throws IOException
      */
-    public List<Recipient> sendBulk(String message, String[] recipients) throws IOException {
-        return sendBulk(message, null, false, recipients);
+    public List<Recipient> send(String message, String[] recipients, boolean enqueue) throws IOException {
+        return send(message, null, recipients, enqueue);
     }
 
+
     /**
-     * Send a message in bulk
+     * Send a message
      * <p>
      *     Asynchronously send the request and notify {@code callback} of its response or if an error
      * occurred
@@ -291,8 +151,8 @@ public final class SmsService extends Service {
      * @param recipients
      * @param callback
      */
-    public void sendBulk(String message, String[] recipients, Callback<List<Recipient>> callback) {
-        sendBulk(message, null, false, recipients, callback);
+    public void send(String message, String[] recipients, boolean enqueue, Callback<List<Recipient>> callback) {
+        send(message, null, recipients, enqueue, callback);
     }
 
 

@@ -7,7 +7,7 @@ public final class AfricasTalking {
     public static final String SERVICE_ACCOUNT = BASE_PACKAGE + ".AccountService";
     public static final String SERVICE_SMS = BASE_PACKAGE + ".SmsService";
     public static final String SERVICE_VOICE = BASE_PACKAGE + ".VoiceService";
-    public static final String SERVICE_USSD = BASE_PACKAGE + ".USSDService";
+    public static final String SERVICE_USSD = BASE_PACKAGE + ".UssdService";
     public static final String SERVICE_AIRTIME = BASE_PACKAGE + ".AirtimeService";
     public static final String SERVICE_PAYMENT = BASE_PACKAGE + ".PaymentService";
     public static final String SERVICE_TOKEN = BASE_PACKAGE + ".TokenService";
