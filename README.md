@@ -36,7 +36,7 @@ or sbt:
 ```
 resolvers += "africastalking maven repository" at "http://dl.bintray.com/africastalking/java"
 // Get all services
-libraryDependencies += "com.africastalking" % "core" % "3.0.8"
+libraryDependencies += "com.africastalking" % "core" % "VERSION"
 ```
 
 or Gradle:
