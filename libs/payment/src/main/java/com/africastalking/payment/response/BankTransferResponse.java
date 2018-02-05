@@ -1,5 +1,7 @@
 package com.africastalking.payment.response;
 
+import com.google.gson.Gson;
+
 import java.util.List;
 
 public final class BankTransferResponse {
@@ -12,5 +14,10 @@ public final class BankTransferResponse {
         public String transactionId;
         public String transactionFee;
         public String errorMessage;
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }

@@ -76,7 +76,7 @@ public final class VoiceMessage {
             return getDigits(null, url, -1, -1, null, null);
         }
 
-        public Builder dial(String phoneNumbers, String ringbackTone, boolean record, boolean sequential, String callerId, long maxDuration) {
+        public Builder dial(String phoneNumbers, URL ringbackTone, boolean record, boolean sequential, String callerId, long maxDuration) {
             xml.append("<Dial phoneNumbers=\"" + phoneNumbers + "\" ringbackTone=\"" + ringbackTone + "\" " +
                     "record=\""+String.valueOf(record)+"\" sequential=\"" + String.valueOf(sequential) + "\" " +
                     "callerId=\"" + callerId + "\" maxDuration=\"" + maxDuration + "\"/>");

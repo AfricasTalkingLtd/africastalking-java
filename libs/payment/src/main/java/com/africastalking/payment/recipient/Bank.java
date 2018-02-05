@@ -1,6 +1,7 @@
 package com.africastalking.payment.recipient;
 
 import com.africastalking.payment.BankAccount;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,5 +26,10 @@ public final class Bank {
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }

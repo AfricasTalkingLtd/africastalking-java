@@ -1,6 +1,8 @@
 package com.africastalking.airtime;
 
 
+import com.google.gson.Gson;
+
 import java.util.List;
 
 public class AirtimeResponse {
@@ -18,5 +20,15 @@ public class AirtimeResponse {
         public String discount;
         public String status;
         public String requestId;
+
+        @Override
+        public String toString() {
+            return new Gson().toJson(this);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }

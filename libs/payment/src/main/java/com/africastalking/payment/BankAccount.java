@@ -1,5 +1,7 @@
 package com.africastalking.payment;
 
+import com.google.gson.Gson;
+
 /**
  * A bank account
  */
@@ -62,5 +64,10 @@ public final class BankAccount {
         this.accountName = accountName;
         this.accountNumber = accountNumber;
         this.bankCode = bankCode.code;
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }

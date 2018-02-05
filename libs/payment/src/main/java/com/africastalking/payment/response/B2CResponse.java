@@ -1,5 +1,7 @@
 package com.africastalking.payment.response;
 
+import com.google.gson.Gson;
+
 import java.util.List;
 
 public final class B2CResponse {
@@ -19,6 +21,11 @@ public final class B2CResponse {
         public String transactionId;
         public String transactionFee;
         public String errorMessage = null;
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 
 }

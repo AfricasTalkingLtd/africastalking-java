@@ -1,5 +1,6 @@
 package com.africastalking.payment;
 
+import com.google.gson.Gson;
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 
@@ -52,5 +53,10 @@ public final class PaymentCard {
         this.expiryYear = expiryYear;
         this.countryCode = countryCode;
         this.authToken = authToken;
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }

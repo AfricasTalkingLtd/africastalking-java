@@ -1,5 +1,7 @@
 package com.africastalking.payment.recipient;
 
+import com.google.gson.Gson;
+
 import java.util.HashMap;
 
 
@@ -55,6 +57,11 @@ public final class Business {
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 
 }
