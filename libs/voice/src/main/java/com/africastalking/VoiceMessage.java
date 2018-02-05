@@ -30,7 +30,7 @@ public final class VoiceMessage {
 
         public Builder() {
             xml = new StringBuilder();
-            xml.append("<Response>");
+            xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Response>");
         }
 
         public VoiceMessage build() {
