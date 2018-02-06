@@ -132,21 +132,19 @@ For more information, please read [http://docs.africastalking.com/payments](http
 
 - `uploadMediaFile(String phone, String url)`: Upload voice media file
 
-- `VoiceMessage.Builder`: Build voice xml when callback URL receives a `POST` from Africa's Talking
+- `ActionBuilder`: Build voice xml when callback URL receives a `POST` from Africa's Talking
 
-    - `say(String text)`
+    - `say()`
 
-    - `play(URL url)`
+    - `play()`
 
-    - `getDigits(String text, URL url, int numDigits, long timeout, String finishOnKey, URL callback)`
+    - `getDigits()`
 
-    - `dial(String phoneNumbers, String ringbackTone, boolean record, boolean sequential, String callerId, long maxDuration)`
+    - `dial()`
 
     - `conference()`
 
     - `record()`
-
-      - `record(String text, URL url, int maxLength, long timeout, String finishOnKey, boolean trimSilence, boolean playBeep, URL callbackUrl)`
 
     - `enqueue()`
 
