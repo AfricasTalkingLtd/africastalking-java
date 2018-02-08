@@ -30,12 +30,6 @@ public class PaymentTest {
     @Before
     public void setup() {
         AfricasTalking.initialize(Fixtures.USERNAME, Fixtures.API_KEY);
-        AfricasTalking.setLogger(new Logger() {
-            @Override
-            public void log(String message, Object... args) {
-                System.err.println(message);
-            }
-        });
     }
 
     @Test
