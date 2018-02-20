@@ -3,9 +3,10 @@
 [ ![Download](https://api.bintray.com/packages/africastalking/java/com.africastalking/images/download.svg) ](https://bintray.com/africastalking/java/com.africastalking/_latestVersion)
 
 > The wrapper provides convenient access to the Africa's Talking API from applications written in Java.
-
-**Android Users**:
-> Remember your API key has to be kept secret; hard-coding it into an apk or a jar you publish is a security risk. So on Android, use the SDK built for Android. See [https://github.com/AfricasTalkingLtd/africastalking-android](https://github.com/AfricasTalkingLtd/africastalking-android)
+>
+> 
+> **Android Users**:
+> Remember your API key has to be kept secret; hard-coding it into an apk or a jar you publish is a security risk. So on Android, use the [Android SDK](https://github.com/AfricasTalkingLtd/africastalking-android).
 
 
 ## Documentation
