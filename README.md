@@ -1,34 +1,24 @@
-# Africa's Talking
+# Africa's Talking Java SDK
 
 [ ![Download](https://api.bintray.com/packages/africastalking/java/com.africastalking/images/download.svg) ](https://bintray.com/africastalking/java/com.africastalking/_latestVersion)
 
-## Usage
-
-```java
-// Initialize
-AfricasTalking.initialize(USERNAME, API_KEY);
-
-// Initialize a service e.g. SMS
-SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
-
-// Use the service
-List<Recipient> response = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
-```
-
-See [example](example/) for more usage examples.
-
+> The wrapper provides convenient access to the Africa's Talking API from applications written in Java.
 
 **Android Users**:
 > Remember your API key has to be kept secret; hard-coding it into an apk or a jar you publish is a security risk. So on Android, use the SDK built for Android. See [https://github.com/AfricasTalkingLtd/africastalking-android](https://github.com/AfricasTalkingLtd/africastalking-android)
 
-## Download
+
+## Documentation
+Take a look at the [API docs here](http://docs.africastalking.com).
+
+## Install
 
 You can depend on the .jar through Maven (from `http://dl.bintray.com/africastalking/java`):
 ```xml
 <dependency>
   <groupId>com.africastalking</groupId>
   <artifactId>core</artifactId>
-  <version>VERSION</version>
+  <version>3.2.0</version>
 </dependency>
 ```
 or sbt:
@@ -36,7 +26,7 @@ or sbt:
 ```
 resolvers += "africastalking maven repository" at "http://dl.bintray.com/africastalking/java"
 // Get all services
-libraryDependencies += "com.africastalking" % "core" % "VERSION"
+libraryDependencies += "com.africastalking" % "core" % "3.2.0"
 ```
 
 or Gradle:
@@ -49,19 +39,26 @@ repositories {
 
 dependencies{
   // Get all services
-  compile 'com.africastalking:core:VERSION'
-  
-  // or get individual services
-  compile 'com.africastalking:account:VERSION'
-  compile 'com.africastalking:payment:VERSION'
-  compile 'com.africastalking:token:VERSION'
-  compile 'com.africastalking:airtime:VERSION'
-  compile 'com.africastalking:voice:VERSION'
-  compile 'com.africastalking:sms:VERSION'
-  compile 'com.africastalking:ussd:VERSION'
-  compile 'com.africastalking:server:VERSION'
+  compile 'com.africastalking:core:3.2.0'
 }
 ```
+
+## Usage
+
+```java
+// Initialize
+String username = "YOUR_USERNAME";    // use 'sandbox' for development in the test environment
+String apiKey = "YOUR_API_KEY";       // use your sandbox app API key for development in the test environment
+AfricasTalking.initialize(username, apiKey);
+
+// Initialize a service e.g. SMS
+SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
+
+// Use the service
+List<Recipient> response = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
+```
+
+See [example](example/) for more usage examples.
 
 
 ## Initialization
@@ -196,3 +193,8 @@ bintray.groupId=fake
 bintray.version=fake
 bintray.vscUrl=fake
 ```
+
+## Issues
+
+If you find a bug, please file an issue on [our issue tracker on GitHub](https://github.com/AfricasTalkingLtd/africastalking-java/issues).
+
