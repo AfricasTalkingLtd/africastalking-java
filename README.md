@@ -19,7 +19,7 @@ You can depend on the .jar through Maven (from `http://dl.bintray.com/africastal
 <dependency>
   <groupId>com.africastalking</groupId>
   <artifactId>core</artifactId>
-  <version>3.3.0</version>
+  <version>3.3.1</version>
 </dependency>
 ```
 or sbt:
@@ -27,7 +27,7 @@ or sbt:
 ```
 resolvers += "africastalking maven repository" at "http://dl.bintray.com/africastalking/java"
 // Get all services
-libraryDependencies += "com.africastalking" % "core" % "3.3.0"
+libraryDependencies += "com.africastalking" % "core" % "3.3.1"
 ```
 
 or Gradle:
@@ -40,7 +40,7 @@ repositories {
 
 dependencies{
   // Get all services
-  compile 'com.africastalking:core:3.3.0'
+  compile 'com.africastalking:core:3.3.1'
 }
 ```
 

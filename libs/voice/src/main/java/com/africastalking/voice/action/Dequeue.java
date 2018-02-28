@@ -7,7 +7,7 @@ public class Dequeue extends Action {
      * @param name
      * @param phoneNumber
      */
-    Dequeue(String name, String phoneNumber) {
+    public Dequeue(String name, String phoneNumber) {
         this.tag = "Dequeue";
         this.attributes.put("phoneNumber", phoneNumber);
         if (name != null) {
@@ -15,7 +15,7 @@ public class Dequeue extends Action {
         }
     }
 
-    Dequeue(String phoneNumber) {
+    public Dequeue(String phoneNumber) {
         this(null, phoneNumber);
     }
 
