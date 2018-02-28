@@ -94,7 +94,7 @@ For more information about status notification, please read [http://docs.africas
 
 - `sendPremium(String message, String keyword, String linkId, String[] recipients)`: Send a premium SMS
 
-- `fetchMessage()`: Fetch your messages
+- `fetchMessages()`: Fetch your messages
 
 - `fetchSubscription(String shortCode, String keyword)`: Fetch your premium subscription data
 

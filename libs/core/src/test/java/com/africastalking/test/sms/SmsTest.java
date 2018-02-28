@@ -45,16 +45,16 @@ public class SmsTest {
     }
 
     @Test
-    public void testFetchMessage() throws IOException {
+    public void testFetchMessages() throws IOException {
         SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
-        List<Message> resp = sms.fetchMessage("0");
+        List<Message> resp = sms.fetchMessages("0");
         Assert.assertEquals(true, resp.size() >= 0);
     }
 
     @Test
-    public void testFetchSubscription() throws IOException {
+    public void testFetchSubscriptions() throws IOException {
         SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
-        List<Subscription> resp = sms.fetchSubscription("AT2FA", "KiKi", "0");
+        List<Subscription> resp = sms.fetchSubscriptions("AT2FA", "KiKi", "0");
         Assert.assertEquals(true, resp.size() >= 0);
     }
 

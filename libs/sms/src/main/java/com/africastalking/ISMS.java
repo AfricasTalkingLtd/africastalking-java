@@ -26,11 +26,11 @@ interface ISMS {
                                           @Field("bulkSMSMode") int bulkMode);
 
     @GET("messaging")
-    Call<FetchMessageResponse> fetchMessage(@Query("username") String username, @Query("lastReceivedId") String lastReceivedId);
+    Call<FetchMessageResponse> fetchMessages(@Query("username") String username, @Query("lastReceivedId") String lastReceivedId);
 
 
     @GET("subscription")
-    Call<FetchSubscriptionResponse> fetchSubscription(@Query("username") String username, @Query("shortCode") String shortCode,
+    Call<FetchSubscriptionResponse> fetchSubscriptions(@Query("username") String username, @Query("shortCode") String shortCode,
                                                       @Query("keyword") String keyword, @Query("lastReceivedId") String lastReceivedId);
 
     @FormUrlEncoded
