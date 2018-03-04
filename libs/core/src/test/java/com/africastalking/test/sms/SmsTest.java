@@ -29,7 +29,7 @@ public class SmsTest {
     @Test
     public void testSend() throws IOException {
         SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
-        List<Recipient> resp = sms.send("testSend()", "AT2FA", new String[] {"0711082302", "0731034588"}, false);
+        List<Recipient> resp = sms.send("testSend()", "AT2FA", new String[] {"+25411082302", "+254731034588"}, false);
         Assert.assertEquals(2, resp.size());
         Assert.assertEquals(Status.SUCCESS, resp.get(0).status);
     }
@@ -38,7 +38,7 @@ public class SmsTest {
     public void testSendPremium() throws IOException {
 
         SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
-        List<Recipient> resp = sms.sendPremium("testSendPremium()", "8989", "KiKi", "Linky", 10, new String[] {"0711082302", "0731034588"});
+        List<Recipient> resp = sms.sendPremium("testSendPremium()", "8989", "KiKi", "Linky", 10, new String[] {"+254711082302", "+254731034588"});
         Assert.assertEquals(2, resp.size());
         Assert.assertEquals(Status.SUCCESS, resp.get(0).status);
 
@@ -60,7 +60,7 @@ public class SmsTest {
 
     @Test
     public void testCreateSubscription() throws IOException {
-        String phone = "0731034" + ThreadLocalRandom.current().nextInt(100, 999);
+        String phone = "+254731034" + ThreadLocalRandom.current().nextInt(100, 999);
         SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
         TokenService tokenService = AfricasTalking.getService(AfricasTalking.SERVICE_TOKEN);
         CheckoutTokenResponse checkoutToken = tokenService.createCheckoutToken(phone);

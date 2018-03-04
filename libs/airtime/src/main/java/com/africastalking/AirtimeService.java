@@ -139,7 +139,8 @@ public final class AirtimeService extends Service {
         StringBuilder body = new StringBuilder();
         int count = recipients.size();
         for (String phone:recipients.keySet()) {
-            String amount = recipients.get(phone).toString();
+            checkPhoneNumber(phone);
+            String amount = recipients.get(phone);
             String target = "{\"phoneNumber\":\"" + phone + "\", \"amount\": \""+ amount +"\"}";
             body.append(target);
 

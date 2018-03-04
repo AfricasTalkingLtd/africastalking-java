@@ -28,7 +28,7 @@ public class VoiceTest {
     public void testCall() {
         VoiceService service = AfricasTalking.getService(VoiceService.class);
         try {
-            final CallResponse response = service.call("0718769882", "0718769881");
+            final CallResponse response = service.call("+254718769882", "0718769881");
             Assert.assertEquals("Invalid callerId: 0718769881", response.errorMessage);
 
         } catch (IOException e) {

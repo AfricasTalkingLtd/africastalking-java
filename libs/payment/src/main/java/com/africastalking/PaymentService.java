@@ -128,6 +128,7 @@ public final class PaymentService extends Service {
      * @throws IOException
      */
     public CheckoutResponse mobileCheckout(String productName, String phoneNumber, String amount, Map metadata) throws IOException {
+        checkPhoneNumber(phoneNumber);
         HashMap<String, Object> body = makeCheckoutRequest(productName, amount, null, metadata);
         body.put("phoneNumber", phoneNumber);
         Call<CheckoutResponse> call = payment.mobileCheckout(body);
@@ -139,10 +140,18 @@ public final class PaymentService extends Service {
     }
 
     public void mobileCheckout(String productName, String phoneNumber, String amount, Map metadata, Callback<CheckoutResponse> callback) {
-        HashMap<String, Object> body = makeCheckoutRequest(productName, amount, null, metadata);
-        body.put("phoneNumber", phoneNumber);
-        Call<CheckoutResponse> call = payment.mobileCheckout(body);
-        call.enqueue(makeCallback(callback));
+
+        try {
+            checkPhoneNumber(phoneNumber);
+
+            HashMap<String, Object> body = makeCheckoutRequest(productName, amount, null, metadata);
+            body.put("phoneNumber", phoneNumber);
+            Call<CheckoutResponse> call = payment.mobileCheckout(body);
+            call.enqueue(makeCallback(callback));
+        } catch (IOException e) {
+            callback.onFailure(e);
+            return;
+        }
     }
 
 
@@ -318,6 +327,9 @@ public final class PaymentService extends Service {
      * @return
      */
     public B2CResponse mobileB2C(String product, List<Consumer> recipients) throws IOException {
+
+        for(Consumer consumer : recipients) { checkPhoneNumber(consumer.phoneNumber); }
+
         HashMap<String, Object> body = makeB2CRequest(product, recipients);
         Call<B2CResponse> call = payment.requestB2C(body);
         Response<B2CResponse> resp = call.execute();
@@ -328,9 +340,16 @@ public final class PaymentService extends Service {
     }
 
     public void mobileB2C(String product, List<Consumer> recipients, Callback<B2CResponse> callback) {
-        HashMap<String, Object> body = makeB2CRequest(product, recipients);
-        Call<B2CResponse> call = payment.requestB2C(body);
-        call.enqueue(makeCallback(callback));
+        try {
+            for(Consumer consumer : recipients) { checkPhoneNumber(consumer.phoneNumber); }
+
+            HashMap<String, Object> body = makeB2CRequest(product, recipients);
+            Call<B2CResponse> call = payment.requestB2C(body);
+            call.enqueue(makeCallback(callback));
+
+        } catch (IOException ex) {
+            callback.onFailure(ex);
+        }
     }
 
 

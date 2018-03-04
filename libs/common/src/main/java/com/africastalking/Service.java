@@ -17,7 +17,6 @@ import java.io.IOException;
 abstract class Service {
 
     Retrofit.Builder mRetrofitBuilder;
-
     String mUsername;
 
     static boolean isSandbox = false;
@@ -119,4 +118,11 @@ abstract class Service {
      * Destroys a service
      */
     protected abstract void destroyService();
+
+    protected boolean checkPhoneNumber(String phone) throws IOException {
+        if (!phone.matches(Const.INTL_PHONE_FORMAT)) {
+            throw new IOException("Invalid phone number: " + phone + "; Expecting number in format +XXXxxxxxxxxx");
+        }
+        return true;
+    }
 }

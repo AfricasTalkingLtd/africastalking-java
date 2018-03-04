@@ -23,7 +23,7 @@ public class AirtimeTest {
     @Test
     public void testSendSingle() throws IOException {
         AirtimeService service = AfricasTalking.getService(AirtimeService.class);
-        AirtimeResponse response = service.send("0711082302", "KES " + ThreadLocalRandom.current().nextInt(100, 1001));
+        AirtimeResponse response = service.send("+254711082302", "KES " + ThreadLocalRandom.current().nextInt(100, 1001));
         Assert.assertEquals(1, response.numSent);
     }
 
@@ -31,8 +31,8 @@ public class AirtimeTest {
     public void testSendMultiple() throws IOException {
         AirtimeService service = AfricasTalking.getService(AirtimeService.class);
         HashMap<String, String> people = new HashMap<>();
-        people.put("0731034588", "KES " + ThreadLocalRandom.current().nextInt(500, 5501));
-        people.put("254711082302", "UGX " + ThreadLocalRandom.current().nextInt(300, 2001));
+        people.put("+254731034588", "KES " + ThreadLocalRandom.current().nextInt(500, 5501));
+        people.put("+254711082302", "UGX " + ThreadLocalRandom.current().nextInt(300, 2001));
         AirtimeResponse response = service.send(people);
         Assert.assertEquals(2, response.numSent);
     }

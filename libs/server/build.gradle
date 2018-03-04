@@ -9,8 +9,8 @@ buildscript {
 
 apply plugin: 'com.google.protobuf'
 
-targetCompatibility = 1.7
-sourceCompatibility = 1.7
+targetCompatibility = 1.8
+sourceCompatibility = 1.8
 
 protobuf {
     protoc {

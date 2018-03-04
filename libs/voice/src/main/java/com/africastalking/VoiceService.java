@@ -59,6 +59,7 @@ public final class VoiceService extends Service {
      * @throws IOException
      */
     public CallResponse call(String to, String from) throws IOException {
+        checkPhoneNumber(to);
         Call<CallResponse> call = voice.call(mUsername, to, from);
         Response<CallResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
@@ -79,8 +80,13 @@ public final class VoiceService extends Service {
      * @param callback {@link com.africastalking.Callback Callback}
      */
     public void call(String to, String from, final Callback<CallResponse> callback) {
-        Call<CallResponse> call = voice.call(mUsername, to, from);
-        call.enqueue(makeCallback(callback));
+        try {
+            checkPhoneNumber(to);
+            Call<CallResponse> call = voice.call(mUsername, to, from);
+            call.enqueue(makeCallback(callback));
+        } catch (IOException ex){
+            callback.onFailure(ex);
+        }
     }
 
     public void call(String to, Callback<CallResponse> callback) {

@@ -35,7 +35,7 @@ public class PaymentTest {
     @Test
     public void testMobileCheckout() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        CheckoutResponse resp = service.mobileCheckout("TestProduct", "0711082302", "KES 877", new HashMap());
+        CheckoutResponse resp = service.mobileCheckout("TestProduct", "+254711082302", "KES 877", new HashMap());
         Assert.assertEquals(Status.PENDING_CONFIRMATION, resp.status);
     }
 
@@ -80,7 +80,7 @@ public class PaymentTest {
     @Test
     public void testMobileB2C() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        Consumer recip = new Consumer("Salama", "0711082302", "KES 432", null);
+        Consumer recip = new Consumer("Salama", "+254711082302", "KES 432", null);
         List<Consumer> consumers = Arrays.asList(recip);
         B2CResponse resp = service.mobileB2C("TestProduct", consumers);
         Assert.assertEquals("KES 432.0000", resp.totalValue);

@@ -61,7 +61,7 @@ public final class SmsService extends Service {
         }
     }
 
-    private String formatRecipients(String[] recipients) {
+    private String formatRecipients(String[] recipients) throws IOException {
 
         if (recipients == null){
             return null;
@@ -73,6 +73,7 @@ public final class SmsService extends Service {
 
         StringJoiner joiner = new StringJoiner(",");
         for (CharSequence cs: recipients) {
+            checkPhoneNumber(cs.toString());
             joiner.add(cs);
         }
         return joiner.toString();
@@ -113,17 +114,21 @@ public final class SmsService extends Service {
      * @param callback
      */
     public void send(String message, String from, String[] recipients, boolean enqueue, final Callback<List<Recipient>> callback) {
-        sms.send(mUsername, formatRecipients(recipients), from, message, 1, enqueue ? "1" : null).enqueue(makeCallback(new Callback<SendMessageResponse>() {
-            @Override
-            public void onSuccess(SendMessageResponse data) {
-                callback.onSuccess(data.data.recipients);
-            }
+        try {
+            sms.send(mUsername, formatRecipients(recipients), from, message, 1, enqueue ? "1" : null).enqueue(makeCallback(new Callback<SendMessageResponse>() {
+                @Override
+                public void onSuccess(SendMessageResponse data) {
+                    callback.onSuccess(data.data.recipients);
+                }
 
-            @Override
-            public void onFailure(Throwable throwable) {
-                callback.onFailure(throwable);
-            }
-        }));
+                @Override
+                public void onFailure(Throwable throwable) {
+                    callback.onFailure(throwable);
+                }
+            }));
+        } catch (IOException ex) {
+            callback.onFailure(ex);
+        }
     }
 
     /**
@@ -196,20 +201,24 @@ public final class SmsService extends Service {
      * @param callback
      */
     public void sendPremium(String message, String from, String keyword, String linkId, long retryDurationInHours, String[] recipients, final Callback<List<Recipient>> callback) {
-        String retryDuration = retryDurationInHours <= 0 ? null : String.valueOf(retryDurationInHours);
-        sms.sendPremium(mUsername, formatRecipients(recipients),
-                from, message, keyword, linkId, retryDuration, 0)
-                .enqueue(makeCallback(new Callback<SendMessageResponse>() {
-                    @Override
-                    public void onSuccess(SendMessageResponse data) {
-                        callback.onSuccess(data.data.recipients);
-                    }
+        try {
+            String retryDuration = retryDurationInHours <= 0 ? null : String.valueOf(retryDurationInHours);
+            sms.sendPremium(mUsername, formatRecipients(recipients),
+                    from, message, keyword, linkId, retryDuration, 0)
+                    .enqueue(makeCallback(new Callback<SendMessageResponse>() {
+                        @Override
+                        public void onSuccess(SendMessageResponse data) {
+                            callback.onSuccess(data.data.recipients);
+                        }
 
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        callback.onFailure(throwable);
-                    }
-                }));
+                        @Override
+                        public void onFailure(Throwable throwable) {
+                            callback.onFailure(throwable);
+                        }
+                    }));
+        } catch (IOException ex) {
+            callback.onFailure(ex);
+        }
     }
 
     /**
@@ -469,6 +478,7 @@ public final class SmsService extends Service {
      * @throws IOException
      */
     public SubscriptionResponse createSubscription(String shortCode, String keyword, String phoneNumber, String checkoutToken) throws IOException {
+        checkPhoneNumber(phoneNumber);
         Response<SubscriptionResponse> resp = sms.createSubscription(mUsername, shortCode, keyword, phoneNumber, checkoutToken).execute();
         if (!resp.isSuccessful()) {
             throw new IOException(resp.errorBody().string());
@@ -489,7 +499,12 @@ public final class SmsService extends Service {
      * @param callback
      */
     public void createSubscription(String shortCode, String keyword, String phoneNumber, String checkoutToken, Callback<SubscriptionResponse> callback) {
-        sms.createSubscription(mUsername, shortCode, keyword, phoneNumber, checkoutToken).enqueue(makeCallback(callback));
+        try {
+            checkPhoneNumber(phoneNumber);
+            sms.createSubscription(mUsername, shortCode, keyword, phoneNumber, checkoutToken).enqueue(makeCallback(callback));
+        } catch (IOException ex) {
+            callback.onFailure(ex);
+        }
     }
 
 
