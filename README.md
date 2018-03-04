@@ -56,7 +56,7 @@ AfricasTalking.initialize(username, apiKey);
 SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
 
 // Use the service
-List<Recipient> response = sms.send("Hello Message!", new String[] {"2547xxxxxx"});
+List<Recipient> response = sms.send("Hello Message!", new String[] {"+2547xxxxxx"});
 ```
 
 See [example](example/) for more usage examples.
