@@ -94,7 +94,7 @@ All **amount strings** contain currency code as well. e.g. `UGX 443.88`.
 
 ### `AccountService`
 
-- `fetchAccount()`: Get app balance.
+- `fetchAccount()`: Get app information. e.g. balance
 
 ### `AirtimeService`
 
