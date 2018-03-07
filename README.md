@@ -2,11 +2,11 @@
 
 [ ![Download](https://api.bintray.com/packages/africastalking/java/com.africastalking/images/download.svg) ](https://bintray.com/africastalking/java/com.africastalking/_latestVersion)
 
-> The wrapper provides convenient access to the Africa's Talking API from applications written in Java.
+> The SDK provides convenient access to the Africa's Talking API from applications written in Java.
 >
 > 
 > **Android Users**:
-> Remember your API key has to be kept secret; hard-coding it into an apk or a jar you publish is a security risk. So on Android, use the [Android SDK](https://github.com/AfricasTalkingLtd/africastalking-android).
+> Remember your API key has to be kept secret; hard-coding it into an apk you publish is a security risk. So on Android, use the [Android SDK](https://github.com/AfricasTalkingLtd/africastalking-android) instead.
 
 
 ## Documentation
@@ -19,7 +19,7 @@ You can depend on the .jar through Maven (from `http://dl.bintray.com/africastal
 <dependency>
   <groupId>com.africastalking</groupId>
   <artifactId>core</artifactId>
-  <version>3.3.1</version>
+  <version>3.3.3</version>
 </dependency>
 ```
 or sbt:
@@ -27,7 +27,7 @@ or sbt:
 ```
 resolvers += "africastalking maven repository" at "http://dl.bintray.com/africastalking/java"
 // Get all services
-libraryDependencies += "com.africastalking" % "core" % "3.3.1"
+libraryDependencies += "com.africastalking" % "core" % "3.3.3"
 ```
 
 or Gradle:
@@ -40,11 +40,15 @@ repositories {
 
 dependencies{
   // Get all services
-  compile 'com.africastalking:core:3.3.1'
+  compile 'com.africastalking:core:3.3.3'
 }
 ```
 
 ## Usage
+
+The SDK needs to be initialized with your app username and API key, which you get from the [dashboard](https://account/africastalking.com).
+
+> You can use this SDK for either production or sandbox apps. For sandbox, the app username is **ALWAYS** `sandbox`
 
 ```java
 // Initialize
@@ -70,19 +74,31 @@ The following static methods are available on the `AfricasTalking` class to init
 
 - `setLogger(Logger)`: Set logging object.
 
-- `getService(Service.class | AfricasTalking.SERVICE_*)`: Get an instance to a given service by name or by class.
+- `getService(Service.class | AfricasTalking.SERVICE_*)`: Get an instance to a given service by name or by class:
+
+  - [Account](#accountservice): `AfricasTalking.getService(AfricasTalking.SERVICE_ACCOUNT)`
+  - [Airtime](#airtimeservice): `AfricasTalking.getService(AfricasTalking.SERVICE_AIRTIME)`
+  - [SMS](#smsservice): `AfricasTalking.getService(AfricasTalking.SERVICE_SMS)`
+  - [Payments](#paymentservice): `AfricasTalking.getService(AfricasTalking.SERVICE_PAYMENT)`
+  - [Voice](#voiceservice): `AfricasTalking.getService(AfricasTalking.SERVICE_VOICE)`
+  - [Token](#tokenservice): `AfricasTalking.getService(AfricasTalking.SERVICE_TOKEN)`
+  - [USSD](#ussdservice): `AfricasTalking.getService(AfricasTalking.SERVICE_USSD)`
 
 ## Services
 
-All methods return a `String` of `json` data. All methods are synchronous (i.e. will block current thread) but provide asynchronous variants that take a `Callback<String>` as the last argument.
+All methods are synchronous (i.e. will block current thread) but provide asynchronous variants that take a `com.africastalking.Callback<String>` as the last argument.
+
+All phone numbers use the international format. e.g. `+234xxxxxxxx`.
+
+All **amount strings** contain currency code as well. e.g. `UGX 443.88`.
 
 ### `AccountService`
 
-- `getUser()`: Get user information.
+- `fetchAccount()`: Get app balance.
 
 ### `AirtimeService`
 
-- `send(String phone, String amount)`: Send airtime to a phone number. Example amount would be `KES 150`.
+- `send(String phoneNumber, String amount)`: Send airtime to a phone number. Example amount would be `KES 150`.
 
 - `send(HashMap<String,String> recipients)`: Send airtime to a bunch of phone numbers. The keys in the `recipients` map are phone numbers while the values are airtime amounts. The amounts need to have currency info e.g. `UXG 4265`.
 
@@ -109,13 +125,20 @@ For more information on:
 
 ### `PaymentService`
 
-- `cardCheckout(String productName, String amount, PaymentCard paymentCard)`: Initiate card checkout.
-- `validateCardCheckout(String transactionId, String token)`: Validate a card checkout
-- `bankCheckout(String productName, String amount, BankAccount bankAccount)`: Initiate bank checkout.
-- `validateBankCheckout(String transactionId, String token)`: Validate a bank checkout
+- `cardCheckout(String productName, String amount, PaymentCard paymentCard, String narration, Map metadata)`: Initiate card checkout.
+
+- `validateCardCheckout(String transactionId, String otp)`: Validate a card checkout
+
+- `bankCheckout(String productName, String amount, BankAccount bankAccount, String narration, Map metadata)`: Initiate bank checkout.
+
+- `validateBankCheckout(String transactionId, String otp)`: Validate a bank checkout
+
 - `bankTransfer(String productName, List<Bank> recipients)`: Move money form payment wallet to bank account
+
 - `mobileCheckout(String productName, String phoneNumber, String amount)`: Initiate mobile checkout.
+
 - `mobileB2C(String productName, List<Consumer> consumers)`: Send mobile money to consumer. 
+
 - `mobileB2B(String productName, Business recipient)`: Send mobile money to business.
 
 
@@ -124,33 +147,33 @@ For more information, please read [http://docs.africastalking.com/payments](http
 
 ### `VoiceService`
 
-- `call(String phone)`: Initiate a phone call
+- `call(String phoneNumber)`: Initiate a phone call
 
-- `fetchQueuedCalls(String phone)`: Get queued calls
+- `fetchQueuedCalls(String phoneNumber)`: Get queued calls
 
-- `uploadMediaFile(String phone, String url)`: Upload voice media file
+- `uploadMediaFile(String phoneNumber, String url)`: Upload voice media file
 
 - `ActionBuilder`: Build voice xml when callback URL receives a `POST` from Africa's Talking
 
-    - `say()`
+    - `say()`: Add a `Say` action.
 
-    - `play()`
+    - `play()`: Add a `Play` action.
 
-    - `getDigits()`
+    - `getDigits()`: Add a `GetDigits` action.
 
-    - `dial()`
+    - `dial()`: Add a `Dial` action.
 
-    - `conference()`
+    - `conference()`: Add a `Conferemce` action.
 
-    - `record()`
+    - `record()`: Add a `Record` action.
 
-    - `enqueue()`
+    - `enqueue()`: Add a `Enqueue` action.
 
-    - `dequeue()`
+    - `dequeue()`: Add a `Dequeue` action.
 
-    - `reject()`
+    - `reject()`: Add a `Reject` action.
 
-    - `redirect()`
+    - `redirect()`: Add a `Redirect` action.
 
     - `build()`: Finally build the xml
 
@@ -164,7 +187,7 @@ For more information, please read [http://docs.africastalking.com/voice](http://
 
 - `generateAuthToken()`: Generate an auth token to use for authentication instead of an API key.
 
-### `UssdService` *TODO?*
+### `UssdService`
 
 For more information, please read [http://docs.africastalking.com/ussd](http://docs.africastalking.com/ussd)
 

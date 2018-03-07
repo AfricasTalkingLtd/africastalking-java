@@ -24,14 +24,14 @@ public class AccountTest {
     }
 
     @Test
-    public void testFetchUser() {
+    public void testFetchAccount() {
 
         AccountService service = AfricasTalking.getService(AccountService.class);
         try {
-            final AccountResponse resp = service.getUser();
+            final AccountResponse resp = service.fetchAccount();
             Assert.assertNotNull(resp);
 
-            service.getUser(new Callback<AccountResponse>() {
+            service.fetchAccount(new Callback<AccountResponse>() {
                 @Override
                 public void onSuccess(AccountResponse response) {
                     Assert.assertNotNull(response);

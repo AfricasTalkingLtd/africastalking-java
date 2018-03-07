@@ -14,11 +14,11 @@ public final class AT {
         log("\nAfrica's Talking SDK\n");
         AfricasTalking.initialize(argv[0], argv[1]);
         try {
-            log("\tGetting user account...\n");
-            AccountResponse resp = AfricasTalking.getService(AccountService.class).getUser();
+            log("\tGetting app account info...\n");
+            AccountResponse resp = AfricasTalking.getService(AccountService.class).fetchAccount();
             log("\tBalance: " + resp.userData.balance);
         } catch (IOException e) {
-            System.out.println("Failed to get AT account!");
+            System.out.println("Failed to get info!");
         }
     }
 }

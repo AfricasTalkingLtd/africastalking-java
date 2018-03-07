@@ -69,8 +69,8 @@ public class AccountService extends Service {
      * @return String in specified format, xml or json
      * @throws IOException
      */
-    public AccountResponse getUser() throws IOException {
-        Response<AccountResponse> resp = service.getUser(mUsername).execute();
+    public AccountResponse fetchAccount() throws IOException {
+        Response<AccountResponse> resp = service.fetchAccount(mUsername).execute();
         if (!resp.isSuccessful()) {
             throw new IOException(resp.errorBody().string());
         }
@@ -85,7 +85,7 @@ public class AccountService extends Service {
      * </p>
      * @param callback {@link com.africastalking.Callback Callback}
      */
-    public void getUser(final Callback<AccountResponse> callback) {
-        service.getUser(mUsername).enqueue(makeCallback(callback));
+    public void fetchAccount(final Callback<AccountResponse> callback) {
+        service.fetchAccount(mUsername).enqueue(makeCallback(callback));
     }
 }

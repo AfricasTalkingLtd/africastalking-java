@@ -11,5 +11,5 @@ import retrofit2.http.Query;
  */
 interface IAccount {
     @GET("user")
-    Call<AccountResponse> getUser(@Query("username") String username);
+    Call<AccountResponse> fetchAccount(@Query("username") String username);
 }
