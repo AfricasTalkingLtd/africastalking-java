@@ -104,9 +104,9 @@ configure(subprojects.findAll {publishedLibs.contains(it.name)}){
             licenses = ['MIT']
             version {
                 name = project.version
-                desc = 'Africa\'s Talking SDK'
+                desc = 'Official Africa\'s Talking SDK'
                 released  = new Date()
-                attributes = ['maturity': 'Development']
+                attributes = ['maturity': 'Official']
             }
         }
     }
