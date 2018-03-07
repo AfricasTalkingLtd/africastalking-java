@@ -1,6 +1,7 @@
 package com.africastalking.test.sms;
 
 import com.africastalking.AfricasTalking;
+import com.africastalking.Callback;
 import com.africastalking.SmsService;
 import com.africastalking.Status;
 import com.africastalking.TokenService;
@@ -27,9 +28,53 @@ public class SmsTest {
     }
 
     @Test
+    public void testSendHighMultipleVolume() throws IOException {
+        SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
+        int count = 100000;
+        for (int i = 0; i < count; i++) {
+            int offset = count + i;
+            String[] numbers = new String[] { "+254711" + offset };
+            sms.send("testSendHighMultipleVolume(" + numbers[0] + ")", "AT2FA", numbers, true, new Callback<List<Recipient>>() {
+                @Override
+                public void onSuccess(List<Recipient> response) {
+                    Assert.assertNotNull(response);
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    Assert.fail(throwable.getMessage());
+                }
+            });
+        }
+    }
+
+    @Test
+    public void testSendHighSingleVolume() throws IOException {
+        SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
+
+        int count = 100000;
+        String[] numbers = new String[count];
+        for (int i = 0; i < count; i++) {
+            int offset = count + i;
+            numbers[i] = "+254711" + offset;
+        }
+        sms.send("testSendHighSingleVolume()", "AT2FA", numbers, true, new Callback<List<Recipient>>() {
+                @Override
+                public void onSuccess(List<Recipient> response) {
+                    Assert.assertNotNull(response);
+                }
+
+                @Override
+                public void onFailure(Throwable throwable) {
+                    Assert.fail(throwable.getMessage());
+                }
+        });
+    }
+
+    @Test
     public void testSend() throws IOException {
         SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
-        List<Recipient> resp = sms.send("testSend()", "AT2FA", new String[] {"+25411082302", "+254731034588"}, false);
+        List<Recipient> resp = sms.send("testSend()", "AT2FA", new String[] {"+254711082302", "+254731034588"}, false);
         Assert.assertEquals(2, resp.size());
         Assert.assertEquals(Status.SUCCESS, resp.get(0).status);
     }
