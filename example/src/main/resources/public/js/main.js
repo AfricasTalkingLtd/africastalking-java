@@ -21,12 +21,16 @@ $(function () {
 
         $.ajax({
             type: "POST",
-            url: `/auth/register/${encodeURIComponent(phone)}`, success: (resp) => {
+            url: `/auth/register/${encodeURIComponent(phone)}`,
+            success: (resp) => {
                 try {
                     log(JSON.stringify(JSON.parse(resp), null, 2));
                 } catch (ex) {
                     log(resp);
                 }
+            },
+            error: (xhr, textStatus, errorThrown) => {
+                log(errorThrown);
             }
         });
 
@@ -56,6 +60,9 @@ $(function () {
                 } catch (ex) {
                     log(resp);
                 }
+            },
+            error: (xhr, textStatus, errorThrown) => {
+                log(errorThrown);
             }
         });
 
@@ -85,6 +92,9 @@ $(function () {
                 } catch (ex) {
                     log(resp);
                 }
+            },
+            error: (xhr, textStatus, errorThrown) => {
+                log(errorThrown);
             }
         });
 
@@ -114,6 +124,9 @@ $(function () {
                 } catch (ex) {
                     log(resp);
                 }
+            },
+            error: (xhr, textStatus, errorThrown) => {
+                log(errorThrown);
             }
         });
 
