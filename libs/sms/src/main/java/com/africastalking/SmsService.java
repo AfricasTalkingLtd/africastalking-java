@@ -68,6 +68,7 @@ public final class SmsService extends Service {
         }
 
         if (recipients.length == 1) {
+            checkPhoneNumber(recipients[0]);
             return recipients[0];
         }
 
