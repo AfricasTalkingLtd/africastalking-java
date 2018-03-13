@@ -21,8 +21,7 @@ $(function () {
 
         $.ajax({
             type: "POST",
-            url: `/auth/register/${encodeURI(phone)}`,
-            success: (resp) => {
+            url: `/auth/register/${encodeURIComponent(phone)}`, success: (resp) => {
                 try {
                     log(JSON.stringify(JSON.parse(resp), null, 2));
                 } catch (ex) {
@@ -50,7 +49,7 @@ $(function () {
 
         $.ajax({
             type: "POST",
-            url: `/airtime/${encodeURI(phone)}?amount=${amount}`,
+            url: `/airtime/${encodeURIComponent(phone)}?amount=${amount}`,
             success: (resp) => {
                 try {
                     log(JSON.stringify(JSON.parse(resp), null, 2));
@@ -79,7 +78,7 @@ $(function () {
 
         $.ajax({
             type: "POST",
-            url: `/mobile/checkout/${encodeURI(phone)}?amount=${amount}`,
+            url: `/mobile/checkout/${encodeURIComponent(phone)}?amount=${amount}`,
             success: (resp) => {
                 try {
                     log(JSON.stringify(JSON.parse(resp), null, 2));
@@ -108,7 +107,7 @@ $(function () {
 
         $.ajax({
             type: "POST",
-            url: `/mobile/b2c/${encodeURI(phone)}?amount=${amount}`,
+            url: `/mobile/b2c/${encodeURIComponent(phone)}?amount=${amount}`,
             success: (resp) => {
                 try {
                     log(JSON.stringify(JSON.parse(resp), null, 2));
