@@ -36,4 +36,7 @@ interface IPayment {
 
     @POST("transfer/wallet")
     Call<WalletTransferResponse> walletTransfer(@Body HashMap<String, Object> body);
+
+    @POST("topup/stash")
+    Call<TopupStashResponse> topupStash(@Body HashMap<String, Object> body);
 }

@@ -367,6 +367,45 @@ public final class PaymentService extends Service {
         call.enqueue(makeCallback(callback));
     }
 
+    public TopupStashResponse topupStash(String productName, String amount, HashMap<String, String> metadata) throws IOException {
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("username", mUsername);
+        body.put("productName", productName);
+        body.put("metadata", metadata);
+
+        try {
+            String[] currenciedAmount = amount.trim().split(" ");
+            body.put("currencyCode", currenciedAmount[0]);
+            body.put("amount", Float.parseFloat(currenciedAmount[1]));
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+
+        Call<TopupStashResponse> call = payment.topupStash(body);
+        Response<TopupStashResponse> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            throw new IOException(resp.errorBody().string());
+        }
+        return resp.body();
+    }
+
+    public void topupStash(String productName, String amount, HashMap<String, String> metadata, Callback<TopupStashResponse> callback) {
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("username", mUsername);
+        body.put("productName", productName);
+        body.put("metadata", metadata);
+
+        try {
+            String[] currenciedAmount = amount.trim().split(" ");
+            body.put("currencyCode", currenciedAmount[0]);
+            body.put("amount", Float.parseFloat(currenciedAmount[1]));
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+        Call<TopupStashResponse> call = payment.topupStash(body);
+        call.enqueue(makeCallback(callback));
+    }
+
 
     /**
      * Make a B2C request

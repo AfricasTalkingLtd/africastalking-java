@@ -81,6 +81,13 @@ public class PaymentTest {
     }
 
     @Test
+    public void testTopupStash() throws IOException {
+        PaymentService service = AfricasTalking.getService(PaymentService.class);
+        TopupStashResponse resp = service.topupStash("Ikoyi Store", "KES 332", new HashMap<>());
+        Assert.assertEquals(Status.FAILED, resp.status);
+    }
+
+    @Test
     public void testMobileB2C() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
         Consumer recip = new Consumer("Salama", "+254711082302", "KES 432", null);
