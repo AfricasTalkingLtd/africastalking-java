@@ -1,7 +1,7 @@
-package com.africastalking.test.account;
+package com.africastalking.test.application;
 
 import com.africastalking.*;
-import com.africastalking.account.AccountResponse;
+import com.africastalking.application.ApplicationResponse;
 import com.africastalking.test.Fixtures;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 
-public class AccountTest {
+public class ApplicationTest {
 
     CountDownLatch lock;
 
@@ -24,16 +24,16 @@ public class AccountTest {
     }
 
     @Test
-    public void testFetchAccount() {
+    public void testFetchApplicationData() {
 
-        AccountService service = AfricasTalking.getService(AccountService.class);
+        ApplicationService service = AfricasTalking.getService(ApplicationService.class);
         try {
-            final AccountResponse resp = service.fetchAccount();
+            final ApplicationResponse resp = service.fetchApplicationData();
             Assert.assertNotNull(resp);
 
-            service.fetchAccount(new Callback<AccountResponse>() {
+            service.fetchApplicationData(new Callback<ApplicationResponse>() {
                 @Override
-                public void onSuccess(AccountResponse response) {
+                public void onSuccess(ApplicationResponse response) {
                     Assert.assertNotNull(response);
                     assertEquals(resp.userData.balance, response.userData.balance);
                     lock.countDown();

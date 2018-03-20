@@ -30,7 +30,7 @@ publishedLibs << 'token'
 publishedLibs << 'airtime'
 publishedLibs << 'voice'
 publishedLibs << 'ussd'
-publishedLibs << 'account'
+publishedLibs << 'application'
 publishedLibs << 'core'
 publishedLibs << 'server'
 configure(subprojects.findAll {publishedLibs.contains(it.name)}){

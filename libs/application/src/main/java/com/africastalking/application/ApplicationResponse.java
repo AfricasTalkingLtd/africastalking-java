@@ -1,10 +1,10 @@
-package com.africastalking.account;
+package com.africastalking.application;
 
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
-public final class AccountResponse {
+public final class ApplicationResponse {
 
     @SerializedName("UserData")
     public UserData userData;

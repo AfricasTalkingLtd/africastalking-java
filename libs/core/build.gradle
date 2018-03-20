@@ -16,8 +16,6 @@ test {
 }
 
 dependencies {
-
-    compile project(":account")
     compile project(":airtime")
     compile project(":payment")
     compile project(":sms")
@@ -25,6 +23,7 @@ dependencies {
     compile project(":voice")
     compile project(":token")
     compile project(":server")
+    compile project(":application")
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }

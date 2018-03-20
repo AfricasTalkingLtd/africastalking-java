@@ -1,35 +1,34 @@
 package com.africastalking;
 
 
-import com.africastalking.account.AccountResponse;
+import com.africastalking.application.ApplicationResponse;
 
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
 
 /**
- * Account service. Retrieve user account info
+ * Account service. Retrieve app info
  */
-public class AccountService extends Service {
+public class ApplicationService extends Service {
 
-    private static AccountService sInstance;
-    private IAccount service;
+    private static ApplicationService sInstance;
+    private IApplication service;
 
-    private AccountService(String username, String apiKey) {
+    private ApplicationService(String username, String apiKey) {
         super(username, apiKey);
     }
 
-    AccountService() {
+    ApplicationService() {
         super();
     }
 
     @Override
-    protected AccountService getInstance(String username, String apiKey) {
+    protected ApplicationService getInstance(String username, String apiKey) {
 
         if (sInstance == null) {
-            sInstance = new AccountService(username, apiKey);
+            sInstance = new ApplicationService(username, apiKey);
         }
 
         return sInstance;
@@ -43,7 +42,7 @@ public class AccountService extends Service {
                 .baseUrl(url)
                 .build();
 
-        service = retrofit.create(IAccount.class);
+        service = retrofit.create(IApplication.class);
     }
 
     @Override
@@ -62,15 +61,15 @@ public class AccountService extends Service {
     // ->
 
     /**
-     * Get user info.
+     * Get app info.
      * <p>
      *     Synchronously send the request and return its response.
      * </p>
      * @return String in specified format, xml or json
      * @throws IOException
      */
-    public AccountResponse fetchAccount() throws IOException {
-        Response<AccountResponse> resp = service.fetchAccount(mUsername).execute();
+    public ApplicationResponse fetchApplicationData() throws IOException {
+        Response<ApplicationResponse> resp = service.fetchApplicationData(mUsername).execute();
         if (!resp.isSuccessful()) {
             throw new IOException(resp.errorBody().string());
         }
@@ -78,14 +77,14 @@ public class AccountService extends Service {
     }
 
     /**
-     * Get user info.
+     * Get app info.
      * <p>
      *     Asynchronously send the request and notify {@code callback} of its response or if an error
      * occurred
      * </p>
      * @param callback {@link com.africastalking.Callback Callback}
      */
-    public void fetchAccount(final Callback<AccountResponse> callback) {
-        service.fetchAccount(mUsername).enqueue(makeCallback(callback));
+    public void fetchApplicationData(final Callback<ApplicationResponse> callback) {
+        service.fetchApplicationData(mUsername).enqueue(makeCallback(callback));
     }
 }

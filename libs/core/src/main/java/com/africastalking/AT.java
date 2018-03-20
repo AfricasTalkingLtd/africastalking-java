@@ -1,6 +1,6 @@
 package com.africastalking;
 
-import com.africastalking.account.AccountResponse;
+import com.africastalking.application.ApplicationResponse;
 
 import java.io.IOException;
 
@@ -15,7 +15,7 @@ public final class AT {
         AfricasTalking.initialize(argv[0], argv[1]);
         try {
             log("\tGetting app account info...\n");
-            AccountResponse resp = AfricasTalking.getService(AccountService.class).fetchAccount();
+            ApplicationResponse resp = AfricasTalking.getService(ApplicationService.class).fetchApplicationData();
             log("\tBalance: " + resp.userData.balance);
         } catch (IOException e) {
             System.out.println("Failed to get info!");

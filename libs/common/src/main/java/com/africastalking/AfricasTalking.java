@@ -4,7 +4,7 @@ public final class AfricasTalking {
 
     private static final String BASE_PACKAGE = AfricasTalking.class.getPackage().getName();
 
-    public static final String SERVICE_ACCOUNT = BASE_PACKAGE + ".AccountService";
+    public static final String SERVICE_APPLICATION = BASE_PACKAGE + ".ApplicationService";
     public static final String SERVICE_SMS = BASE_PACKAGE + ".SmsService";
     public static final String SERVICE_VOICE = BASE_PACKAGE + ".VoiceService";
     public static final String SERVICE_USSD = BASE_PACKAGE + ".UssdService";
@@ -87,7 +87,7 @@ public final class AfricasTalking {
      */
     private static void destroyAllServices() {
         Service services[] = new Service[] {
-                getService(SERVICE_ACCOUNT),
+                getService(SERVICE_APPLICATION),
                 getService(SERVICE_VOICE),
                 getService(SERVICE_SMS),
                 getService(SERVICE_USSD),
