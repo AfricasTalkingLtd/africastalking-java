@@ -1,12 +1,8 @@
 package com.africastalking;
 
 import com.africastalking.payment.recipient.Bank;
-import com.africastalking.payment.response.B2BResponse;
-import com.africastalking.payment.response.B2CResponse;
+import com.africastalking.payment.response.*;
 import com.africastalking.payment.BankAccount;
-import com.africastalking.payment.response.BankTransferResponse;
-import com.africastalking.payment.response.CheckoutValidateResponse;
-import com.africastalking.payment.response.CheckoutResponse;
 import com.africastalking.payment.PaymentCard;
 import com.africastalking.payment.recipient.Business;
 import com.africastalking.payment.recipient.Consumer;
@@ -319,6 +315,58 @@ public final class PaymentService extends Service {
         Call<BankTransferResponse> call = payment.bankTransfer(body);
         call.enqueue(makeCallback(callback));
     }
+
+
+    /**
+     *
+     * @param productName
+     * @param targetProductCode
+     * @param amount
+     * @param metadata
+     * @return
+     * @throws IOException
+     */
+    public WalletTransferResponse walletTransfer(String productName, long targetProductCode, String amount, HashMap<String, String> metadata) throws IOException {
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("username", mUsername);
+        body.put("productName", productName);
+        body.put("targetProductCode", targetProductCode);
+        body.put("metadata", metadata);
+
+        try {
+            String[] currenciedAmount = amount.trim().split(" ");
+            body.put("currencyCode", currenciedAmount[0]);
+            body.put("amount", Float.parseFloat(currenciedAmount[1]));
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+
+        Call<WalletTransferResponse> call = payment.walletTransfer(body);
+        Response<WalletTransferResponse> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            throw new IOException(resp.errorBody().string());
+        }
+        return resp.body();
+    }
+
+    public void walletTransfer(String productName, long targetProductCode, String amount, HashMap<String, String> metadata, Callback<WalletTransferResponse> callback) {
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("username", mUsername);
+        body.put("productName", productName);
+        body.put("targetProductCode", targetProductCode);
+        body.put("metadata", metadata);
+
+        try {
+            String[] currenciedAmount = amount.trim().split(" ");
+            body.put("currencyCode", currenciedAmount[0]);
+            body.put("amount", Float.parseFloat(currenciedAmount[1]));
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+        Call<WalletTransferResponse> call = payment.walletTransfer(body);
+        call.enqueue(makeCallback(callback));
+    }
+
 
     /**
      * Make a B2C request

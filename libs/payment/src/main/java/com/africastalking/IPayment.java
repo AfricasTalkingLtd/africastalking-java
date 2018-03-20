@@ -1,11 +1,7 @@
 package com.africastalking;
 
 
-import com.africastalking.payment.response.B2BResponse;
-import com.africastalking.payment.response.B2CResponse;
-import com.africastalking.payment.response.BankTransferResponse;
-import com.africastalking.payment.response.CheckoutValidateResponse;
-import com.africastalking.payment.response.CheckoutResponse;
+import com.africastalking.payment.response.*;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -37,4 +33,7 @@ interface IPayment {
 
     @POST("bank/transfer")
     Call<BankTransferResponse> bankTransfer(@Body HashMap<String, Object> body);
+
+    @POST("transfer/wallet")
+    Call<WalletTransferResponse> walletTransfer(@Body HashMap<String, Object> body);
 }

@@ -2,11 +2,7 @@ package com.africastalking.test.payment;
 
 import com.africastalking.*;
 import com.africastalking.payment.recipient.Bank;
-import com.africastalking.payment.response.B2BResponse;
-import com.africastalking.payment.response.B2CResponse;
-import com.africastalking.payment.response.BankTransferResponse;
-import com.africastalking.payment.response.CheckoutResponse;
-import com.africastalking.payment.response.CheckoutValidateResponse;
+import com.africastalking.payment.response.*;
 import com.africastalking.payment.recipient.Business;
 import com.africastalking.payment.recipient.Consumer;
 import com.africastalking.payment.PaymentCard;
@@ -75,6 +71,13 @@ public class PaymentTest {
         List<Bank> recipients = Arrays.asList(new Bank(new BankAccount("Bob", "2323", BankAccount.BankCode.Zenith_NG), "NGN 5673", "Some narration", new HashMap<String, String>()));
         BankTransferResponse resp = service.bankTransfer("Ikoyi Store", recipients);
         Assert.assertEquals(Status.INVALID_REQUEST, resp.entries.get(0).status);
+    }
+
+    @Test
+    public void testWalletTransfer() throws IOException {
+        PaymentService service = AfricasTalking.getService(PaymentService.class);
+        WalletTransferResponse resp = service.walletTransfer("Ikoyi Store", 2211, "KES 332", new HashMap<>());
+        Assert.assertEquals(Status.FAILED, resp.status);
     }
 
     @Test
