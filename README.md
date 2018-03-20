@@ -76,7 +76,7 @@ The following static methods are available on the `AfricasTalking` class to init
 
 - `getService(Service.class | AfricasTalking.SERVICE_*)`: Get an instance to a given service by name or by class:
 
-  - [Account](#accountservice): `AfricasTalking.getService(AfricasTalking.SERVICE_ACCOUNT)`
+  - [Application](#applicationservice): `AfricasTalking.getService(AfricasTalking.SERVICE_APPLICATION)`
   - [Airtime](#airtimeservice): `AfricasTalking.getService(AfricasTalking.SERVICE_AIRTIME)`
   - [SMS](#smsservice): `AfricasTalking.getService(AfricasTalking.SERVICE_SMS)`
   - [Payments](#paymentservice): `AfricasTalking.getService(AfricasTalking.SERVICE_PAYMENT)`
@@ -92,9 +92,9 @@ All phone numbers use the international format. e.g. `+234xxxxxxxx`.
 
 All **amount strings** contain currency code as well. e.g. `UGX 443.88`.
 
-### `AccountService`
+### `ApplicationService`
 
-- `fetchAccount()`: Get app information. e.g. balance
+- `fetchApplicationData()`: Get app information. e.g. balance
 
 ### `AirtimeService`
 
