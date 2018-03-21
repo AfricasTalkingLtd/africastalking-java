@@ -141,6 +141,10 @@ For more information on:
 
 - `mobileB2B(String productName, Business recipient)`: Send mobile money to business.
 
+- `walletTransfer(String productName, long targetProductCode, String amount, HashMap<String, String> metadata)`: Move money form one payment product to another.
+
+- `topupStash(String productName, String amount, HashMap<String, String> metadata)`: Move money from payment product to app's stash.
+
 
 For more information, please read [http://docs.africastalking.com/payments](http://docs.africastalking.com/payments)
 
