@@ -39,5 +39,9 @@ interface ISMS {
                                                   @Field("keyword") String keyword, @Field("phoneNumber") String phoneNumber,
                                                   @Field("checkoutToken") String checkoutToken);
 
+    @FormUrlEncoded
+    @POST("subscription/delete")
+    Call<SubscriptionResponse> deleteSubscription(@Field("username") String username, @Field("shortCode") String shortCode, 
+                                                  @Field("keyword") String keyword, @Field("phoneNumber") String phoneNumber);
 
 }

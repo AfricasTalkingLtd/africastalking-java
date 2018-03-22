@@ -114,4 +114,12 @@ public class SmsTest {
         Assert.assertEquals("Waiting for user input", resp.description);
     }
 
+    @Test
+    public void testDeleteSubscription() throws IOException {
+        String phone = "+254731034" + ThreadLocalRandom.current().nextInt(100, 999);
+        SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
+        SubscriptionResponse resp = sms.deleteSubscription("AT2FA", "KiKi", phone);
+        Assert.assertEquals("Success", resp.status);
+    }
+
 }

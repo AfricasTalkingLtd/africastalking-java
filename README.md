@@ -116,6 +116,8 @@ For more information about status notification, please read [http://docs.africas
 
 - `createSubscription(String shortCode, String keyword, String phoneNumber, String checkoutToken)`: Create a premium subscription
 
+- `deleteSubscription(String shortCode, String keyword, String phoneNumber)`: Remove a phone number from a premium subscription
+
 For more information on: 
 
 - How to receive SMS: [http://docs.africastalking.com/sms/callback](http://docs.africastalking.com/sms/callback)

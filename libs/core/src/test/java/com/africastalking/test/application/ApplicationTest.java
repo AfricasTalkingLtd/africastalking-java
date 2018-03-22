@@ -35,7 +35,6 @@ public class ApplicationTest {
                 @Override
                 public void onSuccess(ApplicationResponse response) {
                     Assert.assertNotNull(response);
-                    assertEquals(resp.userData.balance, response.userData.balance);
                     lock.countDown();
                 }
 

@@ -508,5 +508,46 @@ public final class SmsService extends Service {
         }
     }
 
+    // -> Create subscription
+
+    /**
+     * Delete subscription
+     * <p>
+     *     Synchronously send the request and return its response.
+     * </p>
+     * @param shortCode
+     * @param keyword
+     * @param phoneNumber
+     * @return
+     * @throws IOException
+     */
+    public SubscriptionResponse deleteSubscription(String shortCode, String keyword, String phoneNumber) throws IOException {
+        checkPhoneNumber(phoneNumber);
+        Response<SubscriptionResponse> resp = sms.deleteSubscription(mUsername, shortCode, keyword, phoneNumber).execute();
+        if (!resp.isSuccessful()) {
+            throw new IOException(resp.errorBody().string());
+        }
+        return resp.body();
+    }
+
+    /**
+     * Delete subscription
+     * <p>
+     *     Asynchronously send the request and notify {@code callback} of its response or if an error
+     * occurred
+     * </p>
+     * @param shortCode
+     * @param keyword
+     * @param phoneNumber
+     * @param callback
+     */
+    public void deleteSubscription(String shortCode, String keyword, String phoneNumber, Callback<SubscriptionResponse> callback) {
+        try {
+            checkPhoneNumber(phoneNumber);
+            sms.deleteSubscription(mUsername, shortCode, keyword, phoneNumber).enqueue(makeCallback(callback));
+        } catch (IOException ex) {
+            callback.onFailure(ex);
+        }
+    }
 
 }
