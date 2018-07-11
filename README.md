@@ -19,7 +19,7 @@ You can depend on the .jar through Maven (from `http://dl.bintray.com/africastal
 <dependency>
   <groupId>com.africastalking</groupId>
   <artifactId>core</artifactId>
-  <version>3.3.4</version>
+  <version>3.3.8</version>
 </dependency>
 ```
 or sbt:
@@ -27,7 +27,7 @@ or sbt:
 ```
 resolvers += "africastalking maven repository" at "http://dl.bintray.com/africastalking/java"
 // Get all services
-libraryDependencies += "com.africastalking" % "core" % "3.3.7"
+libraryDependencies += "com.africastalking" % "core" % "3.3.8"
 ```
 
 or Gradle:
@@ -40,7 +40,7 @@ repositories {
 
 dependencies{
   // Get all services
-  compile 'com.africastalking:core:3.3.7'
+  compile 'com.africastalking:core:3.3.8'
 }
 ```
 
@@ -60,7 +60,7 @@ AfricasTalking.initialize(username, apiKey);
 SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
 
 // Use the service
-List<Recipient> response = sms.send("Hello Message!", new String[] {"+2547xxxxxx"});
+List<Recipient> response = sms.send("Hello Message!", new String[] {"+2547xxxxxx"}, true);
 ```
 
 See [example](example/) for more usage examples.
@@ -76,17 +76,17 @@ The following static methods are available on the `AfricasTalking` class to init
 
 - `getService(Service.class | AfricasTalking.SERVICE_*)`: Get an instance to a given service by name or by class:
 
-  - [Application](#applicationservice): `AfricasTalking.getService(AfricasTalking.SERVICE_APPLICATION)`
-  - [Airtime](#airtimeservice): `AfricasTalking.getService(AfricasTalking.SERVICE_AIRTIME)`
-  - [SMS](#smsservice): `AfricasTalking.getService(AfricasTalking.SERVICE_SMS)`
-  - [Payments](#paymentservice): `AfricasTalking.getService(AfricasTalking.SERVICE_PAYMENT)`
-  - [Voice](#voiceservice): `AfricasTalking.getService(AfricasTalking.SERVICE_VOICE)`
-  - [Token](#tokenservice): `AfricasTalking.getService(AfricasTalking.SERVICE_TOKEN)`
-  - [USSD](#ussdservice): `AfricasTalking.getService(AfricasTalking.SERVICE_USSD)`
+  - [SMS Service](#smsservice): `AfricasTalking.getService(AfricasTalking.SERVICE_SMS)`
+  - [Airtime Service](#airtimeservice): `AfricasTalking.getService(AfricasTalking.SERVICE_AIRTIME)`
+  - [Payment Service](#paymentservice): `AfricasTalking.getService(AfricasTalking.SERVICE_PAYMENT)`
+  - [Voice Service](#voiceservice): `AfricasTalking.getService(AfricasTalking.SERVICE_VOICE)`
+  - [Token Service](#tokenservice): `AfricasTalking.getService(AfricasTalking.SERVICE_TOKEN)`
+  - [USSD Service](#ussdservice): `AfricasTalking.getService(AfricasTalking.SERVICE_USSD)`
+  - [Application Service](#applicationservice): `AfricasTalking.getService(AfricasTalking.SERVICE_APPLICATION)`
 
 ## Services
 
-All methods are synchronous (i.e. will block current thread) but provide asynchronous variants that take a `com.africastalking.Callback<String>` as the last argument.
+All methods are synchronous (i.e. will block current thread) but provide asynchronous variants that take a `com.africastalking.Callback<?>` as the last argument.
 
 All phone numbers use the international format. e.g. `+234xxxxxxxx`.
 
@@ -106,11 +106,11 @@ For more information about status notification, please read [http://docs.africas
 
 ### `SmsService`
 
-- `send(String message, String[] recipients)`: Send a message
+- `send(String message, String from, String[] recipients, boolean enqueue)`: Send a message
 
 - `sendPremium(String message, String keyword, String linkId, String[] recipients)`: Send a premium SMS
 
-- `fetchMessages()`: Fetch your messages
+- `fetchMessages(long lastReceivedId)`: Fetch your messages
 
 - `fetchSubscription(String shortCode, String keyword)`: Fetch your premium subscription data
 

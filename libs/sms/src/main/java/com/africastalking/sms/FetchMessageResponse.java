@@ -12,7 +12,7 @@ public final class FetchMessageResponse {
     public SmsMessageData data;
 
     public static final class SmsMessageData {
-        @SerializedName("Recipients")
+        @SerializedName("Messages")
         public List<Message> messages = new ArrayList<>();
     }
 

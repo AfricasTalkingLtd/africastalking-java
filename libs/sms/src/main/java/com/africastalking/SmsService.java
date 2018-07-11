@@ -161,7 +161,7 @@ public final class SmsService extends Service {
         send(message, null, recipients, enqueue, callback);
     }
 
-
+ 
     // -> Premium
 
     /**
@@ -333,7 +333,7 @@ public final class SmsService extends Service {
      * @return
      * @throws IOException
      */
-    public List<Message> fetchMessages(String lastReceivedId) throws IOException {
+    public List<Message> fetchMessages(long lastReceivedId) throws IOException {
         Response<FetchMessageResponse> resp = sms.fetchMessages(mUsername, lastReceivedId).execute();
         if (!resp.isSuccessful()) {
             throw new IOException(resp.errorBody().string());
@@ -350,7 +350,7 @@ public final class SmsService extends Service {
      * @throws IOException
      */
     public List<Message> fetchMessages() throws IOException {
-        return fetchMessages("0");
+        return fetchMessages(0);
     }
 
     /**
@@ -362,7 +362,7 @@ public final class SmsService extends Service {
      * @param lastReceivedId
      * @param callback
      */
-    public void fetchMessages(String lastReceivedId, final Callback<List<Message>> callback) {
+    public void fetchMessages(long lastReceivedId, final Callback<List<Message>> callback) {
         sms.fetchMessages(mUsername, lastReceivedId).enqueue(makeCallback(new Callback<FetchMessageResponse>() {
             @Override
             public void onSuccess(FetchMessageResponse data) {
@@ -385,7 +385,7 @@ public final class SmsService extends Service {
      * @param callback
      */
     public void fetchMessages(Callback<List<Message>> callback) {
-        fetchMessages("0", callback);
+        fetchMessages(0, callback);
     }
 
     // -> Fetch Subscription

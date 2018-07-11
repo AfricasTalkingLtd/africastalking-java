@@ -26,7 +26,7 @@ interface ISMS {
                                           @Field("bulkSMSMode") int bulkMode);
 
     @GET("messaging")
-    Call<FetchMessageResponse> fetchMessages(@Query("username") String username, @Query("lastReceivedId") String lastReceivedId);
+    Call<FetchMessageResponse> fetchMessages(@Query("username") String username, @Query("lastReceivedId") long lastReceivedId);
 
 
     @GET("subscription")
