@@ -31,7 +31,7 @@ interface ISMS {
 
     @GET("subscription")
     Call<FetchSubscriptionResponse> fetchSubscriptions(@Query("username") String username, @Query("shortCode") String shortCode,
-                                                      @Query("keyword") String keyword, @Query("lastReceivedId") String lastReceivedId);
+                                                      @Query("keyword") String keyword, @Query("lastReceivedId") long lastReceivedId);
 
     @FormUrlEncoded
     @POST("subscription/create")

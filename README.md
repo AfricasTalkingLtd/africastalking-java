@@ -112,7 +112,7 @@ For more information about status notification, please read [http://docs.africas
 
 - `fetchMessages(long lastReceivedId)`: Fetch your messages
 
-- `fetchSubscription(String shortCode, String keyword)`: Fetch your premium subscription data
+- `fetchSubscriptions(String shortCode, String keyword, long lastReceivedId)`: Fetch your premium subscription data
 
 - `createSubscription(String shortCode, String keyword, String phoneNumber, String checkoutToken)`: Create a premium subscription
 

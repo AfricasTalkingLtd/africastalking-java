@@ -401,7 +401,7 @@ public final class SmsService extends Service {
      * @return
      * @throws IOException
      */
-    public List<Subscription> fetchSubscriptions(String shortCode, String keyword, String lastReceivedId) throws IOException {
+    public List<Subscription> fetchSubscriptions(String shortCode, String keyword, long lastReceivedId) throws IOException {
         Response<FetchSubscriptionResponse> resp = sms.fetchSubscriptions(mUsername, shortCode, keyword, lastReceivedId).execute();
         if (!resp.isSuccessful()) {
             throw new IOException(resp.errorBody().string());
@@ -420,7 +420,7 @@ public final class SmsService extends Service {
      * @param lastReceivedId
      * @param callback
      */
-    public void fetchSubscriptions(String shortCode, String keyword, String lastReceivedId, final Callback<List<Subscription>> callback) {
+    public void fetchSubscriptions(String shortCode, String keyword, long lastReceivedId, final Callback<List<Subscription>> callback) {
         sms.fetchSubscriptions(mUsername, shortCode, keyword, lastReceivedId).enqueue(makeCallback(new Callback<FetchSubscriptionResponse>() {
             @Override
             public void onSuccess(FetchSubscriptionResponse data) {
@@ -446,7 +446,7 @@ public final class SmsService extends Service {
      * @throws IOException
      */
     public List<Subscription> fetchSubscriptions(String shortCode, String keyword) throws IOException {
-        return fetchSubscriptions(shortCode, keyword, "0");
+        return fetchSubscriptions(shortCode, keyword, 0);
     }
 
 
@@ -461,7 +461,7 @@ public final class SmsService extends Service {
      * @param callback
      */
     public void fetchSubscriptions(String shortCode, String keyword, Callback<List<Subscription>> callback) {
-        fetchSubscriptions(shortCode, keyword, "0", callback);
+        fetchSubscriptions(shortCode, keyword, 0, callback);
     }
 
     // -> Create subscription
