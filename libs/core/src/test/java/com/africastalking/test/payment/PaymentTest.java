@@ -1,14 +1,16 @@
 package com.africastalking.test.payment;
 
 import com.africastalking.*;
-import com.africastalking.payment.recipient.Bank;
-import com.africastalking.payment.response.*;
-import com.africastalking.payment.recipient.Business;
-import com.africastalking.payment.recipient.Consumer;
-import com.africastalking.payment.PaymentCard;
-import com.africastalking.payment.BankAccount;
 import com.africastalking.Status;
 import com.africastalking.test.Fixtures;
+import com.africastalking.payment.response.*;
+import com.africastalking.payment.PaymentCard;
+import com.africastalking.payment.Transaction;
+import com.africastalking.payment.BankAccount;
+import com.africastalking.payment.recipient.Bank;
+import com.africastalking.payment.recipient.Business;
+import com.africastalking.payment.recipient.Consumer;
+import com.africastalking.payment.WalletTransaction;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -23,9 +25,17 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class PaymentTest {
 
+    private String transactionId = null;
+
     @Before
     public void setup() {
         AfricasTalking.initialize(Fixtures.USERNAME, Fixtures.API_KEY);
+        AfricasTalking.setLogger(new Logger() {
+            @Override
+            public void log(String message, Object... args) {
+                System.out.println(String.format(message, args));
+            }
+        });
     }
 
     @Test
@@ -104,5 +114,47 @@ public class PaymentTest {
         Assert.assertEquals("Queued", resp.status);
     }
 
+    @Test
+    public void testFetchTransactions() throws IOException {
+        PaymentService service = AfricasTalking.getService(PaymentService.class);
+        HashMap<String, String> filters = new HashMap<String, String>();
+        List<Transaction> transactions = service.fetchTransactions("TestProduct", filters);
+        Assert.assertEquals(true, transactions.size() > 0);
+        transactionId = transactions.get(0).transactionId;
+
+        service.fetchTransactions("TestProduct", filters, new Callback<List<Transaction>>() {
+            @Override
+            public void onSuccess(List<Transaction> transactions) {
+                Assert.assertEquals(true, transactions.size() > 0);
+                transactionId = transactions.get(0).transactionId;
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                Assert.fail(throwable.getMessage());
+            }
+        });
+    }
+
+    // @Test
+    // public void testFindTransaction() throws IOException {
+    //     PaymentService service = AfricasTalking.getService(PaymentService.class);
+    //     Transaction transaction = service.findTransaction(transactionId);
+    //     Assert.assertEquals(transactionId, transaction.transactionId);
+    // }
+
+    // @Test
+    // public void testFetchWalletTransactions() throws IOException {
+    //     PaymentService service = AfricasTalking.getService(PaymentService.class);
+    //     Transaction transaction = service.fetchWalletTransactions();
+    //     Assert.assertEquals(transactionId, transaction.transactionId);
+    // }
+
+    // @Test
+    // public void testWalletBalance() throws IOException {
+    //     PaymentService service = AfricasTalking.getService(PaymentService.class);
+    //     Transaction transaction = service.walletBalance(transactionId);
+    //     Assert.assertEquals(transactionId, transaction.transactionId);
+    // }
 
 }

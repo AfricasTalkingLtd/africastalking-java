@@ -4,8 +4,10 @@ package com.africastalking;
 import com.africastalking.payment.response.*;
 
 import retrofit2.Call;
+import retrofit2.http.GET;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
+import retrofit2.http.QueryMap;
 
 import java.util.HashMap;
 
@@ -39,4 +41,7 @@ interface IPayment {
 
     @POST("topup/stash")
     Call<TopupStashResponse> topupStash(@Body HashMap<String, Object> body);
+
+    @GET("/query/transaction/fetch")
+    Call<FetchTransactionsResponse> fetchTransactions(@QueryMap HashMap<String, String> query);
 }

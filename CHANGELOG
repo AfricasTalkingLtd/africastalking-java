@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 
+## [3.3.9]
+
+### Added
+
+- Payment wallet balance query
+- Payment transactions query
+
+
 ## [3.3.8]
 
 ### Added

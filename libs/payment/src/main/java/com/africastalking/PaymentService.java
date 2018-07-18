@@ -2,8 +2,10 @@ package com.africastalking;
 
 import com.africastalking.payment.recipient.Bank;
 import com.africastalking.payment.response.*;
+import com.africastalking.payment.Transaction;
 import com.africastalking.payment.BankAccount;
 import com.africastalking.payment.PaymentCard;
+import com.africastalking.payment.WalletTransaction;
 import com.africastalking.payment.recipient.Business;
 import com.africastalking.payment.recipient.Consumer;
 import com.google.gson.Gson;
@@ -461,6 +463,63 @@ public final class PaymentService extends Service {
         HashMap<String, Object> body = makeB2BRequest(product, recipient);
         Call<B2BResponse> call = payment.requestB2B(body);
         call.enqueue(makeCallback(callback));
+    }
+
+
+
+    /**
+     * Fetch payment transactions
+     */
+    public List<Transaction> fetchTransactions(String product, HashMap<String, String> filters) throws IOException {
+        
+        filters.put("username", mUsername);
+        filters.put("productName", product);
+        
+        if (!filters.containsKey("pageNumber")) {
+            filters.put("pageNumber", "1");
+        }
+
+        if (!filters.containsKey("count")) {
+            filters.put("count", "10");
+        }
+
+        Call<FetchTransactionsResponse> call = payment.fetchTransactions(filters);
+        Response<FetchTransactionsResponse> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            throw new IOException(resp.errorBody().string());
+        }
+        return resp.body().responses;
+    }
+
+    public void fetchTransactions(String product, HashMap<String, String> filters, Callback<List<Transaction>> callback) {
+        filters.put("username", mUsername);
+        filters.put("productName", product);
+        
+        if (!filters.containsKey("pageNumber")) {
+            filters.put("pageNumber", "1");
+        }
+
+        if (!filters.containsKey("count")) {
+            filters.put("count", "10");
+        }
+
+        Call<FetchTransactionsResponse> call = payment.fetchTransactions(filters);
+        call.enqueue(new retrofit2.Callback<FetchTransactionsResponse>() {
+            @Override
+            public void onResponse(Call<FetchTransactionsResponse> call, Response<FetchTransactionsResponse> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response.body().responses);
+                } else {
+                    // String message = response.errorBody().string();
+                    callback.onFailure(new Exception(response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FetchTransactionsResponse> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
     }
 
 }
