@@ -488,7 +488,13 @@ public final class PaymentService extends Service {
         if (!resp.isSuccessful()) {
             throw new IOException(resp.errorBody().string());
         }
-        return resp.body().responses;
+
+        FetchTransactionsResponse body = resp.body();
+        if (body.status.contentEquals("Failure")) {
+            throw new IOException(body.errorMessage);
+        }
+
+        return body.responses;
     }
 
     public void fetchTransactions(String product, HashMap<String, String> filters, Callback<List<Transaction>> callback) {
@@ -508,15 +514,66 @@ public final class PaymentService extends Service {
             @Override
             public void onResponse(Call<FetchTransactionsResponse> call, Response<FetchTransactionsResponse> response) {
                 if (response.isSuccessful()) {
-                    callback.onSuccess(response.body().responses);
+
+                    FetchTransactionsResponse body = response.body();
+                    if (body.status.contentEquals("Failure")) {
+                        callback.onFailure(new IOException(body.errorMessage));
+                    }
+
+                    callback.onSuccess(body.responses);
                 } else {
-                    // String message = response.errorBody().string();
                     callback.onFailure(new Exception(response.message()));
                 }
             }
 
             @Override
             public void onFailure(Call<FetchTransactionsResponse> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
+    }
+
+    public Transaction findTransaction(String transactionId) throws IOException {
+        HashMap<String, String> query = new HashMap<String, String>();
+        query.put("username", mUsername);
+        query.put("transactionId", transactionId);
+        Call<FindTransactionResponse> call = payment.findTransaction(query);
+        Response<FindTransactionResponse> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            throw new IOException(resp.errorBody().string());
+        }
+
+        FindTransactionResponse body = resp.body();
+        if (body.status.contentEquals("Failure")) {
+            throw new IOException(body.errorMessage);
+        }
+        
+        return resp.body().data;
+    }
+
+    public void findTransaction(String transactionId, Callback<Transaction> callback) {
+        HashMap<String, String> query = new HashMap<String, String>();
+        query.put("username", mUsername);
+        query.put("transactionId", transactionId);
+        Call<FindTransactionResponse> call = payment.findTransaction(query);
+        call.enqueue(new retrofit2.Callback<FindTransactionResponse>() {
+            @Override
+            public void onResponse(Call<FindTransactionResponse> call, Response<FindTransactionResponse> response) {
+                if (response.isSuccessful()) {
+
+                    FindTransactionResponse body = response.body();
+                    if (body.status.contentEquals("Failure")) {
+                        callback.onFailure(new IOException(body.errorMessage));
+                    }
+
+                    callback.onSuccess(body.data);
+                } else {
+                    callback.onFailure(new Exception(response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FindTransactionResponse> call, Throwable t) {
                 callback.onFailure(t);
             }
         });

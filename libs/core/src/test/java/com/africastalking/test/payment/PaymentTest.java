@@ -25,31 +25,29 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class PaymentTest {
 
-    private String transactionId = null;
-
     @Before
     public void setup() {
         AfricasTalking.initialize(Fixtures.USERNAME, Fixtures.API_KEY);
-        AfricasTalking.setLogger(new Logger() {
-            @Override
-            public void log(String message, Object... args) {
-                System.out.println(String.format(message, args));
-            }
-        });
+        // AfricasTalking.setLogger(new Logger() {
+        //     @Override
+        //     public void log(String message, Object... args) {
+        //         System.out.println(message);
+        //     }
+        // });
     }
 
     @Test
     public void testMobileCheckout() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        CheckoutResponse resp = service.mobileCheckout("TestProduct", "+254711082302", "KES 877", new HashMap());
+        CheckoutResponse resp = service.mobileCheckout("TestProduct", "+254711082302", "KES 577", new HashMap());
         Assert.assertEquals(Status.PENDING_CONFIRMATION, resp.status);
     }
 
     @Test
     public void testCardCheckout() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        PaymentCard card = new PaymentCard("9223372036854775807", 2232, 11, 2098, "NG","1222");
-        CheckoutResponse resp = service.cardCheckout("Ikoyi Store", "NGN " + ThreadLocalRandom.current().nextInt(500, 5001), card, "Test card checkout", new HashMap());
+        PaymentCard card = new PaymentCard("4223372036854775807", 1232, 10, 2022, "NG", "0022");
+        CheckoutResponse resp = service.cardCheckout("TestProduct", "KES " + ThreadLocalRandom.current().nextInt(200, 15001), card, "Test card checkout?", new HashMap());
         Assert.assertEquals(Status.INVALID_REQUEST, resp.status);
     }
 
@@ -64,7 +62,7 @@ public class PaymentTest {
     public void testBankCheckout() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
         BankAccount account = new BankAccount("salama", "084802842", BankAccount.BankCode.Zenith_NG);
-        CheckoutResponse resp = service.bankCheckout("Ikoyi Store", "NGN 877", account,"Some narration", new HashMap());
+        CheckoutResponse resp = service.bankCheckout("Ikoyi Store", "NGN " + ThreadLocalRandom.current().nextInt(700, 15001), account,"Some narration", new HashMap());
         Assert.assertEquals(Status.INVALID_REQUEST, resp.status);
     }
 
@@ -78,7 +76,7 @@ public class PaymentTest {
     @Test
     public void testBankTransfer() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        List<Bank> recipients = Arrays.asList(new Bank(new BankAccount("Bob", "2323", BankAccount.BankCode.Zenith_NG), "NGN 5673", "Some narration", new HashMap<String, String>()));
+        List<Bank> recipients = Arrays.asList(new Bank(new BankAccount("Bob", "2323", BankAccount.BankCode.Zenith_NG), "NGN " + ThreadLocalRandom.current().nextInt(700, 15001), "Some narration", new HashMap<String, String>()));
         BankTransferResponse resp = service.bankTransfer("Ikoyi Store", recipients);
         Assert.assertEquals(Status.INVALID_REQUEST, resp.entries.get(0).status);
     }
@@ -86,14 +84,14 @@ public class PaymentTest {
     @Test
     public void testWalletTransfer() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        WalletTransferResponse resp = service.walletTransfer("Ikoyi Store", 2211, "KES 332", new HashMap<>());
+        WalletTransferResponse resp = service.walletTransfer("Ikoyi Store", 2211, "KES " + ThreadLocalRandom.current().nextInt(700, 15001), new HashMap<>());
         Assert.assertEquals(Status.FAILED, resp.status);
     }
 
     @Test
     public void testTopupStash() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        TopupStashResponse resp = service.topupStash("Ikoyi Store", "KES 332", new HashMap<>());
+        TopupStashResponse resp = service.topupStash("Ikoyi Store", "KES " + ThreadLocalRandom.current().nextInt(700, 15001), new HashMap<>());
         Assert.assertEquals(Status.FAILED, resp.status);
     }
 
@@ -120,13 +118,11 @@ public class PaymentTest {
         HashMap<String, String> filters = new HashMap<String, String>();
         List<Transaction> transactions = service.fetchTransactions("TestProduct", filters);
         Assert.assertEquals(true, transactions.size() > 0);
-        transactionId = transactions.get(0).transactionId;
 
         service.fetchTransactions("TestProduct", filters, new Callback<List<Transaction>>() {
             @Override
             public void onSuccess(List<Transaction> transactions) {
                 Assert.assertEquals(true, transactions.size() > 0);
-                transactionId = transactions.get(0).transactionId;
             }
 
             @Override
@@ -136,12 +132,14 @@ public class PaymentTest {
         });
     }
 
-    // @Test
-    // public void testFindTransaction() throws IOException {
-    //     PaymentService service = AfricasTalking.getService(PaymentService.class);
-    //     Transaction transaction = service.findTransaction(transactionId);
-    //     Assert.assertEquals(transactionId, transaction.transactionId);
-    // }
+    @Test
+    public void testFindTransaction() throws IOException {
+        PaymentService service = AfricasTalking.getService(PaymentService.class);
+        Business recip = new Business("TestProduct", "AccDest", Business.TRANSFER_TYPE_B2B, Business.PROVIDER_ATHENA, "KES " + ThreadLocalRandom.current().nextInt(1000, 15001));
+        B2BResponse resp = service.mobileB2B("TestProduct", recip);
+        Transaction transaction = service.findTransaction(resp.transactionId);
+        Assert.assertEquals(resp.transactionId, transaction.transactionId);
+    }
 
     // @Test
     // public void testFetchWalletTransactions() throws IOException {

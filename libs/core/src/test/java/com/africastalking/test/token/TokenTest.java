@@ -23,7 +23,7 @@ public class TokenTest {
     public void testCreateCheckoutToken() {
         TokenService service = AfricasTalking.getService(TokenService.class);
         try {
-            final CheckoutTokenResponse response = service.createCheckoutToken("0718769882");
+            final CheckoutTokenResponse response = service.createCheckoutToken("0718769881");
             Assert.assertNotEquals("None", response.token);
 
         } catch (IOException e) {
