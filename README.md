@@ -19,7 +19,7 @@ You can depend on the .jar through Maven (from `http://dl.bintray.com/africastal
 <dependency>
   <groupId>com.africastalking</groupId>
   <artifactId>core</artifactId>
-  <version>3.3.8</version>
+  <version>3.3.9</version>
 </dependency>
 ```
 or sbt:
@@ -27,7 +27,7 @@ or sbt:
 ```
 resolvers += "africastalking maven repository" at "http://dl.bintray.com/africastalking/java"
 // Get all services
-libraryDependencies += "com.africastalking" % "core" % "3.3.8"
+libraryDependencies += "com.africastalking" % "core" % "3.3.9"
 ```
 
 or Gradle:
@@ -40,7 +40,7 @@ repositories {
 
 dependencies{
   // Get all services
-  compile 'com.africastalking:core:3.3.8'
+  compile 'com.africastalking:core:3.3.9'
 }
 ```
 
@@ -146,6 +146,14 @@ For more information on:
 - `walletTransfer(String productName, long targetProductCode, String amount, HashMap<String, String> metadata)`: Move money form one payment product to another.
 
 - `topupStash(String productName, String amount, HashMap<String, String> metadata)`: Move money from payment product to app's stash.
+
+- `fetchTransactions(String productName, HashMap<String, String> filters)`: Fetch payment product transactions. See [available filters]().
+
+- `findTransaction(String transactionId)`: Find a particular transaction.
+
+- `fetchWalletTransactions(HashMap<String, String> filters)`: Fetch wallet transactions. See [available filters]()
+
+- `fetchWalletBalance()`: Fetch your wallet's balance
 
 
 For more information, please read [http://docs.africastalking.com/payments](http://docs.africastalking.com/payments)

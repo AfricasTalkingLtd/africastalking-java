@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 
 public class PaymentTest {
@@ -48,7 +50,7 @@ public class PaymentTest {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
         PaymentCard card = new PaymentCard("4223372036854775807", 1232, 10, 2022, "NG", "0022");
         CheckoutResponse resp = service.cardCheckout("TestProduct", "KES " + ThreadLocalRandom.current().nextInt(200, 15001), card, "Test card checkout?", new HashMap());
-        Assert.assertEquals(Status.INVALID_REQUEST, resp.status);
+        Assert.assertEquals(Status.PENDING_VALIDATION, resp.status);
     }
 
     @Test
@@ -113,23 +115,29 @@ public class PaymentTest {
     }
 
     @Test
-    public void testFetchTransactions() throws IOException {
+    public void testFetchTransactions() throws IOException, InterruptedException {
+        CountDownLatch lock = new CountDownLatch(10);
         PaymentService service = AfricasTalking.getService(PaymentService.class);
         HashMap<String, String> filters = new HashMap<String, String>();
-        List<Transaction> transactions = service.fetchTransactions("TestProduct", filters);
-        Assert.assertEquals(true, transactions.size() > 0);
 
         service.fetchTransactions("TestProduct", filters, new Callback<List<Transaction>>() {
             @Override
             public void onSuccess(List<Transaction> transactions) {
                 Assert.assertEquals(true, transactions.size() > 0);
+                lock.countDown();
             }
 
             @Override
             public void onFailure(Throwable throwable) {
                 Assert.fail(throwable.getMessage());
+                lock.countDown();
             }
         });
+
+        lock.await(Fixtures.TIMEOUT, TimeUnit.MILLISECONDS);
+
+        List<Transaction> transactions = service.fetchTransactions("TestProduct", filters);
+        Assert.assertEquals(true, transactions.size() > 0);
     }
 
     @Test
@@ -141,18 +149,19 @@ public class PaymentTest {
         Assert.assertEquals(resp.transactionId, transaction.transactionId);
     }
 
-    // @Test
-    // public void testFetchWalletTransactions() throws IOException {
-    //     PaymentService service = AfricasTalking.getService(PaymentService.class);
-    //     Transaction transaction = service.fetchWalletTransactions();
-    //     Assert.assertEquals(transactionId, transaction.transactionId);
-    // }
+    @Test
+    public void testFetchWalletTransactions() throws IOException {
+        PaymentService service = AfricasTalking.getService(PaymentService.class);
+        HashMap<String, String> filters = new HashMap<String, String>();
+        List<WalletTransaction> transactions = service.fetchWalletTransactions(filters);
+        Assert.assertEquals(true, transactions.size() > 0);
+    }
 
-    // @Test
-    // public void testWalletBalance() throws IOException {
-    //     PaymentService service = AfricasTalking.getService(PaymentService.class);
-    //     Transaction transaction = service.walletBalance(transactionId);
-    //     Assert.assertEquals(transactionId, transaction.transactionId);
-    // }
+    @Test
+    public void testWalletBalance() throws IOException {
+        PaymentService service = AfricasTalking.getService(PaymentService.class);
+        WalletBalanceResponse response = service.fetchWalletBalance();
+        Assert.assertEquals(true, response.balance.startsWith("KES "));
+    }
 
 }

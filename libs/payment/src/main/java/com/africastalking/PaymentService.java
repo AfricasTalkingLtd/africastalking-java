@@ -494,6 +494,10 @@ public final class PaymentService extends Service {
             throw new IOException(body.errorMessage);
         }
 
+        if (body.status.contentEquals("Throttled")) {
+            throw new IOException("Too many requests: Throttled");
+        }
+
         return body.responses;
     }
 
@@ -514,10 +518,14 @@ public final class PaymentService extends Service {
             @Override
             public void onResponse(Call<FetchTransactionsResponse> call, Response<FetchTransactionsResponse> response) {
                 if (response.isSuccessful()) {
-
                     FetchTransactionsResponse body = response.body();
+
                     if (body.status.contentEquals("Failure")) {
                         callback.onFailure(new IOException(body.errorMessage));
+                    }
+
+                    if (body.status.contentEquals("Throttled")) {
+                        callback.onFailure(new IOException("Too many requests: Throttled"));
                     }
 
                     callback.onSuccess(body.responses);
@@ -547,6 +555,10 @@ public final class PaymentService extends Service {
         if (body.status.contentEquals("Failure")) {
             throw new IOException(body.errorMessage);
         }
+
+        if (body.status.contentEquals("Throttled")) {
+            throw new IOException("Too many requests: Throttled");
+        }
         
         return resp.body().data;
     }
@@ -566,6 +578,10 @@ public final class PaymentService extends Service {
                         callback.onFailure(new IOException(body.errorMessage));
                     }
 
+                    if (body.status.contentEquals("Throttled")) {
+                        callback.onFailure(new IOException("Too many requests: Throttled"));
+                    }
+
                     callback.onSuccess(body.data);
                 } else {
                     callback.onFailure(new Exception(response.message()));
@@ -574,6 +590,130 @@ public final class PaymentService extends Service {
 
             @Override
             public void onFailure(Call<FindTransactionResponse> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
+    }
+
+    public List<WalletTransaction> fetchWalletTransactions(HashMap<String, String> filters) throws IOException {
+        
+        filters.put("username", mUsername);
+        
+        if (!filters.containsKey("pageNumber")) {
+            filters.put("pageNumber", "1");
+        }
+
+        if (!filters.containsKey("count")) {
+            filters.put("count", "10");
+        }
+
+        Call<WalletTransactionsResponse> call = payment.fetchWalletTransactions(filters);
+        Response<WalletTransactionsResponse> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            throw new IOException(resp.errorBody().string());
+        }
+
+        WalletTransactionsResponse body = resp.body();
+        if (body.status.contentEquals("Failure")) {
+            throw new IOException(body.errorMessage);
+        }
+
+        if (body.status.contentEquals("Throttled")) {
+            throw new IOException("Too many requests: Throttled");
+        }
+
+        return body.responses;
+    }
+
+    public void fetchWalletTransactions(HashMap<String, String> filters, Callback<List<WalletTransaction>> callback) {
+        filters.put("username", mUsername);
+        
+        if (!filters.containsKey("pageNumber")) {
+            filters.put("pageNumber", "1");
+        }
+
+        if (!filters.containsKey("count")) {
+            filters.put("count", "10");
+        }
+
+        Call<WalletTransactionsResponse> call = payment.fetchWalletTransactions(filters);
+        call.enqueue(new retrofit2.Callback<WalletTransactionsResponse>() {
+            @Override
+            public void onResponse(Call<WalletTransactionsResponse> call, Response<WalletTransactionsResponse> response) {
+                if (response.isSuccessful()) {
+                    WalletTransactionsResponse body = response.body();
+
+                    if (body.status.contentEquals("Failure")) {
+                        callback.onFailure(new IOException(body.errorMessage));
+                    }
+
+                    if (body.status.contentEquals("Throttled")) {
+                        callback.onFailure(new IOException("Too many requests: Throttled"));
+                    }
+
+                    callback.onSuccess(body.responses);
+                } else {
+                    callback.onFailure(new Exception(response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WalletTransactionsResponse> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
+    }
+
+    public WalletBalanceResponse fetchWalletBalance() throws IOException {
+        HashMap<String, String> filters = new HashMap<>();
+        filters.put("username", mUsername);
+
+        Call<WalletBalanceResponse> call = payment.fetchWalletBalance(filters);
+        Response<WalletBalanceResponse> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            throw new IOException(resp.errorBody().string());
+        }
+
+        WalletBalanceResponse body = resp.body();
+        if (body.status.contentEquals("Failure")) {
+            throw new IOException(body.errorMessage);
+        }
+
+        if (body.status.contentEquals("Throttled")) {
+            throw new IOException("Too many requests: Throttled");
+        }
+
+        return body;
+    }
+
+    public void fetchWalletBalance(Callback<WalletBalanceResponse> callback) {
+        HashMap<String, String> filters = new HashMap<>();
+        filters.put("username", mUsername);
+
+        Call<WalletBalanceResponse> call = payment.fetchWalletBalance(filters);
+        
+        call.enqueue(new retrofit2.Callback<WalletBalanceResponse>() {
+            @Override
+            public void onResponse(Call<WalletBalanceResponse> call, Response<WalletBalanceResponse> response) {
+                if (response.isSuccessful()) {
+                    WalletBalanceResponse body = response.body();
+
+                    if (body.status.contentEquals("Failure")) {
+                        callback.onFailure(new IOException(body.errorMessage));
+                    }
+
+                    if (body.status.contentEquals("Throttled")) {
+                        callback.onFailure(new IOException("Too many requests: Throttled"));
+                    }
+
+                    callback.onSuccess(body);
+                } else {
+                    callback.onFailure(new Exception(response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WalletBalanceResponse> call, Throwable t) {
                 callback.onFailure(t);
             }
         });

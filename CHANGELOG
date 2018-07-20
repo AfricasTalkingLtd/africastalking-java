@@ -9,6 +9,11 @@ All notable changes to this project will be documented in this file.
 - Payment wallet balance query
 - Payment transactions query
 
+### Fixes
+
+- SMS high volume tests
+- Ugrade grpc
+
 
 ## [3.3.8]
 

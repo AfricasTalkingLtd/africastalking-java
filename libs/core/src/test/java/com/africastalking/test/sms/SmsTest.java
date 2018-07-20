@@ -19,6 +19,8 @@ import com.africastalking.token.CheckoutTokenResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 public class SmsTest {
 
@@ -28,9 +30,10 @@ public class SmsTest {
     }
 
     @Test
-    public void testSendHighMultipleVolume() throws IOException {
-        SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
+    public void testSendHighMultipleVolume() throws IOException, InterruptedException {
         int count = 100000;
+        CountDownLatch lock = new CountDownLatch(count);
+        SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
         for (int i = 0; i < count; i++) {
             int offset = count + i;
             String[] numbers = new String[] { "+254711" + offset };
@@ -38,21 +41,26 @@ public class SmsTest {
                 @Override
                 public void onSuccess(List<Recipient> response) {
                     Assert.assertNotNull(response);
+                    lock.countDown();
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
                     Assert.fail(throwable.getMessage());
+                    lock.countDown();
                 }
             });
         }
+        lock.await(Fixtures.TIMEOUT, TimeUnit.MILLISECONDS);
     }
 
     @Test
-    public void testSendHighSingleVolume() throws IOException {
+    public void testSendHighSingleVolume() throws IOException, InterruptedException {
         SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
 
         int count = 100000;
+        CountDownLatch lock = new CountDownLatch(1);
+
         String[] numbers = new String[count];
         for (int i = 0; i < count; i++) {
             int offset = count + i;
@@ -61,14 +69,19 @@ public class SmsTest {
         sms.send("testSendHighSingleVolume()", "AT2FA", numbers, true, new Callback<List<Recipient>>() {
                 @Override
                 public void onSuccess(List<Recipient> response) {
+                    System.out.println(response.get(0).toString());
                     Assert.assertNotNull(response);
+                    lock.countDown();
                 }
 
                 @Override
                 public void onFailure(Throwable throwable) {
                     Assert.fail(throwable.getMessage());
+                    lock.countDown();
                 }
         });
+
+        lock.await(Fixtures.TIMEOUT, TimeUnit.MILLISECONDS);
     }
 
     @Test

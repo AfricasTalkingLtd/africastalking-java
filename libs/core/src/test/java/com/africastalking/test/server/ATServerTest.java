@@ -65,8 +65,11 @@ public class ATServerTest {
         client = SdkServerServiceGrpc.newBlockingStub(ch)
             .withCallCredentials(new CallCredentials(){
                 @Override
+                public void thisUsesUnstableApi() { }
+
+                @Override
                 public void applyRequestMetadata(MethodDescriptor<?, ?> method, Attributes attrs, Executor appExecutor,
-                        final MetadataApplier applier) {
+                        MetadataApplier applier) {
                             appExecutor.execute(new Runnable(){
                                 @Override
                                 public void run() {

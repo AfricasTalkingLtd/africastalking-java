@@ -51,10 +51,10 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
 
     // grpc
-    compile 'io.grpc:grpc-stub:1.5.0'
-    compile 'io.grpc:grpc-netty:1.5.0'
-    compile 'io.netty:netty-tcnative-boringssl-static:2.0.3.Final'
-    compile 'io.grpc:grpc-protobuf:1.5.0'
+    compile 'io.grpc:grpc-stub:1.13.1'
+    compile 'io.grpc:grpc-netty:1.13.1'
+    compile 'io.netty:netty-tcnative-boringssl-static:2.0.12.Final'
+    compile 'io.grpc:grpc-protobuf:1.13.1'
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
 

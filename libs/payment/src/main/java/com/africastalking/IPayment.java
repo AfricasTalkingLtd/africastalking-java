@@ -47,4 +47,10 @@ interface IPayment {
 
     @GET("/query/transaction/find")
     Call<FindTransactionResponse> findTransaction(@QueryMap HashMap<String, String> query);
+
+    @GET("/query/wallet/fetch")
+    Call<WalletTransactionsResponse> fetchWalletTransactions(@QueryMap HashMap<String, String> query);
+
+    @GET("/query/wallet/balance")
+    Call<WalletBalanceResponse> fetchWalletBalance(@QueryMap HashMap<String, String> query);
 }
