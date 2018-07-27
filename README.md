@@ -204,25 +204,62 @@ For more information on:
   - `productName`: Your payment product
   - `recipients`: A list of banks to transfer to. See [Bank](#) class
 
-  s
+  
 
 - `mobileCheckout(String productName, String phoneNumber, String amount)`: Initiate mobile checkout.
 
-- `mobileB2C(String productName, List<Consumer> consumers)`: Send mobile money to consumer. 
+  - `productName`: Your payment product
+  - `phoneNumber`: Mobile wallet to charge
+  - `amount`: Amount to charge
+
+  
+
+- `mobileB2C(String productName, List<Consumer> recipients)`: Send mobile money to consumer. 
+
+  - `productName`: Your payment product
+  - `recipients`: A list of consumers that will receive the money. See [Consumer](#) class.
+
+  
 
 - `mobileB2B(String productName, Business recipient)`: Send mobile money to business.
 
+  - `productName`: Your payment product
+  - `recipient`: A business rcipint of the money. See [Business](#) class
+
+  
+
 - `walletTransfer(String productName, long targetProductCode, String amount, HashMap<String, String> metadata)`: Move money form one payment product to another.
+
+  - `productName`: Your payment product
+  - `targetProductCode`: ID of recipient payment product on Africa's Talking
+  - `amount`: Amount to transfer
+  - `metadata`: Additional info to go with the transfer
+
+  
 
 - `topupStash(String productName, String amount, HashMap<String, String> metadata)`: Move money from payment product to app's stash.
 
+  - `productName`: Your payment product
+  - `amount`: Amount to transfer
+  - `metadata`: Additional info to go with the transfer
+
+  
+
 - `fetchProductTransactions(String productName, HashMap<String, String> filters)`: Fetch payment product transactions. See [available filters]().
+
+
 
 - `findTransaction(String transactionId)`: Find a particular transaction.
 
+
+
 - `fetchWalletTransactions(HashMap<String, String> filters)`: Fetch wallet transactions. See [available filters]()
 
+
+
 - `fetchWalletBalance()`: Fetch your wallet's balance
+
+
 
 
 For more information, please read [http://docs.africastalking.com/payments](http://docs.africastalking.com/payments)
