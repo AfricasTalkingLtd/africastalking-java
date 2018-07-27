@@ -14,12 +14,12 @@ Take a look at the [API docs here](http://docs.africastalking.com).
 
 ## Install
 
-You can depend on the .jar through Maven (from `http://dl.bintray.com/africastalking/java`):
+You can depend on the [.jar](http://dl.bintray.com/africastalking/java/com/africastalking/core/3.3.10/) through Maven (from `http://dl.bintray.com/africastalking/java`):
 ```xml
 <dependency>
   <groupId>com.africastalking</groupId>
   <artifactId>core</artifactId>
-  <version>3.3.9</version>
+  <version>3.3.10</version>
 </dependency>
 ```
 or sbt:
@@ -27,7 +27,7 @@ or sbt:
 ```
 resolvers += "africastalking maven repository" at "http://dl.bintray.com/africastalking/java"
 // Get all services
-libraryDependencies += "com.africastalking" % "core" % "3.3.9"
+libraryDependencies += "com.africastalking" % "core" % "3.3.10"
 ```
 
 or Gradle:
@@ -40,7 +40,7 @@ repositories {
 
 dependencies{
   // Get all services
-  compile 'com.africastalking:core:3.3.9'
+  compile 'com.africastalking:core:3.3.10'
 }
 ```
 
@@ -100,23 +100,61 @@ All **amount strings** contain currency code as well. e.g. `UGX 443.88`.
 
 - `send(String phoneNumber, String amount)`: Send airtime to a phone number. Example amount would be `KES 150`.
 
-- `send(HashMap<String,String> recipients)`: Send airtime to a bunch of phone numbers. The keys in the `recipients` map are phone numbers while the values are airtime amounts. The amounts need to have currency info e.g. `UXG 4265`.
+- `send(HashMap<String,String> recipients)`: Send airtime to many of phone numbers. The keys in the `recipients` map are phone numbers while the values are airtime amounts. The amounts need to have currency info e.g. `UXG 4265`.
 
 For more information about status notification, please read [http://docs.africastalking.com/airtime/callback](http://docs.africastalking.com/airtime/callback)
 
 ### `SmsService`
 
-- `send(String message, String from, String[] recipients, boolean enqueue)`: Send a message
+- `send(String message, String from, String[] recipients, boolean enqueue)`: Send a message.
 
-- `sendPremium(String message, String keyword, String linkId, String[] recipients)`: Send a premium SMS
+  - `message`: SMS content
+  - `from`: Shortcode or alphanumeric ID that is registered with Africa's Talking account.
+  - `recipients`: An array of phone numbers.
+  - `enqueue`: Set to true if you would like to deliver as many messages to the API without waiting for an acknowledgement from telcos.
+
+  
+
+- `sendPremium(String message, String keyword, String linkId, long retryDurationInHours, String[] recipients)`: Send a premium SMS
+
+  - `message`: SMS content
+  - `keyword`: You premium product keyword
+  - `linkId`: "[...] We forward the `linkId` to your application when the user send a message to your service"
+  - `retryDurationInHours`: "It specifies the number of hours your subscription message should be retried in case it's not delivered to the subscriber"
+  - `recipients`: An array of phon numbers.
+
+  
 
 - `fetchMessages(long lastReceivedId)`: Fetch your messages
 
-- `fetchSubscriptions(String shortCode, String keyword, long lastReceivedId)`: Fetch your premium subscription data
+  - `lastReceivedId`: "This is the id of the message that you last processed". Defaults to `0`
 
-- `createSubscription(String shortCode, String keyword, String phoneNumber, String checkoutToken)`: Create a premium subscription
+  
 
-- `deleteSubscription(String shortCode, String keyword, String phoneNumber)`: Remove a phone number from a premium subscription
+- `fetchSubscriptions(String shortCode, String keyword, long lastReceivedId)`: Fetch your premium subscription data.
+
+  - `shortCode`: This is the premium short code mapped to your account.
+  - `keyword`: A premium keyword under the above short code and mapped to your account.
+  - `lastReceivedId`: "This is the id of the message that you last processed". Defaults to `0`
+
+  
+
+- `createSubscription(String shortCode, String keyword, String phoneNumber, String checkoutToken)`: Create a premium subscription.
+
+  - `shortCode`: This is the premium short code mapped to your account.
+  - `keyword`: A premium keyword under the above short code and mapped to your account.
+  - `phoneNumber`:  The phone number to be subscribed
+  - `checkoutToken`: This is a token used to validate the subscription request. See [`TokenService`](#TokenService)
+
+  
+
+- `deleteSubscription(String shortCode, String keyword, String phoneNumber)`: Remove a phone number from a premium subscription.
+
+  - `shortCode`: This is the premium short code mapped to your account.
+  - `keyword`: A premium keyword under the above short code and mapped to your account.
+  - `phoneNumber`: The phone number to be unsubscribed
+
+  
 
 For more information on: 
 
@@ -127,15 +165,46 @@ For more information on:
 
 ### `PaymentService`
 
-- `cardCheckout(String productName, String amount, PaymentCard paymentCard, String narration, Map metadata)`: Initiate card checkout.
+- `cardCheckout(String productName, String amount, PaymentCard paymentCard, String narration, Map metadata)`: Initiate card checkout charge.
+
+  - `productName`: Your payment product
+  - `amount`: Amount to charge
+  - `paymentCard`: Card to charge. See [PaymentCard](#) class.
+  - `narration`: Checkout description
+  - `metadata`: Additional info to go with the checkout
+
+  
 
 - `validateCardCheckout(String transactionId, String otp)`: Validate a card checkout
 
+  - `transactionId`: Transaction ID returned on charge request
+  - `otp`: A user-provided OTP
+
+  
+
 - `bankCheckout(String productName, String amount, BankAccount bankAccount, String narration, Map metadata)`: Initiate bank checkout.
+
+  - `productName`: Your payment product
+  - `amount`: Amount to charge
+  - `bankAccount`: Bank account to charge. See [BankAccount](#) class.
+  - `narration`: Checkout description
+  - `metadata`: Additional info to go with the checkout
+
+  
 
 - `validateBankCheckout(String transactionId, String otp)`: Validate a bank checkout
 
+  - `transactionId`: Transaction ID returned on charge request
+  - `otp`: A user-provided OTP
+
+  
+
 - `bankTransfer(String productName, List<Bank> recipients)`: Move money form payment wallet to bank account
+
+  - `productName`: Your payment product
+  - `recipients`: A list of banks to transfer to. See [Bank](#) class
+
+  s
 
 - `mobileCheckout(String productName, String phoneNumber, String amount)`: Initiate mobile checkout.
 
@@ -147,7 +216,7 @@ For more information on:
 
 - `topupStash(String productName, String amount, HashMap<String, String> metadata)`: Move money from payment product to app's stash.
 
-- `fetchTransactions(String productName, HashMap<String, String> filters)`: Fetch payment product transactions. See [available filters]().
+- `fetchProductTransactions(String productName, HashMap<String, String> filters)`: Fetch payment product transactions. See [available filters]().
 
 - `findTransaction(String transactionId)`: Find a particular transaction.
 
@@ -163,9 +232,22 @@ For more information, please read [http://docs.africastalking.com/payments](http
 
 - `call(String phoneNumber)`: Initiate a phone call
 
-- `fetchQueuedCalls(String phoneNumber)`: Get queued calls
+    - `phoneNumber`: Phone number to call
+
+    
+
+- `fetchQueuedCalls(String phoneNumber)`: Get queued calls on a phone number.
+
+    - `phoneNumber`: Your Africa's Talking issued virtual phone number
+
+    
 
 - `uploadMediaFile(String phoneNumber, String url)`: Upload voice media file
+
+    - `phoneNumber`: Your Africa's Talking issued virtual phone number
+    - `url`: URL to your media file.
+
+    
 
 - `ActionBuilder`: Build voice xml when callback URL receives a `POST` from Africa's Talking
 

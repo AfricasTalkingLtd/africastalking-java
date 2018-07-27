@@ -120,7 +120,7 @@ public class PaymentTest {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
         HashMap<String, String> filters = new HashMap<String, String>();
 
-        service.fetchTransactions("TestProduct", filters, new Callback<List<Transaction>>() {
+        service.fetchProductTransactions("TestProduct", filters, new Callback<List<Transaction>>() {
             @Override
             public void onSuccess(List<Transaction> transactions) {
                 Assert.assertEquals(true, transactions.size() > 0);
@@ -136,7 +136,7 @@ public class PaymentTest {
 
         lock.await(Fixtures.TIMEOUT, TimeUnit.MILLISECONDS);
 
-        List<Transaction> transactions = service.fetchTransactions("TestProduct", filters);
+        List<Transaction> transactions = service.fetchProductTransactions("TestProduct", filters);
         Assert.assertEquals(true, transactions.size() > 0);
     }
 

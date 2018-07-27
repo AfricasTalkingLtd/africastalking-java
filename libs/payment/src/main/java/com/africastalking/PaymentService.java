@@ -470,7 +470,7 @@ public final class PaymentService extends Service {
     /**
      * Fetch payment transactions
      */
-    public List<Transaction> fetchTransactions(String product, HashMap<String, String> filters) throws IOException {
+    public List<Transaction> fetchProductTransactions(String product, HashMap<String, String> filters) throws IOException {
         
         filters.put("username", mUsername);
         filters.put("productName", product);
@@ -483,7 +483,7 @@ public final class PaymentService extends Service {
             filters.put("count", "10");
         }
 
-        Call<FetchTransactionsResponse> call = payment.fetchTransactions(filters);
+        Call<FetchTransactionsResponse> call = payment.fetchProductTransactions(filters);
         Response<FetchTransactionsResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
             throw new IOException(resp.errorBody().string());
@@ -501,7 +501,7 @@ public final class PaymentService extends Service {
         return body.responses;
     }
 
-    public void fetchTransactions(String product, HashMap<String, String> filters, Callback<List<Transaction>> callback) {
+    public void fetchProductTransactions(String product, HashMap<String, String> filters, Callback<List<Transaction>> callback) {
         filters.put("username", mUsername);
         filters.put("productName", product);
         
@@ -513,7 +513,7 @@ public final class PaymentService extends Service {
             filters.put("count", "10");
         }
 
-        Call<FetchTransactionsResponse> call = payment.fetchTransactions(filters);
+        Call<FetchTransactionsResponse> call = payment.fetchProductTransactions(filters);
         call.enqueue(new retrofit2.Callback<FetchTransactionsResponse>() {
             @Override
             public void onResponse(Call<FetchTransactionsResponse> call, Response<FetchTransactionsResponse> response) {

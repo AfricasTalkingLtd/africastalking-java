@@ -43,7 +43,7 @@ interface IPayment {
     Call<TopupStashResponse> topupStash(@Body HashMap<String, Object> body);
 
     @GET("/query/transaction/fetch")
-    Call<FetchTransactionsResponse> fetchTransactions(@QueryMap HashMap<String, String> query);
+    Call<FetchTransactionsResponse> fetchProductTransactions(@QueryMap HashMap<String, String> query);
 
     @GET("/query/transaction/find")
     Call<FindTransactionResponse> findTransaction(@QueryMap HashMap<String, String> query);
