@@ -224,7 +224,7 @@ For more information on:
 - `mobileB2B(String productName, Business recipient)`: Send mobile money to business.
 
   - `productName`: Your payment product
-  - `recipient`: A business rcipint of the money. See [Business](#) class
+  - `recipient`: A business recipint of the money. See [Business](#) class
 
   
 
@@ -245,7 +245,21 @@ For more information on:
 
   
 
-- `fetchProductTransactions(String productName, HashMap<String, String> filters)`: Fetch payment product transactions. See [available filters]().
+- `fetchProductTransactions(String productName, HashMap<String, String> filters)`: Fetch payment product transactions.
+
+  - `productName`: Your payment product
+  - `filters`: Query filters. Includes:
+
+    - `pageNumber`: Page number to fetch results from. Starts from `1`. `REQUIRED`
+    - `count`:  Number of results to fetch. `REQUIRED`
+    - `startDate`: Start Date to consider when fetching.
+    - `endDate`: End Date to consider when fetching.
+    - `category`: Category to consider when fetching.
+    - `prodiver`: Provider to consider when fetching.
+    - `status`: Status to consider when fetching.
+    - `source`: Source to consider when fetching.
+    - `destination`: Destination to consider when fetching.
+    - `providerChannel`: Provider channel to consider when fetching.
 
 
 
@@ -253,8 +267,14 @@ For more information on:
 
 
 
-- `fetchWalletTransactions(HashMap<String, String> filters)`: Fetch wallet transactions. See [available filters]()
+- `fetchWalletTransactions(HashMap<String, String> filters)`: Fetch wallet transactions.
 
+  - `filters`: Query filter. Includes:
+    - `pageNumber`: Page number to fetch results from. Starts from `1`. `REQUIRED`
+    - `count`: Number of results to fetch. `REQUIRED`
+    - `startDate`: Start Date to consider when fetching.
+    - `endDate`: End Date to consider when fetching.
+    - `categories`: Comma delimited list of categories to consider when fetching.
 
 
 - `fetchWalletBalance()`: Fetch your wallet's balance
