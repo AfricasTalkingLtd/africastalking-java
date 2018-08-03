@@ -81,8 +81,9 @@ The following static methods are available on the `AfricasTalking` class to init
   - [Payment Service](#paymentservice): `AfricasTalking.getService(AfricasTalking.SERVICE_PAYMENT)`
   - [Voice Service](#voiceservice): `AfricasTalking.getService(AfricasTalking.SERVICE_VOICE)`
   - [Token Service](#tokenservice): `AfricasTalking.getService(AfricasTalking.SERVICE_TOKEN)`
-  - [USSD Service](#ussdservice): `AfricasTalking.getService(AfricasTalking.SERVICE_USSD)`
   - [Application Service](#applicationservice): `AfricasTalking.getService(AfricasTalking.SERVICE_APPLICATION)`
+
+> Note on **USSD**: For more information, please read [http://docs.africastalking.com/ussd](http://docs.africastalking.com/ussd)
 
 ## Services
 
@@ -90,15 +91,13 @@ All methods are synchronous (i.e. will block current thread) but provide asynchr
 
 All phone numbers use the international format. e.g. `+234xxxxxxxx`.
 
-All **amount strings** contain currency code as well. e.g. `UGX 443.88`.
-
 ### `ApplicationService`
 
 - `fetchApplicationData()`: Get app information. e.g. balance
 
 ### `AirtimeService`
 
-- `send(String phoneNumber, String amount)`: Send airtime to a phone number. Example amount would be `KES 150`.
+- `send(String phoneNumber, String currencyCode, float amount)`: Send airtime to a phone number. Example amount would be `KES 150`.
 
 - `send(HashMap<String,String> recipients)`: Send airtime to many of phone numbers. The keys in the `recipients` map are phone numbers while the values are airtime amounts. The amounts need to have currency info e.g. `UXG 4265`.
 
@@ -165,7 +164,7 @@ For more information on:
 
 ### `PaymentService`
 
-- `cardCheckout(String productName, String amount, PaymentCard paymentCard, String narration, Map metadata)`: Initiate card checkout charge.
+- `cardCheckoutCharge(String productName, String currencyCode, float amount, PaymentCard paymentCard, String narration, Map metadata)`: Initiate card checkout charge.
 
   - `productName`: Your payment product
   - `amount`: Amount to charge
@@ -175,14 +174,14 @@ For more information on:
 
   
 
-- `validateCardCheckout(String transactionId, String otp)`: Validate a card checkout
+- `cardCheckoutValidate(String transactionId, String otp)`: Validate a card checkout
 
   - `transactionId`: Transaction ID returned on charge request
   - `otp`: A user-provided OTP
 
   
 
-- `bankCheckout(String productName, String amount, BankAccount bankAccount, String narration, Map metadata)`: Initiate bank checkout.
+- `bankCheckoutCharge(String productName, String currencyCode, float amount, BankAccount bankAccount, String narration, Map metadata)`: Initiate bank checkout.
 
   - `productName`: Your payment product
   - `amount`: Amount to charge
@@ -192,7 +191,7 @@ For more information on:
 
   
 
-- `validateBankCheckout(String transactionId, String otp)`: Validate a bank checkout
+- `bankCheckoutValidate(String transactionId, String otp)`: Validate a bank checkout
 
   - `transactionId`: Transaction ID returned on charge request
   - `otp`: A user-provided OTP
@@ -206,7 +205,7 @@ For more information on:
 
   
 
-- `mobileCheckout(String productName, String phoneNumber, String amount)`: Initiate mobile checkout.
+- `mobileCheckout(String productName, String phoneNumber, String currencyCode, float amount)`: Initiate mobile checkout.
 
   - `productName`: Your payment product
   - `phoneNumber`: Mobile wallet to charge
@@ -228,7 +227,7 @@ For more information on:
 
   
 
-- `walletTransfer(String productName, long targetProductCode, String amount, HashMap<String, String> metadata)`: Move money form one payment product to another.
+- `walletTransfer(String productName, long targetProductCode, String currencyCode, float amount, HashMap<String, String> metadata)`: Move money form one payment product to another.
 
   - `productName`: Your payment product
   - `targetProductCode`: ID of recipient payment product on Africa's Talking
@@ -237,7 +236,7 @@ For more information on:
 
   
 
-- `topupStash(String productName, String amount, HashMap<String, String> metadata)`: Move money from payment product to app's stash.
+- `topupStash(String productName, String currencyCode, float amount, HashMap<String, String> metadata)`: Move money from payment product to app's stash.
 
   - `productName`: Your payment product
   - `amount`: Amount to transfer
@@ -339,11 +338,6 @@ For more information, please read [http://docs.africastalking.com/voice](http://
 - `createCheckoutToken(String phoneNumber)`: Create a new checkout token for `phoneNumber`.
 
 - `generateAuthToken()`: Generate an auth token to use for authentication instead of an API key.
-
-### `UssdService`
-
-For more information, please read [http://docs.africastalking.com/ussd](http://docs.africastalking.com/ussd)
-
 
 
 ## Development

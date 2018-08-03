@@ -67,13 +67,14 @@ public final class AirtimeService extends Service {
      *     Synchronously send the request and return its response.
      * </p>
      * @param phone Phone number (international format) to receive the airtime
-     * @param amount Amount to send with currency e.g. KES 854
+     * @paramss currencyCode
+     * @param amount Amount to send
      * @return {@link com.africastalking.airtime.AirtimeResponse AirtimeResponse}
      * @throws IOException
      */
-    public AirtimeResponse send(String phone, String amount) throws IOException {
+    public AirtimeResponse send(String phone, String currencyCode, float amount) throws IOException {
         HashMap<String, String> map = new HashMap<>();
-        map.put(phone, amount);
+        map.put(phone, currencyCode + " " + amount);
         return send(map);
     }
 
@@ -84,12 +85,13 @@ public final class AirtimeService extends Service {
      * occurred
      * </p>
      * @param phone Phone number (international format) to receive the airtime
-     * @param amount Amount to send with currency e.g. UGX 854
+     * @param currencyCode
+     * @param amount Amount to send
      * @param callback {@link com.africastalking.Callback Callback} to be called once a response is received
      */
-    public void send(String phone, String amount, Callback<AirtimeResponse> callback) {
+    public void send(String phone, String currencyCode, float amount, Callback<AirtimeResponse> callback) {
         HashMap<String, String> map = new HashMap<>();
-        map.put(phone, amount);
+        map.put(phone, currencyCode + " " + amount);
         send(map, callback);
     }
 

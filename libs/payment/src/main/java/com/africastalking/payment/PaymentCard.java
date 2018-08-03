@@ -1,8 +1,6 @@
 package com.africastalking.payment;
 
 import com.google.gson.Gson;
-import org.hamcrest.Matcher;
-import org.hamcrest.MatcherAssert;
 
 import java.util.Calendar;
 

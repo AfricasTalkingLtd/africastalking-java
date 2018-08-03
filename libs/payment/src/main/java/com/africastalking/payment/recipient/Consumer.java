@@ -34,18 +34,12 @@ public final class Consumer {
      * @param amount Amount to transact, along with the currency code. e.g. KES 345
      * @param reason Purpose for the payment. e.g. {@link com.africastalking.payment.recipient.Consumer Consumer.REASON_SALARY}
      */
-    public Consumer(String name, String phoneNumber, String amount, String reason) {
+    public Consumer(String name, String phoneNumber, String currencyCode, float amount, String reason) {
         this.name = name;
-        this.phoneNumber = phoneNumber;
+        this.amount = amount;
         this.reason = reason;
-
-        try {
-            String[] currenciedAmount = amount.trim().split(" ");
-            this.currencyCode = currenciedAmount[0];
-            this.amount = Float.parseFloat(currenciedAmount[1]);
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        this.phoneNumber = phoneNumber;
+        this.currencyCode = currencyCode;
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.africastalking.payment;
 
-import java.util.HashMap;
-
 import com.google.gson.Gson;
 
 public final class WalletTransaction {

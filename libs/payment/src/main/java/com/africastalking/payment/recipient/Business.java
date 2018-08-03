@@ -25,9 +25,9 @@ public final class Business {
     public static final String TRANSFER_TYPE_B2B = "BusinessToBusinessTransfer";
 
 
-    public String currencyCode;
     public float amount;
     public String provider;
+    public String currencyCode;
     public String transferType;
     public String destinationChannel;
     public String destinationAccount = null;
@@ -44,19 +44,13 @@ public final class Business {
      * @param provider Payment Provider. e.g. {@link com.africastalking.payment.recipient.Business Business.PROVIDER_MPESA}
      * @param amount Amount to transact, along with the currency code. e.g. USD 3435
      */
-    public Business(String destinationChannel, String destinationAccount, String transferType, String provider, String amount) {
+    public Business(String destinationChannel, String destinationAccount, String transferType, String provider, String curencyCode, float amount) {
+        this.amount = amount;
         this.provider = provider;
+        this.currencyCode = curencyCode;
         this.transferType = transferType;
         this.destinationChannel = destinationChannel;
         this.destinationAccount = destinationAccount;
-
-        try {
-            String[] currenciedAmount = amount.trim().split(" ");
-            this.currencyCode = currenciedAmount[0];
-            this.amount = Float.parseFloat(currenciedAmount[1]);
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
     }
 
     @Override
