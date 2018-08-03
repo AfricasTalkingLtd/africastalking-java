@@ -167,6 +167,7 @@ For more information on:
 - `cardCheckoutCharge(String productName, String currencyCode, float amount, PaymentCard paymentCard, String narration, Map metadata)`: Initiate card checkout charge.
 
   - `productName`: Your payment product
+  - `currencyCode`: Currency code e.g. NGN
   - `amount`: Amount to charge
   - `paymentCard`: Card to charge. See [PaymentCard](#) class.
   - `narration`: Checkout description
@@ -184,6 +185,7 @@ For more information on:
 - `bankCheckoutCharge(String productName, String currencyCode, float amount, BankAccount bankAccount, String narration, Map metadata)`: Initiate bank checkout.
 
   - `productName`: Your payment product
+  - `currencyCode`: Currency code e.g. NGN
   - `amount`: Amount to charge
   - `bankAccount`: Bank account to charge. See [BankAccount](#) class.
   - `narration`: Checkout description
@@ -209,6 +211,7 @@ For more information on:
 
   - `productName`: Your payment product
   - `phoneNumber`: Mobile wallet to charge
+  - `currencyCode`: Currency code e.g. KES
   - `amount`: Amount to charge
 
   
@@ -231,6 +234,7 @@ For more information on:
 
   - `productName`: Your payment product
   - `targetProductCode`: ID of recipient payment product on Africa's Talking
+  - `currencyCode`: Currency code e.g. RWF
   - `amount`: Amount to transfer
   - `metadata`: Additional info to go with the transfer
 
@@ -239,6 +243,7 @@ For more information on:
 - `topupStash(String productName, String currencyCode, float amount, HashMap<String, String> metadata)`: Move money from payment product to app's stash.
 
   - `productName`: Your payment product
+  - `currencyCode`: Currency code e.g. KES
   - `amount`: Amount to transfer
   - `metadata`: Additional info to go with the transfer
 
