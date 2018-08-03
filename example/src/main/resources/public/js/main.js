@@ -38,7 +38,7 @@ $(function () {
 
     $("#airtime").click(() => {
         const phone = $("#phone").val();
-        const amount = $("#amount").val();
+        const amount = $("#amount").val().split(" ");
         if (!phone) {
             log(JSON.stringify({ error: "Enter a phone number"}, null, 2));
             return;
@@ -53,7 +53,7 @@ $(function () {
 
         $.ajax({
             type: "POST",
-            url: `/airtime/${encodeURIComponent(phone)}?amount=${amount}`,
+            url: `/airtime/${encodeURIComponent(phone)}?currencyCode=${amount[0]}&amount=${amount[1]}`,
             success: (resp) => {
                 try {
                     log(JSON.stringify(JSON.parse(resp), null, 2));
@@ -70,7 +70,7 @@ $(function () {
 
     $("#mobileCheckout").click(() => {
         const phone = $("#phone").val();
-        const amount = $("#mobileCheckoutAmount").val();
+        const amount = $("#mobileCheckoutAmount").val().split(" ");
         if (!phone) {
             log(JSON.stringify({ error: "Enter a phone number"}, null, 2));
             return;
@@ -85,7 +85,7 @@ $(function () {
 
         $.ajax({
             type: "POST",
-            url: `/mobile/checkout/${encodeURIComponent(phone)}?amount=${amount}`,
+            url: `/mobile/checkout/${encodeURIComponent(phone)}?amount=${amount[1]}&currencyCode=${amount[0]}`,
             success: (resp) => {
                 try {
                     log(JSON.stringify(JSON.parse(resp), null, 2));
@@ -102,7 +102,7 @@ $(function () {
 
     $("#mobileB2C").click(() => {
         const phone = $("#phone").val();
-        const amount = $("#mobileB2CAmount").val();
+        const amount = $("#mobileB2CAmount").val().split(" ");
         if (!phone) {
             log(JSON.stringify({ error: "Enter a phone number"}, null, 2));
             return;
@@ -117,7 +117,7 @@ $(function () {
 
         $.ajax({
             type: "POST",
-            url: `/mobile/b2c/${encodeURIComponent(phone)}?amount=${amount}`,
+            url: `/mobile/b2c/${encodeURIComponent(phone)}?amount=${amount[1]}&currencyCode=${amount[0]}`,
             success: (resp) => {
                 try {
                     log(JSON.stringify(JSON.parse(resp), null, 2));
