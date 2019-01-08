@@ -15,6 +15,15 @@ Take a look at the [API docs here](http://docs.africastalking.com).
 ## Install
 
 You can depend on the .jar through Maven (from `http://dl.bintray.com/africastalking/java`):
+```
+<repositories>
+   <repository>
+      <id>africastalking</id>
+      <name>AfricasTalking</name>
+      <url>http://dl.bintray.com/africastalking/java</url>
+   </repository>
+</repositories>
+```
 ```xml
 <dependency>
   <groupId>com.africastalking</groupId>
