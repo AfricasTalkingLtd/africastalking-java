@@ -14,8 +14,16 @@ Take a look at the [API docs here](http://docs.africastalking.com).
 
 ## Install
 
-You can depend on the [.jar](http://dl.bintray.com/africastalking/java/com/africastalking/core/3.3.10/) through Maven (from `http://dl.bintray.com/africastalking/java`):
+You can depend on the [.jar](http://dl.bintray.com/africastalking/java/com/africastalking/core/3.4.0/) through Maven (from `http://dl.bintray.com/africastalking/java`):
 ```xml
+<repositories>
+   <repository>
+      <id>africastalking</id>
+      <name>AfricasTalking</name>
+      <url>http://dl.bintray.com/africastalking/java</url>
+   </repository>
+</repositories>
+...
 <dependency>
   <groupId>com.africastalking</groupId>
   <artifactId>core</artifactId>
