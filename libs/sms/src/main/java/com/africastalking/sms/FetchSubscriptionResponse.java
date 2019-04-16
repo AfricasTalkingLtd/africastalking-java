@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class FetchSubscriptionResponse {
-    @SerializedName("Subscriptions")
+    @SerializedName("responses")
     public List<Subscription> subscriptions = new ArrayList<>();
 
     @Override
