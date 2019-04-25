@@ -10,7 +10,7 @@
 
 
 ## Documentation
-Take a look at the [API docs here](http://docs.africastalking.com).
+Take a look at the [API docs here](https://build.at-labs.io/docs/getting_started%2Fintroduction).
 
 ## Install
 
@@ -91,7 +91,7 @@ The following static methods are available on the `AfricasTalking` class to init
   - [Token Service](#tokenservice): `AfricasTalking.getService(AfricasTalking.SERVICE_TOKEN)`
   - [Application Service](#applicationservice): `AfricasTalking.getService(AfricasTalking.SERVICE_APPLICATION)`
 
-> Note on **USSD**: For more information, please read [http://docs.africastalking.com/ussd](http://docs.africastalking.com/ussd)
+> Note on **USSD**: For more information, please read [this](https://build.at-labs.io/docs/ussd%2Foverview)
 
 ## Services
 
@@ -111,14 +111,14 @@ All phone numbers use the international format. e.g. `+234xxxxxxxx`.
 
 - `send(HashMap<String,String> recipients)`: Send airtime to many of phone numbers. The keys in the `recipients` map are phone numbers while the values are airtime amounts. The amounts need to have currency info e.g. `UXG 4265`.
 
-For more information about status notification, please read [http://docs.africastalking.com/airtime/callback](http://docs.africastalking.com/airtime/callback)
+For more information about status notification, please read the airtime [documentation](https://build.at-labs.io/docs/airtime%2Fnotifications%2Fvalidation)
 
 ### `SmsService`
 
 - `send(String message, String from, String[] recipients, boolean enqueue)`: Send a message.
 
   - `message`: SMS content
-  - `from`: Shortcode or alphanumeric ID that is registered with Africa's Talking account.
+  - `from`: Short code or alphanumeric ID that is registered with Africa's Talking account.
   - `recipients`: An array of phone numbers.
   - `enqueue`: Set to true if you would like to deliver as many messages to the API without waiting for an acknowledgement from telcos.
 
@@ -165,11 +165,11 @@ For more information about status notification, please read [http://docs.africas
 
   
 
-For more information on: 
+For more information, read the following: 
 
-- How to receive SMS: [http://docs.africastalking.com/sms/callback](http://docs.africastalking.com/sms/callback)
-- How to get notified of delivery reports: [http://docs.africastalking.com/sms/deliveryreports](http://docs.africastalking.com/sms/deliveryreports)
-- How to listen for subscription notifications: [http://docs.africastalking.com/subscriptions/callback](http://docs.africastalking.com/subscriptions/callback)
+- [How to receive SMS](https://build.at-labs.io/docs/sms%2Fnotifications)
+- [How to get notified of delivery reports](https://build.at-labs.io/docs/sms%2Fnotifications)
+- [How to listen for subscription notifications](https://build.at-labs.io/docs/sms%2Fnotifications)
 
 
 ### `PaymentService`
@@ -296,7 +296,7 @@ For more information on:
 
 
 
-For more information, please read [http://docs.africastalking.com/payments](http://docs.africastalking.com/payments)
+For more information, please read the [payments documentation](https://build.at-labs.io/docs/payments%2Foverview).
 
 
 ### `VoiceService`
@@ -345,7 +345,7 @@ For more information, please read [http://docs.africastalking.com/payments](http
     - `build()`: Finally build the xml
 
 
-For more information, please read [http://docs.africastalking.com/voice](http://docs.africastalking.com/voice)
+For more information on voice, please read the [documentation](https://build.at-labs.io/docs/voice%2Foverview)
 
 
 ### `TokenService`
