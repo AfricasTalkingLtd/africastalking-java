@@ -60,6 +60,9 @@ public final class PaymentService extends Service {
         }
     }
 
+    public void setIdempotencyKey(String key) {
+        this.mIndempotencyKey = key;
+    }
 
     private HashMap<String, Object> makeCheckoutRequest(String product, String curencyCode, float amount, String narration, Map metadata) {
         HashMap<String, Object> body = new HashMap<>();

@@ -27,7 +27,7 @@ You can depend on the [.jar](http://dl.bintray.com/africastalking/java/com/afric
 <dependency>
   <groupId>com.africastalking</groupId>
   <artifactId>core</artifactId>
-  <version>3.4.1</version>
+  <version>3.4.2</version>
 </dependency>
 ```
 or sbt:
@@ -35,7 +35,7 @@ or sbt:
 ```
 resolvers += "africastalking maven repository" at "http://dl.bintray.com/africastalking/java"
 // Get all services
-libraryDependencies += "com.africastalking" % "core" % "3.4.1"
+libraryDependencies += "com.africastalking" % "core" % "3.4.2"
 ```
 
 or Gradle:
@@ -48,7 +48,7 @@ repositories {
 
 dependencies{
   // Get all services
-  compile 'com.africastalking:core:3.4.1'
+  compile 'com.africastalking:core:3.4.2'
 }
 ```
 
@@ -104,6 +104,8 @@ All phone numbers use the international format. e.g. `+234xxxxxxxx`.
 - `fetchApplicationData()`: Get app information. e.g. balance
 
 ### `AirtimeService`
+
+- `setIdempotencyKey(String key)`: Set the [**Idempotency-Key**](https://build.at-labs.io/docs/getting_started%2Fidempotent_requests) for the next request. Call this function every time before calling `send()` if you're sending the same amount to the same phone number.
 
 - `send(String phoneNumber, String currencyCode, float amount)`: Send airtime to a phone number. Example amount would be `KES 150`.
 

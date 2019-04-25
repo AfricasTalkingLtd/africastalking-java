@@ -61,13 +61,19 @@ public final class AirtimeService extends Service {
     }
 
 
+
+    public void setIdempotencyKey(String key) {
+        this.mIndempotencyKey = key;
+    }
+
+
     /**
      * Send airtime
      * <p>
      *     Synchronously send the request and return its response.
      * </p>
      * @param phone Phone number (international format) to receive the airtime
-     * @paramss currencyCode
+     * @param currencyCode
      * @param amount Amount to send
      * @return {@link com.africastalking.airtime.AirtimeResponse AirtimeResponse}
      * @throws IOException

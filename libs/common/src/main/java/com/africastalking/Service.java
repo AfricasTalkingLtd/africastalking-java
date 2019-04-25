@@ -19,6 +19,8 @@ abstract class Service {
     Retrofit.Builder mRetrofitBuilder;
     String mUsername;
 
+    protected String mIndempotencyKey = null;
+
     static boolean isSandbox = false;
     static Logger LOGGER = null;
 
@@ -28,24 +30,25 @@ abstract class Service {
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request original = chain.request();
-                HttpUrl url = original.url();
-                if (AfricasTalking.hostOverride != null) {
-                    url = url.newBuilder()
-                        .host(AfricasTalking.hostOverride)
-                        .build();
-                }
-                Request request = original.newBuilder()
-                        .url(url)
-                        .addHeader("apiKey", apiKey)
-                        .addHeader("Accept", "application/json")
-                        .build();
-
-                return chain.proceed(request);
+        httpClient.addInterceptor(chain -> {
+            Request original = chain.request();
+            HttpUrl url = original.url();
+            if (AfricasTalking.hostOverride != null) {
+                url = url.newBuilder()
+                    .host(AfricasTalking.hostOverride)
+                    .build();
             }
+            Request.Builder builder = original.newBuilder()
+                    .url(url)
+                    .addHeader("apiKey", apiKey)
+                    .addHeader("Accept", "application/json");
+
+            if (mIndempotencyKey != null) {
+                builder.addHeader("Idempotency-Key", mIndempotencyKey);
+                mIndempotencyKey = null;
+            }
+
+            return chain.proceed(builder.build());
         });
 
         if (LOGGER != null) {

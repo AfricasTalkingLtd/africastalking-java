@@ -37,4 +37,20 @@ public class AirtimeTest {
         Assert.assertEquals(2, response.numSent);
     }
 
+    @Test
+    public void testIdempotency() throws IOException {
+        AirtimeService service = AfricasTalking.getService(AirtimeService.class);
+        AirtimeResponse response = service.send("+254711082302", "KES", 15);
+        Assert.assertEquals(1, response.numSent);
+        response = service.send("+254711082302", "KES", 15);
+        Assert.assertEquals(0, response.numSent);
+        service.setIdempotencyKey("rand-0");
+        response = service.send("+254711082302", "KES", 15);
+        Assert.assertEquals(1, response.numSent);
+        service.setIdempotencyKey("rand-1");
+        response = service.send("+254711082302", "KES", 15);
+        Assert.assertEquals(1, response.numSent);
+
+    }
+
 }
