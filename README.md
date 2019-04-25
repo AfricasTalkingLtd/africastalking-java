@@ -14,7 +14,7 @@ Take a look at the [API docs here](https://build.at-labs.io/docs/getting_started
 
 ## Install
 
-You can depend on the [.jar](http://dl.bintray.com/africastalking/java/com/africastalking/core/3.4.1/) through Maven (from `http://dl.bintray.com/africastalking/java`):
+You can depend on the [.jar](http://dl.bintray.com/africastalking/java/com/africastalking/core) through Maven (from `http://dl.bintray.com/africastalking/java`):
 ```xml
 <repositories>
    <repository>
