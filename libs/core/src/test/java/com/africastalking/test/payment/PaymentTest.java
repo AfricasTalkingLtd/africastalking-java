@@ -2,6 +2,7 @@ package com.africastalking.test.payment;
 
 import com.africastalking.*;
 import com.africastalking.Status;
+import com.africastalking.payment.recipient.MobileDataRecipient;
 import com.africastalking.test.Fixtures;
 import com.africastalking.payment.response.*;
 import com.africastalking.payment.PaymentCard;
@@ -104,6 +105,16 @@ public class PaymentTest {
         List<Consumer> consumers = Arrays.asList(recip);
         B2CResponse resp = service.mobileB2C("TestProduct", consumers);
         Assert.assertEquals("KES 432.0000", resp.totalValue);
+    }
+
+    @Test
+    public void testMobileData() throws IOException {
+        PaymentService service = AfricasTalking.getService(PaymentService.class);
+        MobileDataRecipient recip = new MobileDataRecipient( "+254718769882", 100, MobileDataRecipient.DataUnit.MB, MobileDataRecipient.DataValidity.MONTHLY);
+        List<MobileDataRecipient> recipients = Arrays.asList(recip);
+
+        MobileDataResponse resp = service.mobileData("TestProduct", recipients);
+        Assert.assertEquals(1, resp.entries.size());
     }
 
     @Test

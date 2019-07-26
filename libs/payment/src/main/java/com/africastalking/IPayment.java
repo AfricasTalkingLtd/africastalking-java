@@ -12,6 +12,9 @@ import retrofit2.http.QueryMap;
 import java.util.HashMap;
 
 interface IPayment {
+    @POST("mobile/data/request")
+    Call<MobileDataResponse> requestMobileData(@Body HashMap<String, Object> body);
+
     @POST("mobile/b2c/request")
     Call<B2CResponse> requestB2C(@Body HashMap<String, Object> body);
 

@@ -236,10 +236,15 @@ For more information, read the following:
 - `mobileB2B(String productName, Business recipient)`: Send mobile money to business.
 
   - `productName`: Your payment product
-  - `recipient`: A business recipint of the money. See [Business](#) class
-
+  - `recipient`: A business recipient of the money. See [Business](#) class
   
 
+- `mobileData(String productName, List<MobileDataRecipient> recipients)`: Send mobile data to recipients.
+
+  - `productName`: Your payment product
+  - `recipients`: A list of phone users that will receive the mobile data. See [MobileDataRecipient](#) class.
+
+  
 - `walletTransfer(String productName, long targetProductCode, String currencyCode, float amount, HashMap<String, String> metadata)`: Move money form one payment product to another.
 
   - `productName`: Your payment product

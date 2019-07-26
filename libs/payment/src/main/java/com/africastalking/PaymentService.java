@@ -1,6 +1,7 @@
 package com.africastalking;
 
 import com.africastalking.payment.recipient.Bank;
+import com.africastalking.payment.recipient.MobileDataRecipient;
 import com.africastalking.payment.response.*;
 import com.africastalking.payment.Transaction;
 import com.africastalking.payment.BankAccount;
@@ -91,6 +92,15 @@ public final class PaymentService extends Service {
     }
 
     private HashMap<String, Object> makeB2CRequest(String product, List<Consumer> recipients) {
+        HashMap<String, Object> body = new HashMap<>();
+        body.put("username", mUsername);
+        body.put("productName", product);
+        body.put("recipients", recipients);
+
+        return body;
+    }
+
+    private HashMap<String, Object> makeMobileDataRequest(String product, List<MobileDataRecipient> recipients) {
         HashMap<String, Object> body = new HashMap<>();
         body.put("username", mUsername);
         body.put("productName", product);
@@ -415,6 +425,39 @@ public final class PaymentService extends Service {
 
             HashMap<String, Object> body = makeB2CRequest(product, recipients);
             Call<B2CResponse> call = payment.requestB2C(body);
+            call.enqueue(makeCallback(callback));
+
+        } catch (IOException ex) {
+            callback.onFailure(ex);
+        }
+    }
+
+
+    /**
+     * Request mobile data from payment product
+     * @param product
+     * @param recipients
+     * @return
+     * @throws IOException
+     */
+    public MobileDataResponse mobileData(String product, List<MobileDataRecipient> recipients) throws IOException {
+        for(MobileDataRecipient recipient : recipients) { checkPhoneNumber(recipient.phoneNumber); }
+
+        HashMap<String, Object> body = makeMobileDataRequest(product, recipients);
+        Call<MobileDataResponse> call = payment.requestMobileData(body);
+        Response<MobileDataResponse> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            throw new IOException(resp.errorBody().string());
+        }
+        return resp.body();
+    }
+
+    public void mobileData(String product, List<MobileDataRecipient> recipients, Callback<MobileDataResponse> callback) {
+        try {
+            for(MobileDataRecipient recipient : recipients) { checkPhoneNumber(recipient.phoneNumber); }
+
+            HashMap<String, Object> body = makeMobileDataRequest(product, recipients);
+            Call<MobileDataResponse> call = payment.requestMobileData(body);
             call.enqueue(makeCallback(callback));
 
         } catch (IOException ex) {
