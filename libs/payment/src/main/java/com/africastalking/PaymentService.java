@@ -161,6 +161,47 @@ public final class PaymentService extends Service {
         }
     }
 
+    /**
+     * Initiate a mobile checkout.
+     * @param productName Payment product used to initiate transaction
+     * @param phoneNumber Phone number (in international format) of the mobile subscriber that will complete this transaction.
+     * @param currencyCode Currency code e.g. KES
+     * @param amount Amount to transact e.g. 356.3
+     * @param metadata Map of any metadata that you may want to associate with this transaction.
+     *                 This map will be included in the payment notification callback
+     * @param providerChannel The provider channel the payment will be initiated from e.g a paybill number. The provider channel must be mapped to your Africa’s Talking payment product
+     * @return {@link com.africastalking.payment.response.CheckoutResponse CheckoutResponse}
+     * @throws IOException
+     */
+    public CheckoutResponse mobileCheckout(String productName, String phoneNumber, String currencyCode, float amount, Map metadata, String providerChannel) throws IOException {
+        checkPhoneNumber(phoneNumber);
+        HashMap<String, Object> body = makeCheckoutRequest(productName, currencyCode, amount, null, metadata);
+        body.put("phoneNumber", phoneNumber);
+        body.put("providerChannel", providerChannel);
+        Call<CheckoutResponse> call = payment.mobileCheckout(body);
+        Response<CheckoutResponse> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            throw new IOException(resp.errorBody().string());
+        }
+        return resp.body();
+    }
+
+    public void mobileCheckout(String productName, String phoneNumber, String currencyCode, float amount, Map metadata, String providerChannel, Callback<CheckoutResponse> callback) {
+
+        try {
+            checkPhoneNumber(phoneNumber);
+
+            HashMap<String, Object> body = makeCheckoutRequest(productName, currencyCode, amount, null, metadata);
+            body.put("phoneNumber", phoneNumber);
+            body.put("providerChannel", providerChannel);
+            Call<CheckoutResponse> call = payment.mobileCheckout(body);
+            call.enqueue(makeCallback(callback));
+        } catch (IOException e) {
+            callback.onFailure(e);
+            return;
+        }
+    }
+
 
     /**
      * Initiate card checkout
