@@ -217,12 +217,13 @@ For more information, read the following:
 
   
 
-- `mobileCheckout(String productName, String phoneNumber, String currencyCode, float amount)`: Initiate mobile checkout.
+- `mobileCheckout(String productName, String phoneNumber, String currencyCode, float amount, String providerChannel)`: Initiate mobile checkout.
 
   - `productName`: Your payment product
   - `phoneNumber`: Mobile wallet to charge
   - `currencyCode`: Currency code e.g. KES
   - `amount`: Amount to charge
+  - `providerChannel`: The provider channel the payment will be initiated from e.g a paybill number. `OPTIONAL`
 
   
 

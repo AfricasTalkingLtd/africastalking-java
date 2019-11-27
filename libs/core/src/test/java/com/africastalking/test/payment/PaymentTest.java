@@ -42,7 +42,7 @@ public class PaymentTest {
     @Test
     public void testMobileCheckout() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        CheckoutResponse resp = service.mobileCheckout("TestProduct", "+254711082302", "KES", 577, new HashMap());
+        CheckoutResponse resp = service.mobileCheckout("TestProduct", "+254711082302", "KES", 577, "1234", new HashMap());
         Assert.assertEquals(Status.PENDING_CONFIRMATION, resp.status);
     }
 
@@ -110,7 +110,7 @@ public class PaymentTest {
     @Test
     public void testMobileData() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        MobileDataRecipient recip = new MobileDataRecipient( "+254718769882", 100, MobileDataRecipient.DataUnit.MB, MobileDataRecipient.DataValidity.MONTHLY);
+        MobileDataRecipient recip = new MobileDataRecipient( "+254718769882", 100, MobileDataRecipient.DataUnit.MB, MobileDataRecipient.DataValidity.MONTH);
         List<MobileDataRecipient> recipients = Arrays.asList(recip);
 
         MobileDataResponse resp = service.mobileData("TestProduct", recipients);
