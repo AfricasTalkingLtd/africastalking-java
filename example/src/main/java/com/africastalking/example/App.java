@@ -87,7 +87,7 @@ public class App {
         post("/airtime/:phone", (req, res) -> airtime.send(req.params("phone"), req.queryParams("currencyCode"), Float.parseFloat(req.queryParams("amount"))), gson::toJson);
 
         // Mobile Checkout
-        post("/mobile/checkout/:phone", (req, res) -> payment.mobileCheckout("TestProduct", req.params("phone"), req.queryParams("currencyCode"), Float.parseFloat(req.queryParams("amount")), null), gson::toJson);
+        post("/mobile/checkout/:phone", (req, res) -> payment.mobileCheckout("TestProduct", req.params("phone"), req.queryParams("currencyCode"), Float.parseFloat(req.queryParams("amount")), null, req.queryParams("providerChannel")), gson::toJson);
 
         // Mobile B2C
         post("/mobile/b2c/:phone", (req, res) -> payment.mobileB2C("TestProduct", Arrays.asList(new Consumer("Boby", req.params("phone"), req.queryParams("currencyCode"), Float.parseFloat(req.queryParams("amount")), Consumer.REASON_SALARY))), gson::toJson);
