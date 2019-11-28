@@ -42,7 +42,7 @@ public class PaymentTest {
     @Test
     public void testMobileCheckout() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        CheckoutResponse resp = service.mobileCheckout("TestProduct", "+254711082302", "KES", 577, "1234", new HashMap());
+        CheckoutResponse resp = service.mobileCheckout("TestProduct", "+254711082302", "KES", 577, new HashMap(), "1234");
         Assert.assertEquals(Status.PENDING_CONFIRMATION, resp.status);
     }
 

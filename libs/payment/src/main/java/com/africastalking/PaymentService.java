@@ -123,43 +123,6 @@ public final class PaymentService extends Service {
         return body;
     }
 
-    /**
-     * Initiate a mobile checkout.
-     * @param productName Payment product used to initiate transaction
-     * @param phoneNumber Phone number (in international format) of the mobile subscriber that will complete this transaction.
-     * @param currencyCode Currency code e.g. KES
-     * @param amount Amount to transact e.g. 356.3
-     * @param metadata Optional map of any metadata that you may want to associate with this transaction.
-     *                 This map will be included in the payment notification callback
-     * @return {@link com.africastalking.payment.response.CheckoutResponse CheckoutResponse}
-     * @throws IOException
-     */
-    public CheckoutResponse mobileCheckout(String productName, String phoneNumber, String currencyCode, float amount, Map metadata) throws IOException {
-        checkPhoneNumber(phoneNumber);
-        HashMap<String, Object> body = makeCheckoutRequest(productName, currencyCode, amount, null, metadata);
-        body.put("phoneNumber", phoneNumber);
-        Call<CheckoutResponse> call = payment.mobileCheckout(body);
-        Response<CheckoutResponse> resp = call.execute();
-        if (!resp.isSuccessful()) {
-            throw new IOException(resp.errorBody().string());
-        }
-        return resp.body();
-    }
-
-    public void mobileCheckout(String productName, String phoneNumber, String currencyCode, float amount, Map metadata, Callback<CheckoutResponse> callback) {
-
-        try {
-            checkPhoneNumber(phoneNumber);
-
-            HashMap<String, Object> body = makeCheckoutRequest(productName, currencyCode, amount, null, metadata);
-            body.put("phoneNumber", phoneNumber);
-            Call<CheckoutResponse> call = payment.mobileCheckout(body);
-            call.enqueue(makeCallback(callback));
-        } catch (IOException e) {
-            callback.onFailure(e);
-            return;
-        }
-    }
 
     /**
      * Initiate a mobile checkout.
