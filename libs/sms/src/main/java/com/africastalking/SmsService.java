@@ -23,7 +23,8 @@ public final class SmsService extends Service {
 
 
     private static SmsService sInstance;
-    private ISMS sms;
+    private IBulkSMS bulkSMS;
+    private IPremiumSMS premiumSMS;
 
     private SmsService(String username, String apiKey) {
         super(username, apiKey);
@@ -45,8 +46,11 @@ public final class SmsService extends Service {
 
     @Override
     protected void initService() {
-        String baseUrl = "https://api."+ (isSandbox ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN) + "/version1/";
-        sms = mRetrofitBuilder.baseUrl(baseUrl).build().create(ISMS.class);
+        String bulkSmsBaseUrl = "https://api."+ (isSandbox ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN) + "/version1/";
+        bulkSMS = mRetrofitBuilder.baseUrl(bulkSmsBaseUrl).build().create(IBulkSMS.class);
+
+        String premiumSmsBaseUrl = "https://" + (isSandbox ? "api." : "content.") + (isSandbox ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN) + "/version1/";
+        premiumSMS = mRetrofitBuilder.baseUrl(premiumSmsBaseUrl).build().create(IPremiumSMS.class);
     }
 
     @Override
@@ -95,7 +99,7 @@ public final class SmsService extends Service {
      * @throws IOException
      */
     public List<Recipient> send(String message, String from, String[] recipients, boolean enqueue) throws IOException {
-        Response<SendMessageResponse> resp = sms.send(mUsername, formatRecipients(recipients), from, message, 1, enqueue ? "1" : null).execute();
+        Response<SendMessageResponse> resp = bulkSMS.send(mUsername, formatRecipients(recipients), from, message, 1, enqueue ? "1" : null).execute();
         if (!resp.isSuccessful()) {
             throw new IOException(resp.errorBody().string());
         }
@@ -116,7 +120,7 @@ public final class SmsService extends Service {
      */
     public void send(String message, String from, String[] recipients, boolean enqueue, final Callback<List<Recipient>> callback) {
         try {
-            sms.send(mUsername, formatRecipients(recipients), from, message, 1, enqueue ? "1" : null).enqueue(makeCallback(new Callback<SendMessageResponse>() {
+            bulkSMS.send(mUsername, formatRecipients(recipients), from, message, 1, enqueue ? "1" : null).enqueue(makeCallback(new Callback<SendMessageResponse>() {
                 @Override
                 public void onSuccess(SendMessageResponse data) {
                     callback.onSuccess(data.data.recipients);
@@ -180,7 +184,7 @@ public final class SmsService extends Service {
      */
     public List<Recipient> sendPremium(String message, String from, String keyword, String linkId, long retryDurationInHours, String[] recipients) throws IOException {
         String retryDuration = retryDurationInHours <= 0 ? null : String.valueOf(retryDurationInHours);
-        Response<SendMessageResponse> resp = sms.sendPremium(mUsername, formatRecipients(recipients), from, message, keyword, linkId, retryDuration, 0).execute();
+        Response<SendMessageResponse> resp = premiumSMS.send(mUsername, formatRecipients(recipients), from, message, keyword, linkId, retryDuration, 0).execute();
         if (!resp.isSuccessful()) {
             throw new IOException(resp.errorBody().string());
         }
@@ -204,7 +208,7 @@ public final class SmsService extends Service {
     public void sendPremium(String message, String from, String keyword, String linkId, long retryDurationInHours, String[] recipients, final Callback<List<Recipient>> callback) {
         try {
             String retryDuration = retryDurationInHours <= 0 ? null : String.valueOf(retryDurationInHours);
-            sms.sendPremium(mUsername, formatRecipients(recipients),
+            premiumSMS.send(mUsername, formatRecipients(recipients),
                     from, message, keyword, linkId, retryDuration, 0)
                     .enqueue(makeCallback(new Callback<SendMessageResponse>() {
                         @Override
@@ -334,7 +338,7 @@ public final class SmsService extends Service {
      * @throws IOException
      */
     public List<Message> fetchMessages(long lastReceivedId) throws IOException {
-        Response<FetchMessageResponse> resp = sms.fetchMessages(mUsername, lastReceivedId).execute();
+        Response<FetchMessageResponse> resp = bulkSMS.fetchMessages(mUsername, lastReceivedId).execute();
         if (!resp.isSuccessful()) {
             throw new IOException(resp.errorBody().string());
         }
@@ -363,7 +367,7 @@ public final class SmsService extends Service {
      * @param callback
      */
     public void fetchMessages(long lastReceivedId, final Callback<List<Message>> callback) {
-        sms.fetchMessages(mUsername, lastReceivedId).enqueue(makeCallback(new Callback<FetchMessageResponse>() {
+        bulkSMS.fetchMessages(mUsername, lastReceivedId).enqueue(makeCallback(new Callback<FetchMessageResponse>() {
             @Override
             public void onSuccess(FetchMessageResponse data) {
                 callback.onSuccess(data.data.messages);
@@ -402,7 +406,7 @@ public final class SmsService extends Service {
      * @throws IOException
      */
     public List<Subscription> fetchSubscriptions(String shortCode, String keyword, long lastReceivedId) throws IOException {
-        Response<FetchSubscriptionResponse> resp = sms.fetchSubscriptions(mUsername, shortCode, keyword, lastReceivedId).execute();
+        Response<FetchSubscriptionResponse> resp = premiumSMS.fetchSubscriptions(mUsername, shortCode, keyword, lastReceivedId).execute();
         if (!resp.isSuccessful()) {
             throw new IOException(resp.errorBody().string());
         }
@@ -421,7 +425,7 @@ public final class SmsService extends Service {
      * @param callback
      */
     public void fetchSubscriptions(String shortCode, String keyword, long lastReceivedId, final Callback<List<Subscription>> callback) {
-        sms.fetchSubscriptions(mUsername, shortCode, keyword, lastReceivedId).enqueue(makeCallback(new Callback<FetchSubscriptionResponse>() {
+        premiumSMS.fetchSubscriptions(mUsername, shortCode, keyword, lastReceivedId).enqueue(makeCallback(new Callback<FetchSubscriptionResponse>() {
             @Override
             public void onSuccess(FetchSubscriptionResponse data) {
                 callback.onSuccess(data.subscriptions);
@@ -480,7 +484,7 @@ public final class SmsService extends Service {
      */
     public SubscriptionResponse createSubscription(String shortCode, String keyword, String phoneNumber, String checkoutToken) throws IOException {
         checkPhoneNumber(phoneNumber);
-        Response<SubscriptionResponse> resp = sms.createSubscription(mUsername, shortCode, keyword, phoneNumber, checkoutToken).execute();
+        Response<SubscriptionResponse> resp = premiumSMS.createSubscription(mUsername, shortCode, keyword, phoneNumber, checkoutToken).execute();
         if (!resp.isSuccessful()) {
             throw new IOException(resp.errorBody().string());
         }
@@ -502,7 +506,7 @@ public final class SmsService extends Service {
     public void createSubscription(String shortCode, String keyword, String phoneNumber, String checkoutToken, Callback<SubscriptionResponse> callback) {
         try {
             checkPhoneNumber(phoneNumber);
-            sms.createSubscription(mUsername, shortCode, keyword, phoneNumber, checkoutToken).enqueue(makeCallback(callback));
+            premiumSMS.createSubscription(mUsername, shortCode, keyword, phoneNumber, checkoutToken).enqueue(makeCallback(callback));
         } catch (IOException ex) {
             callback.onFailure(ex);
         }
@@ -523,7 +527,7 @@ public final class SmsService extends Service {
      */
     public SubscriptionResponse deleteSubscription(String shortCode, String keyword, String phoneNumber) throws IOException {
         checkPhoneNumber(phoneNumber);
-        Response<SubscriptionResponse> resp = sms.deleteSubscription(mUsername, shortCode, keyword, phoneNumber).execute();
+        Response<SubscriptionResponse> resp = premiumSMS.deleteSubscription(mUsername, shortCode, keyword, phoneNumber).execute();
         if (!resp.isSuccessful()) {
             throw new IOException(resp.errorBody().string());
         }
@@ -544,7 +548,7 @@ public final class SmsService extends Service {
     public void deleteSubscription(String shortCode, String keyword, String phoneNumber, Callback<SubscriptionResponse> callback) {
         try {
             checkPhoneNumber(phoneNumber);
-            sms.deleteSubscription(mUsername, shortCode, keyword, phoneNumber).enqueue(makeCallback(callback));
+            premiumSMS.deleteSubscription(mUsername, shortCode, keyword, phoneNumber).enqueue(makeCallback(callback));
         } catch (IOException ex) {
             callback.onFailure(ex);
         }
