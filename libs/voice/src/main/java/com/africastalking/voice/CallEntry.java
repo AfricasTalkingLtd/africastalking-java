@@ -1,14 +1,13 @@
 package com.africastalking.voice;
 
-
 import com.google.gson.Gson;
 
-import java.util.List;
-
-public final class QueuedCallsResponse {
+public final class CallEntry {
     public String status;
-    public String errorMessage;
-    public List<CallEntry> entries;
+    public String phoneNumber;
+    public String sessionId;
+    public String queueName = null;
+    public int numCalls = 1;
 
     @Override
     public String toString() {
