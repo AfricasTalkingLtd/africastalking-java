@@ -2,10 +2,9 @@ package com.africastalking.voice;
 
 
 import com.google.gson.Gson;
-import java.util.List;
 
-public final class CallResponse {
-    public List<CallEntry> entries;
+public final class CallTransferResponse {
+    public String status;
     public String errorMessage;
 
     @Override

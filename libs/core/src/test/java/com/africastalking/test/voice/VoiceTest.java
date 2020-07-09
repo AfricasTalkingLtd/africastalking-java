@@ -3,6 +3,7 @@ package com.africastalking.test.voice;
 import com.africastalking.*;
 import com.africastalking.test.Fixtures;
 import com.africastalking.voice.CallResponse;
+import com.africastalking.voice.CallTransferResponse;
 import com.africastalking.voice.QueuedCallsResponse;
 
 import com.africastalking.voice.action.GetDigits;
@@ -28,7 +29,18 @@ public class VoiceTest {
     public void testCall() {
         VoiceService service = AfricasTalking.getService(VoiceService.class);
         try {
-            final CallResponse response = service.call("+254718769882", "0718769881");
+            CallResponse response = service.call("+254718769882", "0718769881");
+            Assert.assertEquals("Invalid callerId: 0718769881", response.errorMessage);
+        } catch (IOException e) {
+            Assert.fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testCallTransfer() {
+        VoiceService service = AfricasTalking.getService(VoiceService.class);
+        try {
+            CallTransferResponse response = service.callTransfer("+254718769882", "session-id");
             Assert.assertEquals("Invalid callerId: 0718769881", response.errorMessage);
 
         } catch (IOException e) {
@@ -40,8 +52,8 @@ public class VoiceTest {
     public void testFetchQueuedCalls() {
         VoiceService service = AfricasTalking.getService(VoiceService.class);
         try {
-            final QueuedCallsResponse response = service.fetchQueuedCalls("0718769882");
-            Assert.assertEquals(0, response.numCalls);
+            QueuedCallsResponse response = service.fetchQueuedCalls("0718769882");
+            Assert.assertEquals(0, response.entries.size());
 
         } catch (IOException e) {
             Assert.fail(e.getMessage());

@@ -1,6 +1,7 @@
 package com.africastalking;
 
 import com.africastalking.voice.CallResponse;
+import com.africastalking.voice.CallTransferResponse;
 import com.africastalking.voice.QueuedCallsResponse;
 
 import retrofit2.Call;
@@ -14,11 +15,27 @@ interface IVoice {
                             @Field("from") String from);
 
     @FormUrlEncoded
-    @POST("/queueStatus")
+    @POST("callTransfer")
+    Call<CallTransferResponse> callTransfer(@Field("username") String username, @Field("phoneNumber") String phoneNumber,
+                                            @Field("sessionId") String sessionId);
+
+    @FormUrlEncoded
+    @POST("callTransfer")
+    Call<CallTransferResponse> callTransfer(@Field("username") String username, @Field("phoneNumber") String phoneNumber,
+                                    @Field("sessionId") String sessionId, @Field("callLeg") String callLeg);
+
+    @FormUrlEncoded
+    @POST("callTransfer")
+    Call<CallTransferResponse> callTransfer(@Field("username") String username, @Field("phoneNumber") String phoneNumber,
+                                    @Field("sessionId") String sessionId, @Field("callLeg") String callLeg,
+                                    @Field("holdMusicUrl") String holdMusicUrl);
+
+    @FormUrlEncoded
+    @POST("queueStatus")
     Call<QueuedCallsResponse> queueStatus(@Field("username") String username, @Field("phoneNumbers") String phoneNumbers);
 
     @FormUrlEncoded
-    @POST("/mediaUpload")
+    @POST("mediaUpload")
     Call<String> mediaUpload(@Field("username") String username, @Field("url") String url,
                             @Field("phoneNumber") String phoneNumber);
 

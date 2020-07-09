@@ -1,10 +1,14 @@
 package com.africastalking;
 
 import com.africastalking.voice.CallResponse;
+import com.africastalking.voice.CallTransferResponse;
 import com.africastalking.voice.QueuedCallsResponse;
 
 import retrofit2.Call;
 import retrofit2.Response;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
 
 import java.io.IOException;
 
@@ -91,6 +95,47 @@ public final class VoiceService extends Service {
 
     public void call(String to, Callback<CallResponse> callback) {
         call(to, "", callback);
+    }
+
+
+    /**
+     * Initiate a call transfer
+     * @param phoneNumber Phone Number to transfer the call to
+     * @param sessionId Session Id of the ongoing call, it must have two legs
+     * @return
+     * @throws IOException
+     */
+    public CallTransferResponse callTransfer(String phoneNumber, String sessionId) throws IOException {
+        return callTransfer(phoneNumber, sessionId, "", "");
+    }
+    public void callTransfer(String phoneNumber, String sessionId, Callback<CallTransferResponse> callback) {
+        callTransfer(phoneNumber, sessionId,"", "", callback);
+    }
+
+    public CallTransferResponse callTransfer(String phoneNumber, String sessionId, String callLeg) throws IOException {
+        return callTransfer(phoneNumber, sessionId, callLeg, "");
+    }
+    public void callTransfer(String phoneNumber, String sessionId, String callLeg, Callback<CallTransferResponse> callback) {
+       callTransfer(phoneNumber, sessionId, callLeg, "", callback);
+    }
+
+    public CallTransferResponse callTransfer(String phoneNumber, String sessionId, String callLeg, String holdMusicUrl) throws IOException {
+        checkPhoneNumber(phoneNumber);
+        Call<CallTransferResponse> call = voice.callTransfer(mUsername, phoneNumber, sessionId, callLeg.isEmpty() ? null : callLeg, holdMusicUrl.isEmpty() ? null : holdMusicUrl);
+        Response<CallTransferResponse> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            throw new IOException(resp.errorBody().string());
+        }
+        return resp.body();
+    }
+    public void callTransfer(String phoneNumber, String sessionId, String callLeg, String holdMusicUrl, Callback<CallTransferResponse> callback) {
+        try {
+            checkPhoneNumber(phoneNumber);
+            Call<CallTransferResponse> call = voice.callTransfer(mUsername, phoneNumber, sessionId, callLeg.isEmpty() ? null : callLeg, holdMusicUrl.isEmpty() ? null : holdMusicUrl);
+            call.enqueue(makeCallback(callback));
+        } catch (IOException ex){
+            callback.onFailure(ex);
+        }
     }
 
 
