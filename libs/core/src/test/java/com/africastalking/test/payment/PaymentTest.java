@@ -120,7 +120,7 @@ public class PaymentTest {
     @Test
     public void testMobileB2B() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        Business recip = new Business("SBDev", "AccDest", Business.TRANSFER_TYPE_B2B, Business.PROVIDER_ATHENA, "KES", 2512);
+        Business recip = new Business("SBDev", "AccDest", "+254718769882", Business.TRANSFER_TYPE_B2B, Business.PROVIDER_ATHENA, "KES", 2512);
         B2BResponse resp = service.mobileB2B("TestProduct", recip);
         Assert.assertEquals("Queued", resp.status);
     }
@@ -154,7 +154,7 @@ public class PaymentTest {
     @Test
     public void testFindTransaction() throws IOException {
         PaymentService service = AfricasTalking.getService(PaymentService.class);
-        Business recip = new Business("TestProduct", "AccDest", Business.TRANSFER_TYPE_B2B, Business.PROVIDER_ATHENA, "KES", ThreadLocalRandom.current().nextInt(1000, 15001));
+        Business recip = new Business("TestProduct", "AccDest", null, Business.TRANSFER_TYPE_B2B, Business.PROVIDER_ATHENA, "KES", ThreadLocalRandom.current().nextInt(1000, 15001));
         B2BResponse resp = service.mobileB2B("TestProduct", recip);
         Transaction transaction = service.findTransaction(resp.transactionId);
         Assert.assertEquals(resp.transactionId, transaction.transactionId);
