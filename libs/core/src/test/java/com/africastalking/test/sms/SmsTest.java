@@ -90,6 +90,7 @@ public class SmsTest {
         List<Recipient> resp = sms.send("testSend()", "AT2FA", new String[] {"+254711082302", "+254731034588"}, false);
         Assert.assertEquals(2, resp.size());
         Assert.assertEquals(Status.SUCCESS, resp.get(0).status);
+        Assert.assertEquals(101, resp.get(0).statusCode);
     }
 
     @Test
