@@ -91,7 +91,7 @@ The following static methods are available on the `AfricasTalking` class to init
   - [Token Service](#tokenservice): `AfricasTalking.getService(AfricasTalking.SERVICE_TOKEN)`
   - [Application Service](#applicationservice): `AfricasTalking.getService(AfricasTalking.SERVICE_APPLICATION)`
 
-> Note on **USSD**: For more information, please read [this](https://developers.africastalking.com/docs/ussd%2Foverview)
+> Note on **USSD**: For more information, please read [this](https://developers.africastalking.com/docs/ussd/overview)
 
 ## Services
 
@@ -105,13 +105,13 @@ All phone numbers use the international format. e.g. `+234xxxxxxxx`.
 
 ### `AirtimeService`
 
-- `setIdempotencyKey(String key)`: Set the [**Idempotency-Key**](https://developers.africastalking.com/docs/getting_started%2Fidempotent_requests) for the next request. Call this function every time before calling `send()` if you're sending the same amount to the same phone number.
+- `setIdempotencyKey(String key)`: Set the [**Idempotency-Key**](https://developers.africastalking.com/docs/idempotent_requests) for the next request. Call this function every time before calling `send()` if you're sending the same amount to the same phone number.
 
 - `send(String phoneNumber, String currencyCode, float amount)`: Send airtime to a phone number. Example amount would be `KES 150`.
 
 - `send(HashMap<String,String> recipients)`: Send airtime to many of phone numbers. The keys in the `recipients` map are phone numbers while the values are airtime amounts. The amounts need to have currency info e.g. `UXG 4265`.
 
-For more information about status notification, please read the airtime [documentation](https://developers.africastalking.com/docs/airtime%2Fnotifications%2Fvalidation)
+For more information about status notification, please read the airtime [documentation](https://developers.africastalking.com/docs/airtime/notifications/validation)
 
 ### `SmsService`
 
@@ -167,9 +167,9 @@ For more information about status notification, please read the airtime [documen
 
 For more information, read the following: 
 
-- [How to receive SMS](https://developers.africastalking.com/docs/sms%2Fnotifications)
-- [How to get notified of delivery reports](https://developers.africastalking.com/docs/sms%2Fnotifications)
-- [How to listen for subscription notifications](https://developers.africastalking.com/docs/sms%2Fnotifications)
+- [How to receive SMS](https://developers.africastalking.com/docs/sms/notifications)
+- [How to get notified of delivery reports](https://developers.africastalking.com/docs/sms/notifications)
+- [How to listen for subscription notifications](https://developers.africastalking.com/docs/sms/notifications)
 
 
 ### `PaymentService`
@@ -302,7 +302,7 @@ For more information, read the following:
 
 
 
-For more information, please read the [payments documentation](https://developers.africastalking.com/docs/payments%2Foverview).
+For more information, please read the [payments documentation](https://developers.africastalking.com/docs/payments/overview).
 
 
 ### `VoiceService`
@@ -351,7 +351,7 @@ For more information, please read the [payments documentation](https://developer
     - `build()`: Finally build the xml
 
 
-For more information on voice, please read the [documentation](https://developers.africastalking.com/docs/voice%2Foverview)
+For more information on voice, please read the [documentation](https://developers.africastalking.com/docs/voice/overview)
 
 
 ### `TokenService`
