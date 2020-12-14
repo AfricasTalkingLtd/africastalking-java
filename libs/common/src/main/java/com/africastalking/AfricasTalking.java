@@ -66,6 +66,50 @@ public final class AfricasTalking {
     }
 
     /**
+     * Get a service by class. e.g. AirtimeService.class using a specific username and apiKey
+     *
+     * @param classInfo service class
+     * @param <T> service type
+     * @param username
+     * @param apiKey
+     * @return An instance of the requested service
+     */
+    public static <T extends Service> T getService(Class<T> classInfo, String username, String apiKey) {
+        try {
+            T raw = classInfo.newInstance();
+
+            if (username == null || apiKey == null) {
+                return raw;
+            }
+            return (T)raw.getInstance(username, apiKey);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        throw new RuntimeException("Failed to init service");
+    }
+
+    /**
+     * Get a service by name using a specific username and apiKey
+     * @param serviceName see AfricasTalking.SERVICES_*
+     * @param username
+     * @param apiKey
+     * @return An instance of the requested service
+     */
+    public static <T extends Service> T getService(String serviceName, String username, String apiKey) {
+
+        try {
+            Class<T> tClass = (Class<T>)Class.forName(serviceName);
+            return getService(tClass, String username, String apiKey);
+        } catch (ClassNotFoundException e) {
+            //e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
      * Get a service by name
      * @param serviceName see AfricasTalking.SERVICES_*
      * @param <T> service type
