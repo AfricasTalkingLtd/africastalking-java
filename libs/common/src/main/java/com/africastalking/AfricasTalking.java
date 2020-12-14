@@ -102,7 +102,7 @@ public final class AfricasTalking {
 
         try {
             Class<T> tClass = (Class<T>)Class.forName(serviceName);
-            return getService(tClass, String username, String apiKey);
+            return getService(tClass, username, apiKey);
         } catch (ClassNotFoundException e) {
             //e.printStackTrace();
             return null;
