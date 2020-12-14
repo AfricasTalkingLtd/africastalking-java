@@ -27,7 +27,7 @@ You can depend on the [.jar](http://dl.bintray.com/africastalking/java/com/afric
 <dependency>
   <groupId>com.africastalking</groupId>
   <artifactId>core</artifactId>
-  <version>3.4.5</version>
+  <version>3.4.6</version>
 </dependency>
 ```
 or sbt:
@@ -35,7 +35,7 @@ or sbt:
 ```
 resolvers += "africastalking maven repository" at "http://dl.bintray.com/africastalking/java"
 // Get all services
-libraryDependencies += "com.africastalking" % "core" % "3.4.5"
+libraryDependencies += "com.africastalking" % "core" % "3.4.6"
 ```
 
 or Gradle:
@@ -48,7 +48,7 @@ repositories {
 
 dependencies{
   // Get all services
-  compile 'com.africastalking:core:3.4.5'
+  compile 'com.africastalking:core:3.4.6'
 }
 ```
 

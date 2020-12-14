@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [3.4.6]
+
+### Added
+
+- Allow users to get service instances for different username/apiKey combinations.
+
 ## [3.4.0 - 3.4.5]
 
 - Bug fixes
