@@ -52,6 +52,19 @@ dependencies{
 }
 ```
 
+or Gradle (Kotlin DSL):
+```kotlin
+repositories {
+    jcenter()
+    maven { setUrl("http://dl.bintray.com/africastalking/java") }
+}
+
+dependencies{
+  // Get all services
+  implementation("com.africastalking:core:3.4.6")
+}
+```
+
 ## Usage
 
 The SDK needs to be initialized with your app username and API key, which you get from the [dashboard](https://account.africastalking.com).
