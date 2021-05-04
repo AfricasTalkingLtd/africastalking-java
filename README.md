@@ -1,6 +1,6 @@
 # Africa's Talking Java SDK
 
-[ ![Download](https://api.bintray.com/packages/africastalking/java/com.africastalking/images/download.svg) ](https://bintray.com/africastalking/java/com.africastalking/_latestVersion)
+[![Release](https://jitpack.io/v/AfricasTalkingLtd/africastalking-java.svg)](https://jitpack.io/#AfricasTalkingLtd/africastalking-java)
 
 > The SDK provides convenient access to the Africa's Talking API from applications written in Java.
 >
@@ -14,54 +14,52 @@ Take a look at the [API docs here](https://developers.africastalking.com/).
 
 ## Install
 
-You can depend on the [.jar](http://dl.bintray.com/africastalking/java/com/africastalking/core) through Maven (from `http://dl.bintray.com/africastalking/java`):
+You can depend on the [.jar]() through Maven (from `https://jitpack.io`):
 ```xml
 <repositories>
-   <repository>
-      <id>africastalking</id>
-      <name>AfricasTalking</name>
-      <url>http://dl.bintray.com/africastalking/java</url>
-   </repository>
+  <repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+  </repository>
 </repositories>
 ...
 <dependency>
-  <groupId>com.africastalking</groupId>
+  <groupId>com.github.AfricasTalkingLtd.africastalking-java</groupId>
   <artifactId>core</artifactId>
-  <version>3.4.6</version>
+  <version>3.4.7</version>
 </dependency>
 ```
 or sbt:
 
 ```
-resolvers += "africastalking maven repository" at "http://dl.bintray.com/africastalking/java"
+resolvers += "jitpack" at "https://jitpack.io"
 // Get all services
-libraryDependencies += "com.africastalking" % "core" % "3.4.6"
+libraryDependencies += "com.github.AfricasTalkingLtd.africastalking-java" % "core" % "3.4.7"	
 ```
 
 or Gradle (Groovy DSL):
 ```groovy
 repositories {
   maven {
-    url  "http://dl.bintray.com/africastalking/java"
+    url  "https://jitpack.io"
   }
 }
 
 dependencies{
   // Get all services
-  implementation 'com.africastalking:core:3.4.6'
-}
+  implementation 'com.github.AfricasTalkingLtd.africastalking-java:core:3.4.7'
 ```
 
 or Gradle (Kotlin DSL):
 ```kotlin
 repositories {
     jcenter()
-    maven { setUrl("http://dl.bintray.com/africastalking/java") }
+    maven { setUrl("https://jitpack.io") }
 }
 
 dependencies{
   // Get all services
-  implementation("com.africastalking:core:3.4.6")
+  implementation("com.github.AfricasTalkingLtd.africastalking-java:core:3.4.7")
 }
 ```
 

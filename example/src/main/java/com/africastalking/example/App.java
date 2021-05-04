@@ -24,8 +24,8 @@ public class App {
 
     private static final int HTTP_PORT = 8080;
     private static final int RPC_PORT = 35897;
-    private static final String USERNAME = BuildConfig.USERNAME;
-    private static final String API_KEY = BuildConfig.API_KEY;
+    private static final String USERNAME = "fake";
+    private static final String API_KEY = "fake";
 
     private static Gson gson = new Gson();
 

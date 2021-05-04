@@ -1,9 +1,9 @@
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.2'
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.16'
     }
 }
 
@@ -56,7 +56,7 @@ dependencies {
     compile 'io.netty:netty-tcnative-boringssl-static:2.0.12.Final'
     compile 'io.grpc:grpc-protobuf:1.13.1'
 
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly 'org.apache.tomcat:annotations-api:6.0.53'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
