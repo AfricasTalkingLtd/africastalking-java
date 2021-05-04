@@ -1,7 +1,2 @@
-jdk:
-  - openjdk9
-before_install:
-  - ./custom_setup.sh
 install:
-  - echo "Running a custom install command"
   - ./gradlew clean build publishToMavenLocal -xtest
