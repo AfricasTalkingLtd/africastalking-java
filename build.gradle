@@ -1,25 +1,12 @@
-
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
 buildscript {
 	repositories {
-	    jcenter()
+        mavenCentral()
         maven {
             url 'https://plugins.gradle.org/m2/'
         }
 	}
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-        classpath 'gradle.plugin.de.fuerstenau:BuildConfigPlugin:1.1.8'
-    }
-}
-
-
-allprojects {
-    repositories {
-        jcenter()
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.2.0'
     }
 }
 
@@ -34,16 +21,19 @@ publishedLibs << 'application'
 publishedLibs << 'core'
 publishedLibs << 'server'
 configure(subprojects.findAll {publishedLibs.contains(it.name)}){
-    group 'com.github.AfricasTalkingLtd' // properties.getProperty("bintray.groupId")
-    version '3.4.7'// properties.getProperty("bintray.version")
+    group 'com.github.AfricasTalkingLtd'
+    version '3.4.7'
 
     apply plugin: 'java'
-    apply plugin: "maven-publish"
-    apply plugin: 'com.jfrog.bintray'
+    apply plugin: 'maven-publish'
     apply plugin: 'com.github.johnrengelman.shadow'
 
     targetCompatibility = 1.8
     sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
 
     jar {
         manifest {
@@ -54,9 +44,9 @@ configure(subprojects.findAll {publishedLibs.contains(it.name)}){
 
     javadoc {
         source = sourceSets.main.allJava
-        classpath = configurations.compile
+        // classpath = configurations.implementation
         options {
-            links "http://docs.oracle.com/javase/7/docs/api/"
+            links "http://docs.oracle.com/javase/8/docs/api/"
         }
     }
 
@@ -83,30 +73,9 @@ configure(subprojects.findAll {publishedLibs.contains(it.name)}){
         publications {
             SDK(MavenPublication) {
                 artifact shadowJar
-                groupId properties.getProperty("bintray.groupId")
+                groupId project.group
                 artifactId project.name
                 version project.version
-            }
-        }
-    }
-
-    bintray {
-        dryRun = false
-        publish = true
-        user = properties.getProperty("bintray.user")
-        key = properties.getProperty("bintray.key")
-        publications = ['SDK']
-        pkg {
-            repo = properties.getProperty("bintray.repo")
-            name = properties.getProperty("bintray.package")
-            userOrg = properties.getProperty("bintray.organization")
-            vcsUrl = properties.getProperty("bintray.vcsUrl")
-            licenses = ['MIT']
-            version {
-                name = project.version
-                desc = 'Official Africa\'s Talking SDK'
-                released  = new Date()
-                attributes = ['maturity': 'Official']
             }
         }
     }

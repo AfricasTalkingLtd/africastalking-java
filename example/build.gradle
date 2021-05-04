@@ -2,45 +2,24 @@ group 'com.africastalking.example'
 version '1.0.0'
 
 apply plugin: 'application'
-apply plugin: 'de.fuerstenau.buildconfig'
 mainClassName = "com.africastalking.example.App"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def sdkVersion = properties.getProperty("bintray.version")
-
-buildConfig {
-    appName = project.name       // sets value of NAME field
-    version = project.version   // sets value of VERSION field,
-    // 'unspecified' if project.version is not set
-    buildConfigField 'String', 'USERNAME', properties.getProperty("api.username")
-    buildConfigField 'String', 'API_KEY', properties.getProperty("api.key")
-
-    clsName = 'BuildConfig'      // sets the name of the BuildConfig class
-    packageName = project.group  // sets the package of the BuildConfig class,
-    // 'de.fuerstenau.buildconfig' if project.group is not set
-    charset = 'UTF-8'            // sets charset of the generated class,
-    // 'UTF-8' if not set otherwise
-}
-
 repositories {
     jcenter()
-    maven {
-        url  "http://dl.bintray.com/africastalking/java"
-    }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-    compile 'org.slf4j:slf4j-simple:1.7.21'
-    compile 'com.sparkjava:spark-core:2.5.4'
-    compile 'com.sparkjava:spark-template-handlebars:2.3'
-    compile 'com.google.code.gson:gson:2.8.0'
-//    compile "com.africastalking:core:$sdkVersion"
+    implementation 'org.slf4j:slf4j-simple:1.7.21'
+    implementation 'com.sparkjava:spark-core:2.5.4'
+    implementation 'com.sparkjava:spark-template-handlebars:2.3'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    // implementation 'com.github.AfricasTalkingLtd.africastalking-java:core:develop-SNAPSHOT'
     compile project(":core")
-    testCompile 'junit:junit:4.11'
+    testImplementation 'junit:junit:4.11'
 }
 
 task runApp(type: JavaExec, dependsOn: classes){
