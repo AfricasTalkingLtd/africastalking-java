@@ -35,7 +35,7 @@ publishedLibs << 'core'
 publishedLibs << 'server'
 configure(subprojects.findAll {publishedLibs.contains(it.name)}){
     group 'com.github.AfricasTalkingLtd' // properties.getProperty("bintray.groupId")
-    version properties.getProperty("bintray.version")
+    version '3.4.7'// properties.getProperty("bintray.version")
 
     apply plugin: 'java'
     apply plugin: "maven-publish"
