@@ -37,7 +37,7 @@ resolvers += "jitpack" at "https://jitpack.io"
 libraryDependencies += "com.github.AfricasTalkingLtd" % "africastalking-java" % "v3.4.6"	
 ```
 
-or Gradle:
+or Gradle (Groovy DSL):
 ```groovy
 repositories {
   maven {
@@ -47,7 +47,19 @@ repositories {
 
 dependencies{
   // Get all services
-  compile 'com.github.AfricasTalkingLtd:africastalking-java:v3.4.6'
+  implementation 'com.github.AfricasTalkingLtd:africastalking-java:v3.4.6'
+```
+
+or Gradle (Kotlin DSL):
+```kotlin
+repositories {
+    jcenter()
+    maven { setUrl("https://jitpack.io") }
+}
+
+dependencies{
+  // Get all services
+  implementation("com.github.AfricasTalkingLtd:africastalking-java:v3.4.6")
 }
 ```
 
