@@ -1,12 +1,10 @@
-# Africa's Talking Java SDK
+# Africa's Talking
 
 [![Release](https://jitpack.io/v/AfricasTalkingLtd/africastalking-java.svg)](https://jitpack.io/#AfricasTalkingLtd/africastalking-java)
 
-> The SDK provides convenient access to the Africa's Talking API from applications written in Java.
 >
-> 
-> **Android Users**:
-> Remember your API key has to be kept secret; hard-coding it into an apk you publish is a security risk. So on Android, use the [Android SDK](https://github.com/AfricasTalkingLtd/africastalking-android) instead.
+> This SDK provides convenient access to the Africa's Talking API from apps written in Java/Kotlin/Scala.
+>
 
 
 ## Documentation
@@ -14,7 +12,7 @@ Take a look at the [API docs here](https://developers.africastalking.com/).
 
 ## Install
 
-You can depend on the [.jar]() through Maven (from `https://jitpack.io`):
+You can depend on the jars through Maven (from `https://jitpack.io`):
 ```xml
 <repositories>
   <repository>
@@ -385,16 +383,6 @@ Make sure your `local.properties` file has the following content then run `./gra
 # AT API
 api.username=sandbox
 api.key=some_key
-
-# Bintray
-bintray.user=fake
-bintray.key=fake
-bintray.repo=fake
-bintray.organization=fake
-bintray.package=fake
-bintray.groupId=fake
-bintray.version=fake
-bintray.vscUrl=fake
 ```
 
 ## Issues
