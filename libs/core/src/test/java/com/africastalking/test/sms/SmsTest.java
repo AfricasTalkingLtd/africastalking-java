@@ -4,7 +4,6 @@ import com.africastalking.AfricasTalking;
 import com.africastalking.Callback;
 import com.africastalking.SmsService;
 import com.africastalking.Status;
-import com.africastalking.TokenService;
 import com.africastalking.sms.Message;
 import com.africastalking.sms.Recipient;
 import com.africastalking.sms.Subscription;
@@ -13,8 +12,6 @@ import com.africastalking.test.Fixtures;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.africastalking.token.CheckoutTokenResponse;
 
 import java.io.IOException;
 import java.util.List;
@@ -121,10 +118,8 @@ public class SmsTest {
     public void testCreateSubscription() throws IOException {
         String phone = "+254731034" + ThreadLocalRandom.current().nextInt(100, 999);
         SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
-        TokenService tokenService = AfricasTalking.getService(AfricasTalking.SERVICE_TOKEN);
-        CheckoutTokenResponse checkoutToken = tokenService.createCheckoutToken(phone);
         
-        SubscriptionResponse resp = sms.createSubscription("AT2FA", "KiKi", phone, checkoutToken.token);
+        SubscriptionResponse resp = sms.createSubscription("AT2FA", "KiKi", phone);
         Assert.assertEquals("Waiting for user input", resp.description);
     }
 

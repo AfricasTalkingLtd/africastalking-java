@@ -24,8 +24,7 @@ interface IPremiumSMS {
     @FormUrlEncoded
     @POST("subscription/create")
     Call<SubscriptionResponse> createSubscription(@Field("username") String username, @Field("shortCode") String shortCode,
-                                                  @Field("keyword") String keyword, @Field("phoneNumber") String phoneNumber,
-                                                  @Field("checkoutToken") String checkoutToken);
+                                                  @Field("keyword") String keyword, @Field("phoneNumber") String phoneNumber);
 
     @FormUrlEncoded
     @POST("subscription/delete")

@@ -478,13 +478,12 @@ public final class SmsService extends Service {
      * @param shortCode
      * @param keyword
      * @param phoneNumber
-     * @param checkoutToken
      * @return
      * @throws IOException
      */
-    public SubscriptionResponse createSubscription(String shortCode, String keyword, String phoneNumber, String checkoutToken) throws IOException {
+    public SubscriptionResponse createSubscription(String shortCode, String keyword, String phoneNumber) throws IOException {
         checkPhoneNumber(phoneNumber);
-        Response<SubscriptionResponse> resp = premiumSMS.createSubscription(mUsername, shortCode, keyword, phoneNumber, checkoutToken).execute();
+        Response<SubscriptionResponse> resp = premiumSMS.createSubscription(mUsername, shortCode, keyword, phoneNumber).execute();
         if (!resp.isSuccessful()) {
             throw new IOException(resp.errorBody().string());
         }
@@ -500,13 +499,12 @@ public final class SmsService extends Service {
      * @param shortCode
      * @param keyword
      * @param phoneNumber
-     * @param checkoutToken
      * @param callback
      */
-    public void createSubscription(String shortCode, String keyword, String phoneNumber, String checkoutToken, Callback<SubscriptionResponse> callback) {
+    public void createSubscription(String shortCode, String keyword, String phoneNumber, Callback<SubscriptionResponse> callback) {
         try {
             checkPhoneNumber(phoneNumber);
-            premiumSMS.createSubscription(mUsername, shortCode, keyword, phoneNumber, checkoutToken).enqueue(makeCallback(callback));
+            premiumSMS.createSubscription(mUsername, shortCode, keyword, phoneNumber).enqueue(makeCallback(callback));
         } catch (IOException ex) {
             callback.onFailure(ex);
         }
