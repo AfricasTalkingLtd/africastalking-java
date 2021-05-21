@@ -1,10 +1,7 @@
 package com.africastalking;
 
 import com.africastalking.token.AuthTokenResponse;
-import com.africastalking.token.CheckoutTokenResponse;
-
 import retrofit2.Response;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
 
@@ -50,19 +47,6 @@ public final class TokenService extends Service {
         if (sInstance != null) {
             sInstance = null;
         }
-    }
-
-
-    public CheckoutTokenResponse createCheckoutToken(String phoneNumber) throws IOException {
-        Response<CheckoutTokenResponse> resp = service.createCheckoutToken(phoneNumber).execute();
-        if (!resp.isSuccessful()) {
-            throw new IOException(resp.errorBody().string());
-        }
-        return resp.body();
-    }
-
-    public void createCheckoutToken(String phoneNumber, Callback<CheckoutTokenResponse> callback) {
-        service.createCheckoutToken(phoneNumber).enqueue(makeCallback(callback));
     }
 
     public AuthTokenResponse generateAuthToken() throws IOException {

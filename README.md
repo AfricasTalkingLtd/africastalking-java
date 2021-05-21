@@ -24,7 +24,7 @@ You can depend on the jars through Maven (from `https://jitpack.io`):
 <dependency>
   <groupId>com.github.AfricasTalkingLtd.africastalking-java</groupId>
   <artifactId>core</artifactId>
-  <version>3.4.7</version>
+  <version>3.4.8</version>
 </dependency>
 ```
 or sbt:
@@ -32,7 +32,7 @@ or sbt:
 ```
 resolvers += "jitpack" at "https://jitpack.io"
 // Get all services
-libraryDependencies += "com.github.AfricasTalkingLtd.africastalking-java" % "core" % "3.4.7"	
+libraryDependencies += "com.github.AfricasTalkingLtd.africastalking-java" % "core" % "3.4.8"	
 ```
 
 or Gradle (Groovy DSL):
@@ -45,7 +45,7 @@ repositories {
 
 dependencies{
   // Get all services
-  implementation 'com.github.AfricasTalkingLtd.africastalking-java:core:3.4.7'
+  implementation 'com.github.AfricasTalkingLtd.africastalking-java:core:3.4.8'
 ```
 
 or Gradle (Kotlin DSL):
@@ -57,7 +57,7 @@ repositories {
 
 dependencies{
   // Get all services
-  implementation("com.github.AfricasTalkingLtd.africastalking-java:core:3.4.7")
+  implementation("com.github.AfricasTalkingLtd.africastalking-java:core:3.4.8")
 }
 ```
 
@@ -157,12 +157,11 @@ For more information about status notification, please read the airtime [documen
 
   
 
-- `createSubscription(String shortCode, String keyword, String phoneNumber, String checkoutToken)`: Create a premium subscription.
+- `createSubscription(String shortCode, String keyword, String phoneNumber)`: Create a premium subscription.
 
   - `shortCode`: This is the premium short code mapped to your account.
   - `keyword`: A premium keyword under the above short code and mapped to your account.
   - `phoneNumber`:  The phone number to be subscribed
-  - `checkoutToken`: This is a token used to validate the subscription request. See [`TokenService`](#TokenService)
 
   
 
@@ -364,8 +363,6 @@ For more information on voice, please read the [documentation](https://developer
 
 
 ### `TokenService`
-
-- `createCheckoutToken(String phoneNumber)`: Create a new checkout token for `phoneNumber`.
 
 - `generateAuthToken()`: Generate an auth token to use for authentication instead of an API key.
 
