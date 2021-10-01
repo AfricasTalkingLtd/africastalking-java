@@ -81,3 +81,8 @@ configure(subprojects.findAll {publishedLibs.contains(it.name)}){
         }
     }
 }
+
+// task for seeing all dependencies in a tree format
+subprojects {
+    task allDeps(type: DependencyReportTask) {}
+}

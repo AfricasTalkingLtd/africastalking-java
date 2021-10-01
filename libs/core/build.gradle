@@ -1,5 +1,5 @@
 
-apply plugin: 'java'
+apply plugin: 'java-library'
 apply plugin: 'application'
 mainClassName = "com.africastalking.AT"
 
@@ -16,14 +16,14 @@ test {
 }
 
 dependencies {
-    implementation project(":airtime")
-    implementation project(":payment")
-    implementation project(":sms")
-    implementation project(":ussd")
-    implementation project(":voice")
-    implementation project(":token")
-    implementation project(":server")
-    implementation project(":application")
+    api project(":airtime")
+    api project(":payment")
+    api project(":sms")
+    api project(":ussd")
+    api project(":voice")
+    api project(":token")
+    api project(":server")
+    api project(":application")
 
     testImplementation group: 'junit', name: 'junit', version: '4.11'
 }
