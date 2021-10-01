@@ -8,7 +8,9 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-    jcenter()
+    // jcenter() depricated on Februar 21 2021 so use mavenCentral instead
+	mavenCentral()
+	mavenLocal()
     maven { url 'https://jitpack.io' }
 }
 
@@ -18,7 +20,7 @@ dependencies {
     implementation 'com.sparkjava:spark-template-handlebars:2.3'
     implementation 'com.google.code.gson:gson:2.8.6'
     // compile 'com.github.AfricasTalkingLtd.africastalking-java:core:develop-SNAPSHOT'
-    compile project(":core")
+    implementation project(":core")
     testImplementation 'junit:junit:4.11'
 }
 
