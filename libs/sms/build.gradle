@@ -2,7 +2,14 @@
 
 dependencies {
 
-    compile project(":common")
+    implementation project(":common")
+    implementation 'com.google.code.gson:gson:2.9.0'
 
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.5.0'
+    implementation 'org.valid4j:valid4j:0.5.0'
+    testImplementation group: 'junit', name: 'junit', version: '4.11'
 }

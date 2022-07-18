@@ -79,4 +79,5 @@ configure(subprojects.findAll {publishedLibs.contains(it.name)}){
             }
         }
     }
+
 }

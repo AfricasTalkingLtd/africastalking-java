@@ -16,14 +16,14 @@ test {
 }
 
 dependencies {
-    compile project(":airtime")
-    compile project(":payment")
-    compile project(":sms")
-    compile project(":ussd")
-    compile project(":voice")
-    compile project(":token")
-    compile project(":server")
-    compile project(":application")
+    implementation project(":airtime")
+    implementation project(":payment")
+    implementation project(":sms")
+    implementation project(":ussd")
+    implementation project(":voice")
+    implementation project(":token")
+    implementation project(":server")
+    implementation project(":application")
 
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testImplementation group: 'junit', name: 'junit', version: '4.11'
 }

@@ -18,7 +18,7 @@ dependencies {
     implementation 'com.sparkjava:spark-template-handlebars:2.3'
     implementation 'com.google.code.gson:gson:2.8.6'
     // compile 'com.github.AfricasTalkingLtd.africastalking-java:core:develop-SNAPSHOT'
-    compile project(":core")
+    implementation project(":core")
     testImplementation 'junit:junit:4.11'
 }
 

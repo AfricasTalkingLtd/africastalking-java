@@ -65,26 +65,28 @@ public class ATServerTest {
         client = SdkServerServiceGrpc.newBlockingStub(ch)
             .withCallCredentials(new CallCredentials(){
                 @Override
-                public void thisUsesUnstableApi() { }
+                public void applyRequestMetadata(RequestInfo requestInfo, Executor appExecutor, MetadataApplier applier) {
+
+                        appExecutor.execute(new Runnable(){
+                            @Override
+                            public void run() {
+                                try {
+                                    Metadata headers = new Metadata();
+                                    Metadata.Key<String> clientIdKey = Metadata.Key.of("X-Client-Id", Metadata.ASCII_STRING_MARSHALLER);
+                                    headers.put(clientIdKey, TEST_CLIENT_ID);
+                                    applier.apply(headers);
+                                } catch(Throwable ex) {
+                                    applier.fail(Status.UNAUTHENTICATED.withCause(ex));
+                                }
+                            }
+                        });
+
+
+                }
 
                 @Override
-                public void applyRequestMetadata(MethodDescriptor<?, ?> method, Attributes attrs, Executor appExecutor,
-                        MetadataApplier applier) {
-                            appExecutor.execute(new Runnable(){
-                                @Override
-                                public void run() {
-                                    try {
-                                        Metadata headers = new Metadata();
-                                        Metadata.Key<String> clientIdKey = Metadata.Key.of("X-Client-Id", Metadata.ASCII_STRING_MARSHALLER);
-                                        headers.put(clientIdKey, TEST_CLIENT_ID);
-                                        applier.apply(headers);
-                                    } catch(Throwable ex) {
-                                        applier.fail(Status.UNAUTHENTICATED.withCause(ex));
-                                    }
-                                }
-                            });
-                    
-                }
+                public void thisUsesUnstableApi() { }
+
             });
     }
 
