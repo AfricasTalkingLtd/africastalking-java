@@ -5,6 +5,7 @@
 /* Libs */
 Set<String> libs = new HashSet<String>()
 libs << 'sms'
+libs << 'chat'
 libs << 'payment'
 libs << 'token'
 libs << 'airtime'
@@ -13,7 +14,6 @@ libs << 'ussd'
 libs << 'application'
 libs << 'common'
 libs << 'core'
-libs << 'server'
 
 libs.each { lib ->
     include lib

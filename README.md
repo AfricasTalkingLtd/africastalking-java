@@ -24,7 +24,7 @@ You can depend on the jars through Maven (from `https://jitpack.io`):
 <dependency>
   <groupId>com.github.AfricasTalkingLtd.africastalking-java</groupId>
   <artifactId>core</artifactId>
-  <version>3.4.8</version>
+  <version>3.4.9</version>
 </dependency>
 ```
 or sbt:
@@ -32,7 +32,7 @@ or sbt:
 ```
 resolvers += "jitpack" at "https://jitpack.io"
 // Get all services
-libraryDependencies += "com.github.AfricasTalkingLtd.africastalking-java" % "core" % "3.4.8"	
+libraryDependencies += "com.github.AfricasTalkingLtd.africastalking-java" % "core" % "3.4.9"	
 ```
 
 or Gradle (Groovy DSL):
@@ -45,7 +45,7 @@ repositories {
 
 dependencies{
   // Get all services
-  implementation 'com.github.AfricasTalkingLtd.africastalking-java:core:3.4.8'
+  implementation 'com.github.AfricasTalkingLtd.africastalking-java:core:3.4.9'
 ```
 
 or Gradle (Kotlin DSL):
@@ -57,7 +57,7 @@ repositories {
 
 dependencies{
   // Get all services
-  implementation("com.github.AfricasTalkingLtd.africastalking-java:core:3.4.8")
+  implementation("com.github.AfricasTalkingLtd.africastalking-java:core:3.4.9")
 }
 ```
 
@@ -94,6 +94,7 @@ The following static methods are available on the `AfricasTalking` class to init
 - `getService(Service.class | AfricasTalking.SERVICE_*)`: Get an instance to a given service by name or by class:
 
   - [SMS Service](#smsservice): `AfricasTalking.getService(AfricasTalking.SERVICE_SMS)`
+  - [Chat Service](#chatservice): `AfricasTalking.getService(AfricasTalking.SERVICE_CHAT)`
   - [Airtime Service](#airtimeservice): `AfricasTalking.getService(AfricasTalking.SERVICE_AIRTIME)`
   - [Payment Service](#paymentservice): `AfricasTalking.getService(AfricasTalking.SERVICE_PAYMENT)`
   - [Voice Service](#voiceservice): `AfricasTalking.getService(AfricasTalking.SERVICE_VOICE)`
@@ -178,6 +179,54 @@ For more information, read the following:
 - [How to receive SMS](https://developers.africastalking.com/docs/sms/notifications)
 - [How to get notified of delivery reports](https://developers.africastalking.com/docs/sms/notifications)
 - [How to listen for subscription notifications](https://developers.africastalking.com/docs/sms/notifications)
+
+### `ChatService`
+
+- `sendMessage(String productId, String customerNumber, Channel channel, String channelNumber, String text)`: Send a message with text.
+
+  - `productId`: Your product Id
+  - `customerNumber`: The destination, which is the phone number of the customer (WhatsApp) or the chat id (Telegram)
+  - `channel`: The messaging channel that will be used to send the message. Accepted values are WhatsApp or Telegram.
+  - `channelNumber`: The channel number that will be used to send out the message. Examples are a WhatsApp phone number or a Telegram username.
+  - `text`: The text message to send
+
+- `sendMessage(String productId, String customerNumber, Channel channel, String channelNumber, MediaType type, String url)`: Send a message with media.
+
+  - `productId`: Your product Id
+  - `customerNumber`: The destination, which is the phone number of the customer (WhatsApp) or the chat id (Telegram)
+  - `channel`: The messaging channel that will be used to send the message. Accepted values are WhatsApp or Telegram.
+  - `channelNumber`: The channel number that will be used to send out the message. Examples are a WhatsApp phone number or a Telegram username.
+  - `type`: The media type. Possible values are Image, Audio, Video, Document, Voice, Sticker.
+  - `url`: A valid URL location from where the media can be downloaded from.
+
+- `sendMessage(String productId, String customerNumber, Channel channel, String channelNumber, float latitude, float longitude)`: Send a message with location.
+
+  - `productId`: Your product Id
+  - `customerNumber`: The destination, which is the phone number of the customer (WhatsApp) or the chat id (Telegram)
+  - `channel`: The messaging channel that will be used to send the message. Accepted values are WhatsApp or Telegram.
+  - `channelNumber`: The channel number that will be used to send out the message. Examples are a WhatsApp phone number or a Telegram username.
+  - `latitude`: The latitude which should be between -90.00 and +90.00.
+  - `longitude`: The longitude which should be between -90.00 and +90.00.
+
+- `sendTemplate(String productId, String customerNumber, Channel channel, String channelNumber, Template template)`: Send a template.
+
+  - `productId`: Your product Id
+  - `customerNumber`: The destination, which is the phone number of the customer (WhatsApp) or the chat id (Telegram)
+  - `channel`: The messaging channel that will be used to send the message. Accepted values are WhatsApp or Telegram.
+  - `channelNumber`: The channel number that will be used to send out the message. Examples are a WhatsApp phone number or a Telegram username.
+  - `template`: Specifies a registered template message to send.
+
+- `optIn(String customerNumber, Channel channel, String channelNumber)`: Send a opt-in consent.
+
+  - `customerNumber`: The destination, which is the phone number of the customer (WhatsApp) or the chat id (Telegram)
+  - `channel`: The messaging channel that will be used to send the message. Accepted values are WhatsApp or Telegram.
+  - `channelNumber`: The channel number that will be used to send out the message. Examples are a WhatsApp phone number or a Telegram username.
+
+- `optOut(String customerNumber, Channel channel, String channelNumber)`: Send a opt-out consent.
+
+  - `customerNumber`: The destination, which is the phone number of the customer (WhatsApp) or the chat id (Telegram)
+  - `channel`: The messaging channel that will be used to send the message. Accepted values are WhatsApp or Telegram.
+  - `channelNumber`: The channel number that will be used to send out the message. Examples are a WhatsApp phone number or a Telegram username.
 
 
 ### `PaymentService`
@@ -369,7 +418,7 @@ For more information on voice, please read the [documentation](https://developer
 
 ## Development
 ```shell
-$ git clone https://github.com/aksalj/africastalking-java.git
+$ git clone https://github.com/AfricasTalkingLtd/africastalking-java.git
 $ cd africastalking-java
 $ touch local.properties
 ```

@@ -6,6 +6,8 @@ public final class AfricasTalking {
 
     public static final String SERVICE_APPLICATION = BASE_PACKAGE + ".ApplicationService";
     public static final String SERVICE_SMS = BASE_PACKAGE + ".SmsService";
+
+    public static final String SERVICE_CHAT = BASE_PACKAGE + ".ChatService";
     public static final String SERVICE_VOICE = BASE_PACKAGE + ".VoiceService";
     public static final String SERVICE_USSD = BASE_PACKAGE + ".UssdService";
     public static final String SERVICE_AIRTIME = BASE_PACKAGE + ".AirtimeService";

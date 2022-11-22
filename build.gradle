@@ -12,6 +12,7 @@ buildscript {
 
 Set<String> publishedLibs = new HashSet<String>()
 publishedLibs << 'sms'
+publishedLibs << 'chat'
 publishedLibs << 'payment'
 publishedLibs << 'token'
 publishedLibs << 'airtime'
@@ -19,10 +20,9 @@ publishedLibs << 'voice'
 publishedLibs << 'ussd'
 publishedLibs << 'application'
 publishedLibs << 'core'
-publishedLibs << 'server'
 configure(subprojects.findAll {publishedLibs.contains(it.name)}){
     group 'com.github.AfricasTalkingLtd'
-    version '3.4.7'
+    version '3.4.9'
 
     apply plugin: 'java'
     apply plugin: 'maven-publish'

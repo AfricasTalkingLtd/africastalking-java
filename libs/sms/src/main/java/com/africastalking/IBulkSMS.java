@@ -2,10 +2,7 @@ package com.africastalking;
 
 
 import com.africastalking.sms.FetchMessageResponse;
-import com.africastalking.sms.FetchSubscriptionResponse;
 import com.africastalking.sms.SendMessageResponse;
-import com.africastalking.sms.SubscriptionResponse;
-
 import retrofit2.Call;
 import retrofit2.http.*;
 
