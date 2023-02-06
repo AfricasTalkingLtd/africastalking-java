@@ -23,6 +23,7 @@ public class AirtimeTest {
     @Test
     public void testSendSingle() throws IOException {
         AirtimeService service = AfricasTalking.getService(AirtimeService.class);
+        service.setMaxRetry(5);
         AirtimeResponse response = service.send("+254711082302", "KES", ThreadLocalRandom.current().nextInt(10, 10001));
         Assert.assertEquals(1, response.numSent);
     }
