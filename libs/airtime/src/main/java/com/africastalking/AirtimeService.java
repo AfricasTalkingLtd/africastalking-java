@@ -18,7 +18,6 @@ public final class AirtimeService extends Service {
 
     private static AirtimeService sInstance;
     private IAirtime service;
-    private int mMaxNumRetry = 0;
 
     private AirtimeService(String username, String apiKey) {
         super(username, apiKey);
@@ -69,15 +68,6 @@ public final class AirtimeService extends Service {
 
 
     /**
-     * Set the number of times a request will be retried.
-     * @param retires
-     */
-    public void setMaxRetry(int retires) {
-        this.mMaxNumRetry = retires;
-    }
-
-
-    /**
      * Send airtime
      * <p>
      *     Synchronously send the request and return its response.
@@ -122,7 +112,7 @@ public final class AirtimeService extends Service {
      */
     public AirtimeResponse send(HashMap<String, String> recipients) throws IOException {
         String json = _makeRecipientsJSON(recipients);
-        Response<AirtimeResponse> resp = service.send(mUsername, json, mMaxNumRetry > 0 ? String.valueOf(mMaxNumRetry) : null).execute();
+        Response<AirtimeResponse> resp = service.send(mUsername, json).execute();
         if (!resp.isSuccessful()) {
             throw new IOException(resp.errorBody().string());
         }
@@ -141,7 +131,7 @@ public final class AirtimeService extends Service {
     public void send(HashMap<String, String> recipients, Callback<AirtimeResponse> callback) {
         try{
             String json = _makeRecipientsJSON(recipients);
-            service.send(mUsername, json, mMaxNumRetry > 0 ? String.valueOf(mMaxNumRetry) : null).enqueue(makeCallback(callback));
+            service.send(mUsername, json).enqueue(makeCallback(callback));
         }catch (IOException ioe) {
             callback.onFailure(ioe);
         }
