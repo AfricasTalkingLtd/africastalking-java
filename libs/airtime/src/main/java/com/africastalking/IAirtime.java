@@ -10,6 +10,6 @@ interface IAirtime {
 
     @FormUrlEncoded
     @POST("send")
-    Call<AirtimeResponse> send(@Field("username") String username, @Field("recipients") String recipients);
+    Call<AirtimeResponse> send(@Field("username") String username, @Field("recipients") String recipients, @Field("maxNumRetry") String maxNumRetry);
 
 }
