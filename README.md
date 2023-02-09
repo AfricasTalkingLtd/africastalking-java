@@ -117,6 +117,8 @@ All phone numbers use the international format. e.g. `+234xxxxxxxx`.
 
 - `setIdempotencyKey(String key)`: Set the [**Idempotency-Key**](https://developers.africastalking.com/docs/idempotent_requests) for the next request. Call this function every time before calling `send()` if you're sending the same amount to the same phone number.
 
+- `setMaxRetry(int retries)`: Set the maximum number of retries in case of failed airtime deliveries due to telco unavailability or any other reason.
+
 - `send(String phoneNumber, String currencyCode, float amount)`: Send airtime to a phone number. Example amount would be `KES 150`.
 
 - `send(HashMap<String,String> recipients)`: Send airtime to many of phone numbers. The keys in the `recipients` map are phone numbers while the values are airtime amounts. The amounts need to have currency info e.g. `UXG 4265`.

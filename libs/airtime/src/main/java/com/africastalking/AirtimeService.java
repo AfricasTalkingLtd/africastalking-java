@@ -69,7 +69,7 @@ public final class AirtimeService extends Service {
 
 
     /**
-     * Set the number of times a request will be retried.
+     * Set the maximum number of retries in case of failed airtime deliveries due to telco unavailability or any other reason.
      * @param retires
      */
     public void setMaxRetry(int retires) {
