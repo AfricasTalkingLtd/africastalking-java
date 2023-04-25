@@ -23,14 +23,12 @@ import static spark.Spark.staticFiles;
 public class App {
 
     private static final int HTTP_PORT = 8080;
-    private static final int RPC_PORT = 35897;
     private static final String USERNAME = "fake";
     private static final String API_KEY = "fake";
 
     private static Gson gson = new Gson();
 
     private static HandlebarsTemplateEngine hbs = new HandlebarsTemplateEngine("/views");
-    private static Server server;
     private static SmsService sms;
     private static AirtimeService airtime;
     private static PaymentService payment;
@@ -40,7 +38,6 @@ public class App {
     }
 
     private static void setupAfricastalking() throws IOException {
-        // SDK Server
         AfricasTalking.initialize(USERNAME, API_KEY);
         AfricasTalking.setLogger(new Logger(){
             @Override
@@ -51,20 +48,17 @@ public class App {
         sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
         airtime = AfricasTalking.getService(AirtimeService.class);
         payment = AfricasTalking.getService(AfricasTalking.SERVICE_PAYMENT);
-        server = new Server();
-        server.startInsecure();
     }
 
     public static void main(String[] args) throws IOException {
 
         InetAddress host = Inet4Address.getLocalHost();
         log("\n");
-        log(String.format("SDK Server: %s:%d", host.getHostAddress(), RPC_PORT));
         log(String.format("HTTP Server: %s:%d", host.getHostAddress(), HTTP_PORT));
         log("\n");
 
         HashMap<String, String> states = new HashMap<>();
-        String baseUrl = "http://aksalj.ngrok.io";
+        String baseUrl = "http://fake.ngrok.io";
         String songUrl = "https://upload.wikimedia.org/wikipedia/commons/transcoded/4/49/National_Anthem_of_Kenya.ogg/National_Anthem_of_Kenya.ogg.mp3";
 
         setupAfricastalking();
@@ -85,12 +79,6 @@ public class App {
 
         // Send Airtime
         post("/airtime/:phone", (req, res) -> airtime.send(req.params("phone"), req.queryParams("currencyCode"), Float.parseFloat(req.queryParams("amount"))), gson::toJson);
-
-        // Mobile Checkout
-        post("/mobile/checkout/:phone", (req, res) -> payment.mobileCheckout("TestProduct", req.params("phone"), req.queryParams("currencyCode"), Float.parseFloat(req.queryParams("amount")), null, req.queryParams("providerChannel")), gson::toJson);
-
-        // Mobile B2C
-        post("/mobile/b2c/:phone", (req, res) -> payment.mobileB2C("TestProduct", Arrays.asList(new Consumer("Boby", req.params("phone"), req.queryParams("currencyCode"), Float.parseFloat(req.queryParams("amount")), Consumer.REASON_SALARY))), gson::toJson);
 
         post("/voice", (req, res) -> {
 
