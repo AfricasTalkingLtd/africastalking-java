@@ -3,6 +3,7 @@ package com.africastalking.example;
 import com.africastalking.*;
 import com.africastalking.payment.recipient.Consumer;
 import com.africastalking.voice.action.*;
+import com.africastalking.voice.action.Record;
 import com.google.gson.Gson;
 
 import java.io.IOException;
