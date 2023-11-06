@@ -17,8 +17,8 @@ dependencies {
     implementation 'com.sparkjava:spark-core:2.5.4'
     implementation 'com.sparkjava:spark-template-handlebars:2.3'
     implementation 'com.google.code.gson:gson:2.8.6'
-    //implementation 'com.github.AfricasTalkingLtd.africastalking-java:core:3.4.10'
-    implementation project(":core")
+    implementation 'com.github.AfricasTalkingLtd.africastalking-java:core:3.4.10'
+    // implementation project(":core")
     testImplementation 'junit:junit:4.11'
 }
 
