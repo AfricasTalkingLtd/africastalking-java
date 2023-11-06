@@ -1,7 +1,6 @@
 package com.africastalking.example;
 
 import com.africastalking.*;
-import com.africastalking.payment.recipient.Consumer;
 import com.africastalking.voice.action.*;
 import com.africastalking.voice.action.Record;
 import com.google.gson.Gson;
@@ -32,7 +31,6 @@ public class App {
     private static HandlebarsTemplateEngine hbs = new HandlebarsTemplateEngine("/views");
     private static SmsService sms;
     private static AirtimeService airtime;
-    private static PaymentService payment;
 
     private static void log(String message) {
         System.out.println(message);
@@ -48,7 +46,6 @@ public class App {
         });
         sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
         airtime = AfricasTalking.getService(AirtimeService.class);
-        payment = AfricasTalking.getService(AfricasTalking.SERVICE_PAYMENT);
     }
 
     public static void main(String[] args) throws IOException {
