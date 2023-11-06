@@ -1,11 +1,11 @@
-package com.africastalking.payment.response;
+package com.africastalking.mobileData.response;
 
 import com.google.gson.Gson;
 
-public class WalletTransferResponse {
+public final class WalletBalanceResponse {
     public String status;
-    public String description;
-    public String transactionId;
+    public String errorMessage;
+    public String balance;
 
     @Override
     public String toString() {

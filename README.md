@@ -24,7 +24,7 @@ You can depend on the jars through Maven (from `https://jitpack.io`):
 <dependency>
   <groupId>com.github.AfricasTalkingLtd.africastalking-java</groupId>
   <artifactId>core</artifactId>
-  <version>3.4.9</version>
+  <version>3.4.10</version>
 </dependency>
 ```
 or sbt:
@@ -32,7 +32,7 @@ or sbt:
 ```
 resolvers += "jitpack" at "https://jitpack.io"
 // Get all services
-libraryDependencies += "com.github.AfricasTalkingLtd.africastalking-java" % "core" % "3.4.9"	
+libraryDependencies += "com.github.AfricasTalkingLtd.africastalking-java" % "core" % "3.4.10"	
 ```
 
 or Gradle (Groovy DSL):
@@ -45,7 +45,7 @@ repositories {
 
 dependencies{
   // Get all services
-  implementation 'com.github.AfricasTalkingLtd.africastalking-java:core:3.4.9'
+  implementation 'com.github.AfricasTalkingLtd.africastalking-java:core:3.4.10'
 ```
 
 or Gradle (Kotlin DSL):
@@ -57,7 +57,7 @@ repositories {
 
 dependencies{
   // Get all services
-  implementation("com.github.AfricasTalkingLtd.africastalking-java:core:3.4.9")
+  implementation("com.github.AfricasTalkingLtd.africastalking-java:core:3.4.10")
 }
 ```
 
@@ -97,6 +97,7 @@ The following static methods are available on the `AfricasTalking` class to init
   - [Chat Service](#chatservice): `AfricasTalking.getService(AfricasTalking.SERVICE_CHAT)`
   - [Airtime Service](#airtimeservice): `AfricasTalking.getService(AfricasTalking.SERVICE_AIRTIME)`
   - [Voice Service](#voiceservice): `AfricasTalking.getService(AfricasTalking.SERVICE_VOICE)`
+  - [Mobile Data Service](#mobiledataservice): `AfricasTalking.getService(AfricasTalking.SERVICE_MOBILE_DATA)`
   - [Token Service](#tokenservice): `AfricasTalking.getService(AfricasTalking.SERVICE_TOKEN)`
   - [Application Service](#applicationservice): `AfricasTalking.getService(AfricasTalking.SERVICE_APPLICATION)`
 
@@ -277,6 +278,17 @@ For more information, read the following:
 
 
 For more information on voice, please read the [documentation](https://developers.africastalking.com/docs/voice/overview)
+
+### `MobileDataService`
+
+- `send(String product, List<MobileDataRecipient> recipients)`: Send mobile data from a given product.
+
+- `findTransaction(String transactionId)`: Find a mobile data transaction
+
+- `fetchWalletBalance()`: Fetch a mobile data product balance
+
+
+For more information on mobile data, please read the [documentation](https://developers.africastalking.com/docs/data/overview)
 
 
 ### `TokenService`

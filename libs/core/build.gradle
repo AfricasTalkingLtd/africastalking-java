@@ -17,7 +17,7 @@ test {
 
 dependencies {
     api project(":airtime")
-    api project(":payment")
+    api project(":mobileData")
     api project(":sms")
     api project(":chat")
     api project(":ussd")

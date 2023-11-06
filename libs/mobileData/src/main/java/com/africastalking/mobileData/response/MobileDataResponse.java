@@ -1,25 +1,20 @@
-package com.africastalking.payment.response;
+package com.africastalking.mobileData.response;
 
 import com.google.gson.Gson;
 
 import java.util.List;
 
-public final class B2CResponse {
+public final class MobileDataResponse {
 
-    public int numQueued;
-    public String totalValue;
-    public String totalTransactionFee;
-    public List<B2CEntry> entries;
+    public String errorMessage = null;
+    public List<MobileDataEntry> entries;
 
-
-    public static class B2CEntry {
+    public static class MobileDataEntry {
         public String phoneNumber;
         public String status;
         public String provider;
-        public String providerChannel;
         public String value;
         public String transactionId;
-        public String transactionFee;
         public String errorMessage = null;
     }
 
@@ -27,5 +22,4 @@ public final class B2CResponse {
     public String toString() {
         return new Gson().toJson(this);
     }
-
 }

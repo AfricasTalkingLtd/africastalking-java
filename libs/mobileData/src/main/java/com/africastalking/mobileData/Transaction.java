@@ -1,4 +1,4 @@
-package com.africastalking.payment;
+package com.africastalking.mobileData;
 
 import java.util.HashMap;
 

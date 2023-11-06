@@ -1,4 +1,4 @@
-package com.africastalking.payment.recipient;
+package com.africastalking.mobileData.recipient;
 
 import java.util.HashMap;
 
@@ -6,7 +6,7 @@ public class MobileDataRecipient {
 
     public static enum DataUnit { MB, GB }
 
-    public static enum DataValidity { DAY, WEEK, MONTH }
+    public static enum DataValidity { Day, Week, Month }
 
     public String phoneNumber;
     public int quantity;

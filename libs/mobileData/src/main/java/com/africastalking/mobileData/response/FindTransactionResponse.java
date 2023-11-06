@@ -1,14 +1,14 @@
-package com.africastalking.payment.response;
+package com.africastalking.mobileData.response;
 
 import com.google.gson.Gson;
-import com.africastalking.payment.Transaction;
+import com.africastalking.mobileData.Transaction;
 
 import java.util.List;
 
-public final class FetchTransactionsResponse {
+public final class FindTransactionResponse {
+    public Transaction data;
     public String status;
     public String errorMessage;
-    public List<Transaction> responses;
 
     @Override
     public String toString() {

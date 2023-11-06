@@ -1,4 +1,4 @@
-package com.africastalking.payment;
+package com.africastalking.mobileData;
 
 import com.google.gson.Gson;
 
