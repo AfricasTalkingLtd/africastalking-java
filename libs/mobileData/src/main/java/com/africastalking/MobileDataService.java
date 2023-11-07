@@ -58,25 +58,50 @@ public final class MobileDataService extends Service {
     }
 
 
-    private HashMap<String, Object> makeMobileDataRequest(String product, List<MobileDataRecipient> recipients) {
+    private HashMap<String, Object> makeMobileDataRequest(String product, List<MobileDataRecipient> recipients, boolean isPromoBundle) {
         HashMap<String, Object> body = new HashMap<>();
         body.put("username", mUsername);
         body.put("productName", product);
         body.put("recipients", recipients);
+        if (isPromoBundle) {
+            body.put("isPromoBundle", true);
+        }
         return body;
     }
 
     /**
-     * Send mobile data from product to recioents
+     * Send mobile data from product to recipients
      * @param product
      * @param recipients
      * @return
      * @throws IOException
      */
     public MobileDataResponse send(String product, List<MobileDataRecipient> recipients) throws IOException {
+        return send(product, recipients, false);
+    }
+
+    /**
+     * Send mobile data from product to recipients
+     * @param product
+     * @param recipients
+     * @param callback
+     */
+    public void send(String product, List<MobileDataRecipient> recipients, Callback<MobileDataResponse> callback) {
+        send(product, recipients, false, callback);
+    }
+
+    /**
+     * Send mobile data from product to recipients
+     * @param product
+     * @param recipients
+     * @param isPromoBundle
+     * @return
+     * @throws IOException
+     */
+    public MobileDataResponse send(String product, List<MobileDataRecipient> recipients, boolean isPromoBundle) throws IOException {
         for(MobileDataRecipient recipient : recipients) { checkPhoneNumber(recipient.phoneNumber); }
 
-        HashMap<String, Object> body = makeMobileDataRequest(product, recipients);
+        HashMap<String, Object> body = makeMobileDataRequest(product, recipients, isPromoBundle);
         Call<MobileDataResponse> call = mobileData.requestMobileData(body);
         Response<MobileDataResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
@@ -85,11 +110,18 @@ public final class MobileDataService extends Service {
         return resp.body();
     }
 
-    public void send(String product, List<MobileDataRecipient> recipients, Callback<MobileDataResponse> callback) {
+    /**
+     * Send mobile data from product to recipients
+     * @param product
+     * @param recipients
+     * @param isPromoBundle
+     * @param callback
+     */
+    public void send(String product, List<MobileDataRecipient> recipients, boolean isPromoBundle, Callback<MobileDataResponse> callback) {
         try {
             for(MobileDataRecipient recipient : recipients) { checkPhoneNumber(recipient.phoneNumber); }
 
-            HashMap<String, Object> body = makeMobileDataRequest(product, recipients);
+            HashMap<String, Object> body = makeMobileDataRequest(product, recipients, isPromoBundle);
             Call<MobileDataResponse> call = mobileData.requestMobileData(body);
             call.enqueue(makeCallback(callback));
 
@@ -98,6 +130,12 @@ public final class MobileDataService extends Service {
         }
     }
 
+    /**
+     * Find a transaction by id
+     * @param transactionId
+     * @return
+     * @throws IOException
+     */
     public Transaction findTransaction(String transactionId) throws IOException {
         HashMap<String, String> query = new HashMap<String, String>();
         query.put("username", mUsername);
@@ -120,6 +158,11 @@ public final class MobileDataService extends Service {
         return resp.body().data;
     }
 
+    /**
+     * Find a transaction by id
+     * @param transactionId
+     * @param callback
+     */
     public void findTransaction(String transactionId, Callback<Transaction> callback) {
         HashMap<String, String> query = new HashMap<String, String>();
         query.put("username", mUsername);
@@ -152,6 +195,11 @@ public final class MobileDataService extends Service {
         });
     }
 
+    /**
+     * Fetch wallet balance
+     * @return
+     * @throws IOException
+     */
     public WalletBalanceResponse fetchWalletBalance() throws IOException {
         HashMap<String, String> filters = new HashMap<>();
         filters.put("username", mUsername);
@@ -174,6 +222,10 @@ public final class MobileDataService extends Service {
         return body;
     }
 
+    /**
+     * Fetch wallet balance
+     * @param callback
+     */
     public void fetchWalletBalance(Callback<WalletBalanceResponse> callback) {
         HashMap<String, String> filters = new HashMap<>();
         filters.put("username", mUsername);
@@ -206,5 +258,4 @@ public final class MobileDataService extends Service {
             }
         });
     }
-
 }

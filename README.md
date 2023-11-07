@@ -24,7 +24,7 @@ You can depend on the jars through Maven (from `https://jitpack.io`):
 <dependency>
   <groupId>com.github.AfricasTalkingLtd.africastalking-java</groupId>
   <artifactId>core</artifactId>
-  <version>3.4.10</version>
+  <version><VERSION></version>
 </dependency>
 ```
 or sbt:
@@ -32,7 +32,7 @@ or sbt:
 ```
 resolvers += "jitpack" at "https://jitpack.io"
 // Get all services
-libraryDependencies += "com.github.AfricasTalkingLtd.africastalking-java" % "core" % "3.4.10"	
+libraryDependencies += "com.github.AfricasTalkingLtd.africastalking-java" % "core" % "<VERSION>"	
 ```
 
 or Gradle (Groovy DSL):
@@ -45,7 +45,7 @@ repositories {
 
 dependencies{
   // Get all services
-  implementation 'com.github.AfricasTalkingLtd.africastalking-java:core:3.4.10'
+  implementation 'com.github.AfricasTalkingLtd.africastalking-java:core:<VERSION>'
 ```
 
 or Gradle (Kotlin DSL):
@@ -57,7 +57,7 @@ repositories {
 
 dependencies{
   // Get all services
-  implementation("com.github.AfricasTalkingLtd.africastalking-java:core:3.4.10")
+  implementation("com.github.AfricasTalkingLtd.africastalking-java:core:<VERSION>")
 }
 ```
 
