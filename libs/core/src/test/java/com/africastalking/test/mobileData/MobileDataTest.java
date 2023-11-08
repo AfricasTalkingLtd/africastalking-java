@@ -39,8 +39,6 @@ public class MobileDataTest {
         List<MobileDataRecipient> recipients = Arrays.asList(recip);
 
         MobileDataResponse resp = service.send("TestProduct", recipients);
-        System.out.println(resp.toString());
-
         String transactionId = resp.entries.get(0).transactionId;
         Transaction transaction = service.findTransaction(transactionId);
         Assert.assertEquals(transactionId, transaction.transactionId);

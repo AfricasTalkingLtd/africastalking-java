@@ -58,14 +58,11 @@ public final class MobileDataService extends Service {
     }
 
 
-    private HashMap<String, Object> makeMobileDataRequest(String product, List<MobileDataRecipient> recipients, boolean isPromoBundle) {
+    private HashMap<String, Object> makeMobileDataRequest(String product, List<MobileDataRecipient> recipients) {
         HashMap<String, Object> body = new HashMap<>();
         body.put("username", mUsername);
         body.put("productName", product);
         body.put("recipients", recipients);
-        if (isPromoBundle) {
-            body.put("isPromoBundle", true);
-        }
         return body;
     }
 
@@ -77,31 +74,9 @@ public final class MobileDataService extends Service {
      * @throws IOException
      */
     public MobileDataResponse send(String product, List<MobileDataRecipient> recipients) throws IOException {
-        return send(product, recipients, false);
-    }
-
-    /**
-     * Send mobile data from product to recipients
-     * @param product
-     * @param recipients
-     * @param callback
-     */
-    public void send(String product, List<MobileDataRecipient> recipients, Callback<MobileDataResponse> callback) {
-        send(product, recipients, false, callback);
-    }
-
-    /**
-     * Send mobile data from product to recipients
-     * @param product
-     * @param recipients
-     * @param isPromoBundle
-     * @return
-     * @throws IOException
-     */
-    public MobileDataResponse send(String product, List<MobileDataRecipient> recipients, boolean isPromoBundle) throws IOException {
         for(MobileDataRecipient recipient : recipients) { checkPhoneNumber(recipient.phoneNumber); }
 
-        HashMap<String, Object> body = makeMobileDataRequest(product, recipients, isPromoBundle);
+        HashMap<String, Object> body = makeMobileDataRequest(product, recipients);
         Call<MobileDataResponse> call = mobileData.requestMobileData(body);
         Response<MobileDataResponse> resp = call.execute();
         if (!resp.isSuccessful()) {
@@ -114,14 +89,13 @@ public final class MobileDataService extends Service {
      * Send mobile data from product to recipients
      * @param product
      * @param recipients
-     * @param isPromoBundle
      * @param callback
      */
-    public void send(String product, List<MobileDataRecipient> recipients, boolean isPromoBundle, Callback<MobileDataResponse> callback) {
+    public void send(String product, List<MobileDataRecipient> recipients, Callback<MobileDataResponse> callback) {
         try {
             for(MobileDataRecipient recipient : recipients) { checkPhoneNumber(recipient.phoneNumber); }
 
-            HashMap<String, Object> body = makeMobileDataRequest(product, recipients, isPromoBundle);
+            HashMap<String, Object> body = makeMobileDataRequest(product, recipients);
             Call<MobileDataResponse> call = mobileData.requestMobileData(body);
             call.enqueue(makeCallback(callback));
 
