@@ -3,7 +3,7 @@
 [![Release](https://jitpack.io/v/AfricasTalkingLtd/africastalking-java.svg)](https://jitpack.io/#AfricasTalkingLtd/africastalking-java)
 
 >
-> This SDK provides convenient access to the Africa's Talking API from apps written in Java/Kotlin/Scala.
+> This SDK provides convenient access to the Africa's Talking API from apps written in Java/Kotlin/Scala with support for JDK8+.
 >
 
 
@@ -24,7 +24,7 @@ You can depend on the jars through Maven (from `https://jitpack.io`):
 <dependency>
   <groupId>com.github.AfricasTalkingLtd.africastalking-java</groupId>
   <artifactId>core</artifactId>
-  <version><VERSION></version>
+  <version>3.4.11</version>
 </dependency>
 ```
 or sbt:
@@ -32,7 +32,7 @@ or sbt:
 ```
 resolvers += "jitpack" at "https://jitpack.io"
 // Get all services
-libraryDependencies += "com.github.AfricasTalkingLtd.africastalking-java" % "core" % "<VERSION>"	
+libraryDependencies += "com.github.AfricasTalkingLtd.africastalking-java" % "core" % "3.4.11"	
 ```
 
 or Gradle (Groovy DSL):
@@ -45,7 +45,7 @@ repositories {
 
 dependencies{
   // Get all services
-  implementation 'com.github.AfricasTalkingLtd.africastalking-java:core:<VERSION>'
+  implementation 'com.github.AfricasTalkingLtd.africastalking-java:core:3.4.11'
 ```
 
 or Gradle (Kotlin DSL):
@@ -57,7 +57,7 @@ repositories {
 
 dependencies{
   // Get all services
-  implementation("com.github.AfricasTalkingLtd.africastalking-java:core:<VERSION>")
+  implementation("com.github.AfricasTalkingLtd.africastalking-java:core:3.4.11")
 }
 ```
 
