@@ -1,11 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [3.4.7]
+## [3.5.0]
 
 ### Added
 
-- Temporarily move to jitpack;
+- Insights service
+
+## [3.4.7-3.4.11]
+
+### Added
+
+- Temporarily move to jitpack & clean up
 
 ## [3.4.6]
 
