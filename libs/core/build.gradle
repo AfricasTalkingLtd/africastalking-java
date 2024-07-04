@@ -22,6 +22,7 @@ dependencies {
     api project(":chat")
     api project(":ussd")
     api project(":voice")
+    api project(":insights")
     api project(":token")
     api project(":application")
 

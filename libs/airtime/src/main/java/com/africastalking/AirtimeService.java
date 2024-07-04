@@ -64,7 +64,7 @@ public final class AirtimeService extends Service {
 
 
     public void setIdempotencyKey(String key) {
-        this.mIndempotencyKey = key;
+        this.mIdempotencyKey = key;
     }
 
 

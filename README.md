@@ -97,6 +97,7 @@ The following static methods are available on the `AfricasTalking` class to init
   - [Chat Service](#chatservice): `AfricasTalking.getService(AfricasTalking.SERVICE_CHAT)`
   - [Airtime Service](#airtimeservice): `AfricasTalking.getService(AfricasTalking.SERVICE_AIRTIME)`
   - [Voice Service](#voiceservice): `AfricasTalking.getService(AfricasTalking.SERVICE_VOICE)`
+  - [Insights Service](#insightsservice): `AfricasTalking.getService(AfricasTalking.SERVICE_INSIGHTS)`
   - [Mobile Data Service](#mobiledataservice): `AfricasTalking.getService(AfricasTalking.SERVICE_MOBILE_DATA)`
   - [Token Service](#tokenservice): `AfricasTalking.getService(AfricasTalking.SERVICE_TOKEN)`
   - [Application Service](#applicationservice): `AfricasTalking.getService(AfricasTalking.SERVICE_APPLICATION)`
@@ -278,6 +279,12 @@ For more information, read the following:
 
 
 For more information on voice, please read the [documentation](https://developers.africastalking.com/docs/voice/overview)
+
+### `InsightsService`
+
+- `checkSimSwapState(phoneNumbers: List<String>)`: Check the sim swap state of phone number(s).
+
+For more information on insights, please read the [documentation](https://developers.africastalking.com/docs/insights/overview?preview=true)
 
 ### `MobileDataService`
 

@@ -1,7 +1,6 @@
 package com.africastalking;
 
 import okhttp3.*;
-import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.*;
 import retrofit2.Call;
@@ -19,7 +18,7 @@ abstract class Service {
     Retrofit.Builder mRetrofitBuilder;
     String mUsername;
 
-    protected String mIndempotencyKey = null;
+    protected String mIdempotencyKey = null;
 
     static boolean isSandbox = false;
     static Logger LOGGER = null;
@@ -43,9 +42,9 @@ abstract class Service {
                     .addHeader("apiKey", apiKey)
                     .addHeader("Accept", "application/json");
 
-            if (mIndempotencyKey != null) {
-                builder.addHeader("Idempotency-Key", mIndempotencyKey);
-                mIndempotencyKey = null;
+            if (mIdempotencyKey != null) {
+                builder.addHeader("Idempotency-Key", mIdempotencyKey);
+                mIdempotencyKey = null;
             }
 
             return chain.proceed(builder.build());
