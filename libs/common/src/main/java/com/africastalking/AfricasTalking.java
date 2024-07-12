@@ -140,7 +140,8 @@ public final class AfricasTalking {
                 getService(SERVICE_USSD),
                 getService(SERVICE_AIRTIME),
                 getService(SERVICE_PAYMENT),
-                getService(SERVICE_TOKEN)
+                getService(SERVICE_TOKEN),
+                getService(SERVICE_INSIGHTS)
         };
         for (Service service:services) {
             if (service != null && service.isInitialized()) {
