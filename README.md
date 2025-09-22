@@ -99,7 +99,6 @@ The following static methods are available on the `AfricasTalking` class to init
   - [Voice Service](#voiceservice): `AfricasTalking.getService(AfricasTalking.SERVICE_VOICE)`
   - [Insights Service](#insightsservice): `AfricasTalking.getService(AfricasTalking.SERVICE_INSIGHTS)`
   - [Mobile Data Service](#mobiledataservice): `AfricasTalking.getService(AfricasTalking.SERVICE_MOBILE_DATA)`
-  - [Token Service](#tokenservice): `AfricasTalking.getService(AfricasTalking.SERVICE_TOKEN)`
   - [Application Service](#applicationservice): `AfricasTalking.getService(AfricasTalking.SERVICE_APPLICATION)`
 
 > Note on **USSD**: For more information, please read [this](https://developers.africastalking.com/docs/ussd/overview)
@@ -271,11 +270,6 @@ For more information on insights, please read the [documentation](https://develo
 
 
 For more information on mobile data, please read the [documentation](https://developers.africastalking.com/docs/data/overview)
-
-
-### `TokenService`
-
-- `generateAuthToken()`: Generate an auth token to use for authentication instead of an API key.
 
 
 ## Development

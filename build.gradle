@@ -14,7 +14,6 @@ Set<String> publishedLibs = new HashSet<String>()
 publishedLibs << 'sms'
 publishedLibs << 'chat'
 publishedLibs << 'mobileData'
-publishedLibs << 'token'
 publishedLibs << 'airtime'
 publishedLibs << 'voice'
 publishedLibs << 'insights'
