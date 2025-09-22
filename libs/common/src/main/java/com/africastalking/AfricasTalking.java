@@ -12,7 +12,6 @@ public final class AfricasTalking {
     public static final String SERVICE_AIRTIME = BASE_PACKAGE + ".AirtimeService";
     public static final String SERVICE_PAYMENT = BASE_PACKAGE + ".PaymentService";
     public static final String SERVICE_MOBILE_DATA = BASE_PACKAGE + ".MobileDataService";
-    public static final String SERVICE_TOKEN = BASE_PACKAGE + ".TokenService";
     public static final String SERVICE_INSIGHTS = BASE_PACKAGE + ".InsightsService";
 
 
@@ -140,7 +139,7 @@ public final class AfricasTalking {
                 getService(SERVICE_USSD),
                 getService(SERVICE_AIRTIME),
                 getService(SERVICE_PAYMENT),
-                getService(SERVICE_TOKEN),
+                getService(SERVICE_CHAT),
                 getService(SERVICE_INSIGHTS)
         };
         for (Service service:services) {
