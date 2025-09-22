@@ -25,6 +25,10 @@ public class VoiceTest {
         AfricasTalking.initialize(Fixtures.USERNAME, Fixtures.API_KEY);
     }
 
+    /*
+
+    TODO: Voice Sandbox not available atm - reactivate when it's back
+
     @Test
     public void testCall() {
         VoiceService service = AfricasTalking.getService(VoiceService.class);
@@ -70,6 +74,7 @@ public class VoiceTest {
             Assert.fail(e.getMessage());
         }
     }
+    */
 
     @Test
     public void testXmlBuilder() {

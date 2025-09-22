@@ -7,10 +7,8 @@ import java.util.List;
 
 final public class ChatMessage {
     public String username;
-    public String productId;
-    public String customerNumber;
-    public String channel;
-    public String channelNumber;
+    public String waNumber;
+    public String phoneNumber;
 
     public MessageBody body;
 

@@ -5,6 +5,7 @@ import com.africastalking.chat.*;
 import retrofit2.Response;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Chat Service;
@@ -51,7 +52,7 @@ public final class ChatService extends Service {
     }
 
 
-    /* -> Message & Template */
+    /* -> Message & Template <- */
 
 
     /**
@@ -59,25 +60,18 @@ public final class ChatService extends Service {
      * <p>
      *     Synchronously send the request and return its response.
      * </p>
-     * @param productId
      * @param customerNumber
-     * @param channel
-     * @param channelNumber
+     * @param channelNumber - e.g. WhatsApp number
      * @param body
      * @return
      * @throws IOException
      */
-    public ChatResponse sendMessage(String productId, String customerNumber, Channel channel, String channelNumber, MessageBody body) throws IOException {
-        if (channel == Channel.WhatApp) {
-            checkPhoneNumber(customerNumber);
-        }
+    public ChatResponse sendMessage(String customerNumber, String channelNumber, MessageBody body) throws IOException {
         ChatMessage message = new ChatMessage();
         message.body = body;
         message.username = mUsername;
-        message.productId = productId;
-        message.customerNumber = customerNumber;
-        message.channel = channel.name();
-        message.channelNumber = channelNumber;
+        message.waNumber = channelNumber;
+        message.phoneNumber = customerNumber;
         Response<ChatResponse> resp = chat.sendMessage(message).execute();
         if (!resp.isSuccessful()) {
             throw new IOException(resp.errorBody().string());
@@ -88,64 +82,44 @@ public final class ChatService extends Service {
 
     /**
      * Send a message with text
-     * @param productId
      * @param customerNumber
-     * @param channel
      * @param channelNumber
      * @param text
      * @return
      * @throws IOException
      */
-    public ChatResponse sendMessage(String productId, String customerNumber, Channel channel, String channelNumber, String text) throws IOException {
-        return sendMessage(productId, customerNumber, channel, channelNumber, new TextMessageBody(text));
+    public ChatResponse sendMessage(String customerNumber,  String channelNumber, String text) throws IOException {
+        return sendMessage(customerNumber, channelNumber, new TextMessageBody(text));
     }
 
     /**
      * Send a message with media
-     * @param productId
      * @param customerNumber
-     * @param channel
      * @param channelNumber
      * @param mediaType
      * @param url
      * @return
      * @throws IOException
      */
-    public ChatResponse sendMessage(String productId, String customerNumber, Channel channel, String channelNumber, MediaType mediaType, String url) throws IOException {
-        return sendMessage(productId, customerNumber, channel, channelNumber, new MediaMessageBody(mediaType.name(), url));
+    public ChatResponse sendMessage(String customerNumber, String channelNumber, MediaMessageBody.MediaType mediaType, String url) throws IOException {
+        return sendMessage(customerNumber, channelNumber, new MediaMessageBody(mediaType, url));
     }
-
-    /**
-     * Send a message with location
-     * @param productId
-     * @param customerNumber
-     * @param channel
-     * @param channelNumber
-     * @param latitude
-     * @param longitude
-     * @return
-     * @throws IOException
-     */
-    public ChatResponse sendMessage(String productId, String customerNumber, Channel channel, String channelNumber, float latitude, float longitude) throws IOException {
-        return sendMessage(productId, customerNumber, channel, channelNumber, new LocationMessageBody(latitude, longitude));
-    }
-
 
     /**
      * Send a template
      * <p>
-     *     Synchronously send the request and return its response.
+     *  Synchronously send the request and return its response.
      * </p>
-     * @param productId
      * @param customerNumber
-     * @param channel
      * @param channelNumber
-     * @param template
+     * @param templateId
+     * @param header
+     * @param body
      * @return
      * @throws IOException
      */
-    public ChatResponse sendTemplate(String productId, String customerNumber, Channel channel, String channelNumber, Template template) throws IOException {
-        return sendMessage(productId, customerNumber, channel, channelNumber, new TextMessageTemplate(template));
+    public ChatResponse sendTemplate(String customerNumber, String channelNumber, String templateId, String header, List<String> body) throws IOException {
+        return sendMessage(customerNumber, channelNumber, new TemplateMessageBody(templateId, header, body));
     }
 
 
@@ -155,220 +129,69 @@ public final class ChatService extends Service {
      *     Asynchronously send the request and notify {@code callback} of its response or if an error
      *     occurred
      * </p>
-     * @param productId
      * @param customerNumber
-     * @param channel
      * @param channelNumber
      * @param body
      * @param callback
      */
-    public void sendMessage(String productId, String customerNumber, Channel channel, String channelNumber, MessageBody body, Callback<ChatResponse> callback) {
-        try {
-            if (channel == Channel.WhatApp) {
-                checkPhoneNumber(customerNumber);
+    public void sendMessage(String customerNumber, String channelNumber, MessageBody body, Callback<ChatResponse> callback) {
+        ChatMessage message = new ChatMessage();
+        message.body = body;
+        message.username = mUsername;
+        message.waNumber = channelNumber;
+        message.phoneNumber = customerNumber;
+
+        chat.sendMessage(message).enqueue(makeCallback(new Callback<ChatResponse>() {
+            @Override
+            public void onSuccess(ChatResponse data) {
+                callback.onSuccess(data);
             }
 
-            ChatMessage message = new ChatMessage();
-            message.body = body;
-            message.username = mUsername;
-            message.productId = productId;
-            message.customerNumber = customerNumber;
-            message.channel = channel.name();
-            message.channelNumber = channelNumber;
-
-            chat.sendMessage(message).enqueue(makeCallback(new Callback<ChatResponse>() {
-                @Override
-                public void onSuccess(ChatResponse data) {
-                    callback.onSuccess(data);
-                }
-
-                @Override
-                public void onFailure(Throwable throwable) {
-                    callback.onFailure(throwable);
-                }
-            }));
-
-        } catch (IOException ex) {
-            callback.onFailure(ex);
-        }
+            @Override
+            public void onFailure(Throwable throwable) {
+                callback.onFailure(throwable);
+            }
+        }));
     }
 
 
     /**
      * Send a message with text
-     * @param productId
      * @param customerNumber
-     * @param channel
      * @param channelNumber
      * @param text
      * @param callback
      */
-    public void sendMessage(String productId, String customerNumber, Channel channel, String channelNumber, String text,  Callback<ChatResponse> callback) {
-        sendMessage(productId, customerNumber, channel, channelNumber, new TextMessageBody(text), callback);
+    public void sendMessage(String customerNumber, String channelNumber, String text,  Callback<ChatResponse> callback) {
+        sendMessage(customerNumber, channelNumber, new TextMessageBody(text), callback);
     }
 
 
     /**
      * Send a message with media
-     * @param productId
      * @param customerNumber
-     * @param channel
      * @param channelNumber
      * @param mediaType
      * @param url
      * @param callback
      */
-    public void sendMessage(String productId, String customerNumber, Channel channel, String channelNumber, MediaType mediaType, String url, Callback<ChatResponse> callback) {
-        sendMessage(productId, customerNumber, channel, channelNumber, new MediaMessageBody(mediaType.name(), url), callback);
+    public void sendMessage(String customerNumber, String channelNumber, MediaMessageBody.MediaType mediaType, String url, Callback<ChatResponse> callback) {
+        sendMessage(customerNumber, channelNumber, new MediaMessageBody(mediaType, url), callback);
     }
 
+
+
     /**
-     * Send a message with location
-     * @param productId
+     * Send a template message
      * @param customerNumber
-     * @param channel
      * @param channelNumber
-     * @param latitude
-     * @param longitude
+     * @param templateId
+     * @param header
+     * @param body
      * @param callback
      */
-    public void sendMessage(String productId, String customerNumber, Channel channel, String channelNumber, float latitude, float longitude, Callback<ChatResponse> callback) {
-        sendMessage(productId, customerNumber, channel, channelNumber, new LocationMessageBody(latitude, longitude), callback);
+    public void sendTemplate(String customerNumber, String channelNumber, String templateId, String header, List<String> body,  Callback<ChatResponse> callback) {
+        sendMessage(customerNumber, channelNumber, new TemplateMessageBody(templateId, header, body), callback);
     }
 
-
-    /**
-     * Send a template
-     * @param productId
-     * @param customerNumber
-     * @param channel
-     * @param channelNumber
-     * @param template
-     * @param callback
-     */
-    public void sendTemplate(String productId, String customerNumber, Channel channel, String channelNumber, Template template,  Callback<ChatResponse> callback) {
-        sendMessage(productId, customerNumber, channel, channelNumber, new TextMessageTemplate(template), callback);
-    }
-
-
-
-    /* -> Consent */
-
-    /**
-     * Send consent
-     * <p>
-     *      Synchronously send the request and return its response.
-     * </p>
-     * @param customerNumber
-     * @param channel
-     * @param channelNumber
-     * @param optIn
-     * @return
-     * @throws IOException
-     */
-    public ConsentResponse sendConsent(String customerNumber, Channel channel, String channelNumber, boolean optIn) throws IOException {
-        checkPhoneNumber(customerNumber);
-        Consent consent = new Consent(mUsername, customerNumber, channel.name().toLowerCase(), channelNumber, optIn ? "OptIn" : "OptOut");
-        Response<ConsentResponse> resp = chat.sendConsent(consent).execute();
-        if (!resp.isSuccessful()) {
-            throw new IOException(resp.errorBody().string());
-        }
-        return resp.body();
-    }
-
-
-    /**
-     * Send an opt-in consent
-     * <p>
-     *     Synchronously send the request and return its response.
-     * </p>
-     * @param customerNumber
-     * @param channel
-     * @param channelNumber
-     * @return
-     * @throws IOException
-     */
-    public ConsentResponse optIn(String customerNumber, Channel channel, String channelNumber) throws IOException {
-        return sendConsent(customerNumber, channel, channelNumber, true);
-    }
-
-
-    /**
-     * Send an opt-out consent
-     * <p>
-     *     Synchronously send the request and return its response.
-     * </p>
-     * @param customerNumber
-     * @param channel
-     * @param channelNumber
-     * @return
-     * @throws IOException
-     */
-    public ConsentResponse optOut(String customerNumber, Channel channel, String channelNumber) throws IOException {
-        return sendConsent(customerNumber, channel, channelNumber, false);
-    }
-
-    /**
-     * Send consent
-     * <p>
-     *     Asynchronously send the request and notify {@code callback} of its response or if an error
-     *     occurred
-     * </p>
-     * @param customerNumber
-     * @param channel
-     * @param channelNumber
-     * @param optIn
-     * @param callback
-     */
-    public void sendConsent(String customerNumber, Channel channel, String channelNumber, boolean optIn, final Callback<ConsentResponse> callback) {
-        try {
-            checkPhoneNumber(customerNumber);
-            Consent consent = new Consent(mUsername, customerNumber, channel.name().toLowerCase(), channelNumber, optIn ? "OptIn" : "OptOut");
-            chat.sendConsent(consent).enqueue(makeCallback(new Callback<ConsentResponse>() {
-                @Override
-                public void onSuccess(ConsentResponse data) {
-                    callback.onSuccess(data);
-                }
-
-                @Override
-                public void onFailure(Throwable throwable) {
-                    callback.onFailure(throwable);
-                }
-            }));
-
-        } catch (IOException ex) {
-            callback.onFailure(ex);
-        }
-    }
-
-    /**
-     * Sent an opt-in consent
-     * <p>
-     *     Asynchronously send the request and notify {@code callback} of its response or if an error
-     *     occurred
-     * </p>
-     * @param customerNumber
-     * @param channel
-     * @param channelNumber
-     * @param callback
-     */
-    public void optIn(String customerNumber, Channel channel, String channelNumber, final Callback<ConsentResponse> callback) {
-        sendConsent(customerNumber, channel, channelNumber, true, callback);
-    }
-
-
-    /**
-     * Send an opt-out consent
-     * <p>
-     *     Asynchronously send the request and notify {@code callback} of its response or if an error
-     *     occurred
-     * </p>
-     * @param customerNumber
-     * @param channel
-     * @param channelNumber
-     * @param callback
-     */
-    public void optOut(String customerNumber, Channel channel, String channelNumber, final Callback<ConsentResponse> callback) {
-        sendConsent(customerNumber, channel, channelNumber, false, callback);
-    }
 }

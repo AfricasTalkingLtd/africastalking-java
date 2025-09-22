@@ -24,7 +24,7 @@ You can depend on the jars through Maven (from `https://jitpack.io`):
 <dependency>
   <groupId>com.github.AfricasTalkingLtd.africastalking-java</groupId>
   <artifactId>core</artifactId>
-  <version>3.4.11</version>
+  <version>3.5.2</version>
 </dependency>
 ```
 or sbt:
@@ -32,7 +32,7 @@ or sbt:
 ```
 resolvers += "jitpack" at "https://jitpack.io"
 // Get all services
-libraryDependencies += "com.github.AfricasTalkingLtd.africastalking-java" % "core" % "3.4.11"	
+libraryDependencies += "com.github.AfricasTalkingLtd.africastalking-java" % "core" % "3.5.2"	
 ```
 
 or Gradle (Groovy DSL):
@@ -45,7 +45,7 @@ repositories {
 
 dependencies{
   // Get all services
-  implementation 'com.github.AfricasTalkingLtd.africastalking-java:core:3.4.11'
+  implementation 'com.github.AfricasTalkingLtd.africastalking-java:core:3.5.2'
 ```
 
 or Gradle (Kotlin DSL):
@@ -57,7 +57,7 @@ repositories {
 
 dependencies{
   // Get all services
-  implementation("com.github.AfricasTalkingLtd.africastalking-java:core:3.4.11")
+  implementation("com.github.AfricasTalkingLtd.africastalking-java:core:3.5.2")
 }
 ```
 
@@ -185,51 +185,26 @@ For more information, read the following:
 
 ### `ChatService`
 
-- `sendMessage(String productId, String customerNumber, Channel channel, String channelNumber, String text)`: Send a message with text.
+- `sendMessage(String customerNumber, String channelNumber, String text)`: Send a message with text.
 
-  - `productId`: Your product Id
-  - `customerNumber`: The destination, which is the phone number of the customer (WhatsApp) or the chat id (Telegram)
-  - `channel`: The messaging channel that will be used to send the message. Accepted values are WhatsApp or Telegram.
+  - `customerNumber`: The destination, which is the phone number of the customer.
   - `channelNumber`: The channel number that will be used to send out the message. Examples are a WhatsApp phone number or a Telegram username.
   - `text`: The text message to send
 
-- `sendMessage(String productId, String customerNumber, Channel channel, String channelNumber, MediaType type, String url)`: Send a message with media.
+- `sendMessage(String customerNumber, String channelNumber, MediaType type, String url)`: Send a message with media.
 
-  - `productId`: Your product Id
-  - `customerNumber`: The destination, which is the phone number of the customer (WhatsApp) or the chat id (Telegram)
-  - `channel`: The messaging channel that will be used to send the message. Accepted values are WhatsApp or Telegram.
+  - `customerNumber`: The destination, which is the phone number of the customer
   - `channelNumber`: The channel number that will be used to send out the message. Examples are a WhatsApp phone number or a Telegram username.
   - `type`: The media type. Possible values are Image, Audio, Video, Document, Voice, Sticker.
   - `url`: A valid URL location from where the media can be downloaded from.
 
-- `sendMessage(String productId, String customerNumber, Channel channel, String channelNumber, float latitude, float longitude)`: Send a message with location.
+- `sendTemplate(String customerNumber, String channelNumber, String templateId, String header, List<String> body)`: Send a template message.
 
-  - `productId`: Your product Id
-  - `customerNumber`: The destination, which is the phone number of the customer (WhatsApp) or the chat id (Telegram)
-  - `channel`: The messaging channel that will be used to send the message. Accepted values are WhatsApp or Telegram.
+  - `customerNumber`: The destination, which is the phone number of the customer
   - `channelNumber`: The channel number that will be used to send out the message. Examples are a WhatsApp phone number or a Telegram username.
-  - `latitude`: The latitude which should be between -90.00 and +90.00.
-  - `longitude`: The longitude which should be between -90.00 and +90.00.
-
-- `sendTemplate(String productId, String customerNumber, Channel channel, String channelNumber, Template template)`: Send a template.
-
-  - `productId`: Your product Id
-  - `customerNumber`: The destination, which is the phone number of the customer (WhatsApp) or the chat id (Telegram)
-  - `channel`: The messaging channel that will be used to send the message. Accepted values are WhatsApp or Telegram.
-  - `channelNumber`: The channel number that will be used to send out the message. Examples are a WhatsApp phone number or a Telegram username.
-  - `template`: Specifies a registered template message to send.
-
-- `optIn(String customerNumber, Channel channel, String channelNumber)`: Send a opt-in consent.
-
-  - `customerNumber`: The destination, which is the phone number of the customer (WhatsApp) or the chat id (Telegram)
-  - `channel`: The messaging channel that will be used to send the message. Accepted values are WhatsApp or Telegram.
-  - `channelNumber`: The channel number that will be used to send out the message. Examples are a WhatsApp phone number or a Telegram username.
-
-- `optOut(String customerNumber, Channel channel, String channelNumber)`: Send a opt-out consent.
-
-  - `customerNumber`: The destination, which is the phone number of the customer (WhatsApp) or the chat id (Telegram)
-  - `channel`: The messaging channel that will be used to send the message. Accepted values are WhatsApp or Telegram.
-  - `channelNumber`: The channel number that will be used to send out the message. Examples are a WhatsApp phone number or a Telegram username.
+  - `templateId`: Specifies a registered template message to send.
+  - `header`: Header replace value
+  - `body`: List of body replacement values
 
 
 ### `VoiceService`

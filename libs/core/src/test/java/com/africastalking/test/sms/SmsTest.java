@@ -120,7 +120,7 @@ public class SmsTest {
         SmsService sms = AfricasTalking.getService(AfricasTalking.SERVICE_SMS);
         
         SubscriptionResponse resp = sms.createSubscription("AT2FA", "KiKi", phone);
-        Assert.assertEquals("Waiting for user input", resp.description);
+        Assert.assertEquals("Invalid token provided", resp.description);
     }
 
     @Test
