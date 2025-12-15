@@ -45,7 +45,7 @@ repositories {
 
 dependencies{
   // Get all services
-  implementation 'com.github.AfricasTalkingLtd.africastalking-java:core:3.5.3'
+  implementation 'com.github.AfricasTalkingLtd.africastalking-java:core:v3.5.3'
 ```
 
 or Gradle (Kotlin DSL):
@@ -57,7 +57,7 @@ repositories {
 
 dependencies{
   // Get all services
-  implementation("com.github.AfricasTalkingLtd.africastalking-java:core:3.5.3")
+  implementation("com.github.AfricasTalkingLtd.africastalking-java:core:v3.5.3")
 }
 ```
 
