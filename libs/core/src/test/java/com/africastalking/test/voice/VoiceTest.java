@@ -2,9 +2,6 @@ package com.africastalking.test.voice;
 
 import com.africastalking.*;
 import com.africastalking.test.Fixtures;
-import com.africastalking.voice.CallResponse;
-import com.africastalking.voice.CallTransferResponse;
-import com.africastalking.voice.QueuedCallsResponse;
 
 import com.africastalking.voice.action.GetDigits;
 import com.africastalking.voice.action.Record;
@@ -12,10 +9,6 @@ import com.africastalking.voice.action.Say;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 public class VoiceTest {
 
@@ -33,7 +26,7 @@ public class VoiceTest {
     public void testCall() {
         VoiceService service = AfricasTalking.getService(VoiceService.class);
         try {
-            CallResponse response = service.call("+254718769882", "0718769881");
+            CallResponse response = service.call("+254715729482", "0718788881");
             Assert.assertEquals("Invalid callerId: 0718769881", response.errorMessage);
         } catch (IOException e) {
             Assert.fail(e.getMessage());
@@ -44,7 +37,7 @@ public class VoiceTest {
     public void testCallTransfer() {
         VoiceService service = AfricasTalking.getService(VoiceService.class);
         try {
-            CallTransferResponse response = service.callTransfer("+254718769882", "session-id");
+            CallTransferResponse response = service.callTransfer("+254715729482", "session-id");
             Assert.assertEquals("Invalid callerId: 0718769881", response.errorMessage);
 
         } catch (IOException e) {
@@ -56,7 +49,7 @@ public class VoiceTest {
     public void testFetchQueuedCalls() {
         VoiceService service = AfricasTalking.getService(VoiceService.class);
         try {
-            QueuedCallsResponse response = service.fetchQueuedCalls("0718769882");
+            QueuedCallsResponse response = service.fetchQueuedCalls("0715729482");
             Assert.assertEquals(0, response.entries.size());
 
         } catch (IOException e) {
@@ -69,6 +62,17 @@ public class VoiceTest {
         VoiceService service = AfricasTalking.getService(VoiceService.class);
         try {
             final String response = service.uploadMediaFile("+254718769889", "http://defef.klo/wave.mp3");
+            Assert.assertNotNull(response);
+        } catch (IOException e) {
+            Assert.fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void requestCapabilityToken() {
+        VoiceService service = AfricasTalking.getService(VoiceService.class);
+        try {
+            final CapabilityTokenResponse response = service.requestCapabilityToken("some-client", "+254715729482");
             Assert.assertNotNull(response);
         } catch (IOException e) {
             Assert.fail(e.getMessage());

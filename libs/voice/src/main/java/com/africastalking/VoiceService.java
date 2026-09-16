@@ -1,8 +1,6 @@
 package com.africastalking;
 
-import com.africastalking.voice.CallResponse;
-import com.africastalking.voice.CallTransferResponse;
-import com.africastalking.voice.QueuedCallsResponse;
+import com.africastalking.voice.*;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -14,8 +12,9 @@ import java.io.IOException;
 
 public final class VoiceService extends Service {
 
-    private VoiceService sInstance;
     private IVoice voice;
+    private VoiceService sInstance;
+    private IVoiceWebRTC voiceWebRTC;
 
     private VoiceService(String username, String apiKey) {
         super(username, apiKey);
@@ -46,6 +45,12 @@ public final class VoiceService extends Service {
                 .baseUrl(baseUrl)
                 .build()
                 .create(IVoice.class);
+
+        String webRTCUrl = "https://webrtc."+ (isSandbox ? Const.SANDBOX_DOMAIN : Const.PRODUCTION_DOMAIN) + "/";
+        voiceWebRTC = mRetrofitBuilder
+                .baseUrl(webRTCUrl)
+                .build()
+                .create(IVoiceWebRTC.class);
     }
 
     @Override
@@ -177,6 +182,41 @@ public final class VoiceService extends Service {
     public void uploadMediaFile(String phoneNumber, String url, final Callback<String> callback) {
         Call<String> call = voice.mediaUpload(mUsername, url, phoneNumber);
         call.enqueue(makeCallback(callback));
+    }
+
+
+    /**
+     * Request a capability token to be used by the webrtc client.
+     * @param clientName Your unique name used to identify and call your browser client(without space characters)
+     * @param phoneNumber Your Africa's Talking phone number
+     * @param incoming Enable the client to receive incoming calls. Defaults to true
+     * @param outgoing Enable the client to make outgoing calls. Defaults to true
+     * @param expire Period of time it takes the token to expire, in seconds. Default is 86400s
+     * @return {@link com.africastalking.voice.CapabilityTokenResponse CapabilityTokenResponse}
+     * @throws IOException
+     */
+    public CapabilityTokenResponse requestCapabilityToken(String clientName, String phoneNumber, boolean incoming, boolean outgoing, String expire) throws IOException {
+        CapabilityTokenRequest req = new CapabilityTokenRequest(this.mUsername, clientName, phoneNumber, incoming, outgoing, expire);
+        Call<CapabilityTokenResponse> call = voiceWebRTC.requestCapabilityToken(req);
+        Response<CapabilityTokenResponse> resp = call.execute();
+        if (!resp.isSuccessful()) {
+            throw new IOException(resp.errorBody().string());
+        }
+        return resp.body();
+    }
+
+    public CapabilityTokenResponse requestCapabilityToken(String clientName, String phoneNumber) throws IOException {
+        return requestCapabilityToken(clientName, phoneNumber, true, true, "86400s");
+    }
+
+    public void requestCapabilityToken(String clientName, String phoneNumber, boolean incoming, boolean outgoing, String expire, final Callback<CapabilityTokenResponse> callback) {
+        CapabilityTokenRequest req = new CapabilityTokenRequest(this.mUsername, clientName, phoneNumber);
+        Call<CapabilityTokenResponse> call = voiceWebRTC.requestCapabilityToken(req);
+        call.enqueue(makeCallback(callback));
+    }
+
+    public void requestCapabilityToken(String clientName, String phoneNumber, final Callback<CapabilityTokenResponse> callback) {
+        requestCapabilityToken(clientName, phoneNumber, true, true, "86400s", callback);
     }
 
 }

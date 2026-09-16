@@ -7,6 +7,31 @@ repositories {
     mavenCentral()
 }
 
+
+def generateBuild = tasks.register("generateBuild") {
+    def outputDir = layout.buildDirectory.dir("generated/sources/build/main/java")
+    outputs.dir(outputDir)
+
+    doLast {
+        def file = new File(outputDir.get().asFile, "com/africastalking/Build.java")
+        file.parentFile.mkdirs()
+        file.text = """
+        package com.africastalking;
+        public final class Build {
+            public static final String VERSION = $project.version;
+        }
+        """
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir(generateBuild)
+        }
+    }
+}
+
 dependencies {
 
     api 'com.squareup.retrofit2:retrofit:2.1.0'

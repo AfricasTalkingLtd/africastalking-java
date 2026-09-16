@@ -40,6 +40,7 @@ abstract class Service {
             Request.Builder builder = original.newBuilder()
                     .url(url)
                     .addHeader("apiKey", apiKey)
+                    .addHeader("User-Agent", "java-sdk/".concat(Build.VERSION))
                     .addHeader("Accept", "application/json");
 
             if (mIdempotencyKey != null) {

@@ -212,7 +212,6 @@ For more information, read the following:
 
     - `phoneNumber`: Phone number to call
 
-    
 
 - `fetchQueuedCalls(String phoneNumber)`: Get queued calls on a phone number.
 
@@ -225,7 +224,14 @@ For more information, read the following:
     - `phoneNumber`: Your Africa's Talking issued virtual phone number
     - `url`: URL to your media file.
 
-    
+- `requestCapabilityToken(String clientName, String phoneNumber, boolean incoming, boolean outgoing, String expire)`: Request a capability token to be used by the webrtc client.
+
+  - `clientName`: Your unique name used to identify and call your browser client(without space characters)
+  - `phoneNumber`: Your Africa's Talking issued virtual phone number
+  - `incoming`: Enable the client to receive incoming calls. Defaults to `true`
+  - `outgoing`: Enable the client to make outgoing calls. Defaults to `true`
+  - `expire`: Period of time it takes the token to expire, in seconds. Default is `86400s`
+
 
 - `ActionBuilder`: Build voice xml when callback URL receives a `POST` from Africa's Talking
 
