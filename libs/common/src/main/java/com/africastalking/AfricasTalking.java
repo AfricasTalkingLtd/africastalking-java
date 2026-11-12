@@ -138,7 +138,7 @@ public final class AfricasTalking {
                 getService(SERVICE_SMS),
                 getService(SERVICE_USSD),
                 getService(SERVICE_AIRTIME),
-                getService(SERVICE_PAYMENT),
+                getService(SERVICE_MOBILE_DATA),
                 getService(SERVICE_CHAT),
                 getService(SERVICE_INSIGHTS)
         };
